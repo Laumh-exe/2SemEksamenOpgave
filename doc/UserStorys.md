@@ -6,9 +6,9 @@ I want WHAT,
 So that WHY.
 -->
 
-1. Som kånde, vil jeg kunne vælge mellem predefinieret eller en selv definieret karport.  
+1. Som kunde, vil jeg kunne vælge mellem predefinieret eller en selv definieret karport.  
 
-1. Som kånde, vil jeg kunne intaste mål af min karport, så jeg kan se mit karport design og godkænde eller afvise det.
+1. Som kunde, vil jeg kunne indtaste mål af min carport, så jeg kan se mit carport design og godkænde eller afvise det.
 
 1. Som kunde, vil jeg kunne godkende en carport med mine valgte mål, så jeg kan få et tilbud fra Fog på min carport
 
