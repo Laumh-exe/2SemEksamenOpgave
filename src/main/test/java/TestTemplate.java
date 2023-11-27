@@ -1,3 +1,4 @@
+package app;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,11 +7,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * This class is for demonstration purposes
  */
 public class TestTemplate {
+    @BeforeEach
+    public void setup(){
+        System.out.println("hello?");
+    }
+
     /**
      * This is an example test
      */
     @Test
-    public void testTemplate(){
+    private void testTemplate(){
         // Arrange
         String actual = null;
         String expected = "test";
