@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cupcake_dat2" />
+        <module name="carport" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="2SemEksamenOpgave" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
