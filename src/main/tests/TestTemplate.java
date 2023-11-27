@@ -30,7 +30,7 @@ public class TestTemplate {
      * This method is for the test to compile and shuld be the a refeance to the actual method you want to test
      */
     public static String methodToTest() {
-        return "test";
+        return "testt";
     }
 
 
