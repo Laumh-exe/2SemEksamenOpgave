@@ -1,0 +1,106 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract User{
+    - int userID
+    - String firstName
+    - String lastName
+    - String email
+    - int phoneNumber
+    - String username - kan diskuteres
+    - String password
+    - double balance - kan diskuteres
+    - List<Offer> listOfOffers - kan diskuteres
+    - List<Order> listOfOrders
+    - String role/rank
+
+    --
+    ..Constructor..
+
+    + user(int userID, String firstName, String lastName,
+    String email, int phoneNumber,
+    String username, String password,
+    double balance, String role)
+
+    ..Special Methods..
+
+    + addOrder(Order order)
+    + removeOrder(Order order)
+
+
+    ..Getters..
+    + ...()
+
+    ..Setters..
+    + ...()
+
+}
+
+class Customer extends User {
+
+
+}
+class Salesperson extends User {
+
+}
+
+
+
+class Order {
+    - int orderID
+    - status
+    - Carport carport
+    -
+
+    ..Getters..
+    + ...()
+    ..Setters..
+    + ...()
+}
+class Offer
+/'class Receipt'/
+class Carport {
+
+    - List<Materials> materialsForCarport
+    - Shed shed
+    - Drawing drawing
+    - Blueprint blueprint
+}
+
+
+class Blueprint {
+}
+
+interface Materials{
+}
+
+class Pillar implements Materials{}
+class Strap implements Materials{}
+class Rafter implements Materials{}
+class Screw implements Materials{}
+
+
+class Shed {
+    - List<Materials> materialsForShed
+}
+
+class Calculator {
+
+}
+
+class UserController
+class OrderController
+class CarportController
+class CarportPartsController
+
+class UserMapper
+class OrderMapper
+class CarportMapper
+class MaterialsMapper
+
+
+
+
+
+
+@enduml
