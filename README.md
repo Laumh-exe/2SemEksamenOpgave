@@ -1,6 +1,5 @@
-[Interessentanalyser](doc/Interessentanalyser.md)  
-[User stories](doc/UserStories/UserStories.md)  
-[Acceptance Criterea](doc/AcceptanceCriterea.md)  
+[Interessentanalyser](doc/Analyse/Interessentanalyse/Interessentanalyser.md)  
+[User stories](doc/Analyse/UserStories/UserStories.md)   
 [Logbook](https://docs.google.com/document/d/1j6xWhhaFxy--SE4aU2HZkmTqlRthPjTvSHwIeVXonog/edit)
 
 ## **USER STORY 2 & 7**

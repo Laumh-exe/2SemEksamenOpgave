@@ -1,0 +1,83 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+|Kunde|
+start
+:Tilgå hjemmeside;
+:Indtast egne mål for carport;
+|Shop|
+:Mål]
+|Kunde|
+if (skur?) is (ja) then
+:indtast mål/placering for skur;
+|Shop|
+:Indstillinger for skur]
+|Kunde|
+else (nej)
+|Shop|
+:Intet skur]
+endif
+|Kunde|
+:indtast kundeoplysninger;
+|Shop|
+:Lav visualisering;
+|Kunde|
+:visualisering]
+:Godkend forespørgsel;
+|Shop|
+:forespørgsel]
+:opret bruger;
+:Lav stykliste;
+:Udregn forslået pris;
+:samle stykpris og stykliste i tilbud;
+note
+Kun tilgængeligt for admin på nuværende tidspunkt
+end note
+:Send notifikation til sælger;
+|Sælger|
+:Notifikation]
+:Tilgå carport;
+note
+caport kan redigeres med sælgers admin rettigheder
+end note
+if (problem?) is (ja) then
+:Ring til kunde;
+|Kunde|
+:Opkald]
+|Sælger|
+:Rediger carport design;
+endif
+|Sælger|
+:godkend forespørgselsdata;
+|Shop|
+:Opdater pris;
+:Opdater stykliste;
+|Sælger|
+:Pris & stykliste]
+if (Ændre i pris?) is (ja) then
+|Shop|
+:Opdater pris;
+else (nej)
+endif
+:Send tilbud;
+|Shop|
+:Send email notifikation til kunde;
+|Kunde|
+:Tilbud]
+note
+skal tilbud komme til kunden før?
+INGEN STYKLISTE
+end note
+if (foretag køb) is (ja) then
+|Sælger|
+:Godkend køb;
+|Shop|
+:Log data;
+|Sælger|
+|Kunde|
+:Modtag stykliste;
+else (nej)
+endif
+stop
+
+@enduml
