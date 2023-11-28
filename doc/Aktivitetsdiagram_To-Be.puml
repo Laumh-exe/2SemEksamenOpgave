@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+|Kunde|
+start
+repeat
+:Vælg egne mål for carport;
+if (skur?) is (ja) then
+:vælg mål/placering for skur;
+endif
+:Indsend mål;
+|Shop|
+:Mål]
+:Send visualisering;
+|Kunde|
+:Visualisering i 3D;
+repeat while (Godkend?) is (nej)
+-> ja;
+:Indsend forespørgsel;
+|Shop|
+:forespørgsel]
+:Send notifikation til sælger;
+|Sælger|
+:Notifikation]
+:Tilgå carport;
+note
+caport kan redigeres med sælgers admin rettigheder
+end note
+if (problem?) is (ja) then
+:Ring til kunde;
+|Kunde|
+:Opkald]
+|Sælger|
+:Rediger carport design;
+endif
+|Sælger|
+:godkend forespørgselsdata;
+|Shop|
+:Udregn tilbud;
+:Lav stykliste;
+|Sælger|
+:Tilbud & stykliste]
+:Send tilbud;
+|Kunde|
+:Tilbud]
+note
+INGEN STYKLISTE
+end note
+:foretag køb;
+|Sælger|
+:Godkend køb;
+|Shop|
+:Log data;
+|Sælger|
+|Kunde|
+:Modtag stykliste;
+
+stop
+
+@enduml
