@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+
+!theme amiga
+Title Fog Domænemodel
+hide methods
+hide circle
+
+
+class Salesperson {
+}
+
+Class Customer{
+    name
+    address
+    mail
+
+}
+
+Class Order {
+    orderId
+    CarportId
+    UserId
+    date
+    orderStatus
+}
+
+Class Carport {
+    length
+    width
+}
+
+Class Materials {
+
+}
+
+Class Shed {
+    length
+    width
+}
+
+
+Class Itemlist {
+
+}
+
+
+note left: Hidden until sale
+
+Shop "1"--"*" Salesperson
+Shop "1"--"*" Customer
+Customer "1"--"*" Order
+Order "1"--"1" Carport
+Carport "1"--"0..1" Shed
+Itemlist "1"--"*" Materials
+Salesperson "1"--"*" Order
+Order "1"--"0..1" Itemlist
+Carport "1"--"*" Materials
+Shed "1"--"*" Materials
+
+
+@enduml

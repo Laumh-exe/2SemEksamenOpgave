@@ -24,6 +24,9 @@ endif
 |Kunde|
 :visualisering]
 :Godkend forespørgsel;
+note
+Status 1
+end note
 |Shop|
 :forespørgsel]
 :opret bruger;
@@ -73,10 +76,14 @@ if (foretag køb) is (ja) then
 :Godkend køb;
 |Shop|
 :Log data;
+note
+status 5
+end note
 |Sælger|
 |Kunde|
-:Modtag stykliste;
+:stykliste]
 else (nej)
+repeat while (lav om på carport) is (ja)
 endif
 stop
 
