@@ -65,23 +65,40 @@ class Offer
 /'class Receipt'/
 class Carport {
 
-    - double length
-    - double width
+    - int length
+    - int width
     - boolean trapeztag
-    - boolean shed
     - Shed shed
-
     - List<Materials> materialsForCarport
+    - Drawing3D - drawing3D ???
+    - Blueprint blueprint ???
 
-    - Drawing drawing
-    - Blueprint blueprint
 
 
-    -
+    Carport (int length, int width, boolean trapeztag, Shed shed)
+
+
+    + List<Materials> findMaterialsForCarport()
+
+
+    + List<Materials> getMaterialsForCarport()
+
+
 }
 
 
 class Blueprint {
+
+    - Carport carport
+
+
+
+
+}
+
+class Drawing3D{
+
+    - Carport carport
 }
 
 interface Materials{
