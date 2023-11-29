@@ -1,6 +1,23 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
 
+
+
+
+
+legend Odrestatus \nstatus 1: Ordre godkendt | status 2: bruger, stykliste, pris tildelt (pris+stykliste skjult fra bruger) | status 3: Carport godkendt af sælger | \nStatus 4: pris synlig for kunde| Status 5: Ordre betalt og godkendt af sælger |Status 6: Ordre logget i systemet, stykliste gives til kunde
+<style>
+legend {
+    FontColor blue
+    FontSize 20
+}
+
+kunde {
+ FontSize 20
+}
+</style>
+
+
 |Kunde|
 start
 :Tilgå hjemmeside;
@@ -34,7 +51,7 @@ end note
 :Udregn forslået pris;
 :samle stykpris og stykliste i tilbud;
 note
-Kun tilgængeligt for admin på nuværende tidspunkt
+status 2
 end note
 :Send notifikation til sælger;
 |Sælger|
@@ -49,9 +66,12 @@ if (problem?) is (ja) then
 :Opkald]
 |Sælger|
 :Rediger carport design;
-endif
+endif;
 |Sælger|
 :godkend forespørgselsdata;
+note
+status 3
+end note
 |Shop|
 :Opdater pris;
 :Opdater stykliste;
@@ -68,22 +88,23 @@ endif
 |Kunde|
 :Tilbud]
 note
-skal tilbud komme til kunden før?
-INGEN STYKLISTE
+status 4
 end note
 if (foretag køb) is (ja) then
 |Sælger|
 :Godkend køb;
+note
+status 5
+end note
 |Shop|
 :Log data;
 note
-status 5
+status 6
 end note
 |Sælger|
 |Kunde|
 :stykliste]
 else (nej)
-repeat while (lav om på carport) is (ja)
 endif
 stop
 
