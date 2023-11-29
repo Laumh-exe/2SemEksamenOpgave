@@ -24,8 +24,8 @@ abstract User{
 
     ..Special Methods..
 
-    + addOrder(Order order)
-    + removeOrder(Order order)
+    + void addOrder(Order order)
+    + void removeOrder(Order order)
 
 
     ..Getters..
@@ -38,9 +38,13 @@ abstract User{
 
 class Customer extends User {
 
-
 }
+
+
 class Salesperson extends User {
+
+
+    + addMaterialToDB
 
 }
 
@@ -61,10 +65,19 @@ class Offer
 /'class Receipt'/
 class Carport {
 
-    - List<Materials> materialsForCarport
+    - double length
+    - double width
+    - boolean trapeztag
+    - boolean shed
     - Shed shed
+
+    - List<Materials> materialsForCarport
+
     - Drawing drawing
     - Blueprint blueprint
+
+
+    -
 }
 
 
@@ -83,6 +96,10 @@ class Screw implements Materials{}
 class Shed {
     - List<Materials> materialsForShed
 }
+
+
+
+
 
 class Calculator {
 
