@@ -1,7 +1,10 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+
+
 left to right direction
+skinparam BackgroundColor #f5f5f5
 skinparam style strictuml
 skinparam DefaultFontSize 16
 skinparam DefaultFontStyle bold
@@ -9,18 +12,31 @@ skinparam ArrowColor #lightgrey
 skinparam ArrowThickness 5
 hide methods
 hide circle
-hide empty members
+hide empty
+
+<style>
+legend {
+    BackgroundColor #f5f5f5
+    FontColor black
+    FontSize 20
+}
+
+.p {
+    FontColor black
+}
+</style>
 
 
 Title Fog Domænemodel
 
-class Shop {
+class Webshop {
 }
 
-class Salesperson {
+class Salesperson #tomato{
 }
 
-note left: Has special access to shop
+
+legend *se ordrestatus i aktivitets diagram
 
 
 Class Customer{
@@ -35,7 +51,7 @@ Class Order {
     carportId
     userId
     date
-    orderStatus
+    *orderStatus
 }
 
 Class Carport {
@@ -63,15 +79,15 @@ Class Itemlist {
 
 note left: Hidden until sale
 
-Shop "1"--"*" Salesperson
-Shop "1"--"*" Customer
-Customer "1"--"*" Order
+Webshop "1"--"*" Salesperson #tomato: has admin rights
+Webshop "1"--"*" Customer : doesnt have admin rights
+Customer "1"--"*" Order : can place order
 Order "1"--"1" Carport
-Carport "1"--"0..1" Shed
+Carport "1"--"0..1" Shed : can choose shed
 Itemlist "1"--"*" Materials
-Salesperson "1"--"*" Order
+Salesperson "1"--"*"  Order #tomato: can manage order
 Order "1"--"0..1" Itemlist
-Carport "1"--"*" Materials
+Carport "1"--"*" Materials : Materials are calculated
 Shed "1"--"*" Materials
 
 
