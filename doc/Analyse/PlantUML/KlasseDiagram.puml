@@ -48,52 +48,50 @@ class Salesperson extends User {
 
 }
 
-
+Enum OrderStatus {
+    + CUSTOMER_ACCEPTED
+    + READY_FOR_REVIEW
+    + ORDER_ASSIGNED
+    + SALESPERSON_ACCEPTED
+    + PRICE_PRESENTED
+    + ORDER_PAID
+}
 
 class Order {
     - int orderID
-    - status
+    - OrderStatus status
     - Carport carport
-    -
-
+    - Receipt receipt
+    - float price
     ..Getters..
     + ...()
     ..Setters..
     + ...()
 }
-class Offer
+class Receipt {
+    - Itemlist itemlist
+    - float price
+    + float getPrice()
+}
 /'class Receipt'/
 class Carport {
 
     - int length
     - int width
-    - boolean trapeztag
     - Shed shed
     - List<Materials> materialsOfCarport
-    - Drawing3D - drawing3D ???
-    - Blueprint blueprint ???
-
-
-
+    - Blueprint blueprint
     Carport (int length, int width, boolean trapeztag, Shed shed)
-
-
-
-
 
     + List<Materials> getMaterialsOfCarport()
 
 
 }
+note left: Carport -> calculator -> items \nCarport -> blueprintCalculator -> bluepringt
 
 
 class Blueprint {
-
     - Carport carport
-
-
-
-
 }
 
 class Drawing3D{
@@ -101,13 +99,19 @@ class Drawing3D{
     - Carport carport
 }
 
-interface Materials{
+class Itemlist{
+    - List<Item> items
+    + List<String> getItemList()
+    + float getPrice()
 }
 
-class Pillar implements Materials{}
-class Strap implements Materials{}
-class Rafter implements Materials{}
-class Screw implements Materials{}
+class Item {
+    - float pricePerUnit
+    - String name
+    - String description
+    - String unit
+    - float length
+}
 
 
 class Shed {
@@ -118,9 +122,11 @@ class Shed {
 
 
 
-class Calculator {
+class ItemCalculator {
+    + {static} List<Item> calculateItems
 
 }
+note left: Not final
 
 class UserController
 class OrderController

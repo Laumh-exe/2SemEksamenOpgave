@@ -60,7 +60,7 @@ end note
 :Notifikation]
 :Tilgå carport;
 note
-caport kan redigeres med sælgers admin rettigheder
+odren låses så sælger ikke kan redigere i ordren
 end note
 if (problem?) is (ja) then
 :Ring til kunde;
