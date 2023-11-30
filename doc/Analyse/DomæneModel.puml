@@ -29,10 +29,9 @@ legend {
 
 Title Fog Domænemodel
 
-class Webshop {
-}
 
 class Salesperson #tomato{
+    name
 }
 
 
@@ -79,8 +78,7 @@ Class Itemlist {
 
 note left: Hidden until sale
 
-Webshop "1"--"*" Salesperson #tomato: has admin rights
-Webshop "1"--"*" Customer : doesnt have admin rights
+
 Customer "1"--"*" Order : can place order
 Order "1"--"1" Carport
 Carport "1"--"0..1" Shed : can choose shed
