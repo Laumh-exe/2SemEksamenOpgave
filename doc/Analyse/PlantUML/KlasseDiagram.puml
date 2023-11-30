@@ -69,7 +69,7 @@ class Carport {
     - int width
     - boolean trapeztag
     - Shed shed
-    - List<Materials> materialsForCarport
+    - List<Materials> materialsOfCarport
     - Drawing3D - drawing3D ???
     - Blueprint blueprint ???
 
@@ -78,10 +78,10 @@ class Carport {
     Carport (int length, int width, boolean trapeztag, Shed shed)
 
 
-    + List<Materials> findMaterialsForCarport()
 
 
-    + List<Materials> getMaterialsForCarport()
+
+    + List<Materials> getMaterialsOfCarport()
 
 
 }
@@ -124,8 +124,16 @@ class Calculator {
 
 class UserController
 class OrderController
-class CarportController
-class CarportPartsController
+class CarportController {
+
+
+}
+
+
+class MaterialsController{
+
+    + List<Materials> findMaterialsForCarport(Carport carport)
+    }
 
 class UserMapper
 class OrderMapper
