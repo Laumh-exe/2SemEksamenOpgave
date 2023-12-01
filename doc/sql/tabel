@@ -3,28 +3,35 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public."User"
+CREATE TABLE IF NOT EXISTS public.customer
 (
-    shed_width double precision[],
     id integer NOT NULL,
     email character varying(50) COLLATE pg_catalog."default",
     "firstName" character varying(50) COLLATE pg_catalog."default",
     "lastName" character varying(50) COLLATE pg_catalog."default",
     "phoneNumber" integer,
-    username character varying(50) COLLATE pg_catalog."default",
     password character varying(50) COLLATE pg_catalog."default",
-    role character varying(6) COLLATE pg_catalog."default",
-    balance integer,
+    salesperson_id integer,
     CONSTRAINT "User_pkey" PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.materials
+CREATE TABLE IF NOT EXISTS public.itemlist
+(
+    id integer NOT NULL,
+    order_id integer,
+    materials_id integer,
+    description character varying(70) COLLATE pg_catalog."default",
+    quantity integer,
+    CONSTRAINT itemlist_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Item"
 (
     id integer NOT NULL,
     prise_pr_unit double precision,
     length double precision,
-    unit character varying(50),
-    description character varying(60),
+    unit character varying(50) COLLATE pg_catalog."default",
+    description character varying(60) COLLATE pg_catalog."default",
     CONSTRAINT materials_pkey PRIMARY KEY (id)
 );
 
@@ -33,44 +40,69 @@ CREATE TABLE IF NOT EXISTS public."order"
     id integer NOT NULL,
     status character varying(30) COLLATE pg_catalog."default",
     date date,
-    user_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    item_id integer,
     total_price double precision,
     carport_width double precision,
     carport_length double precision,
     shed_width double precision,
     shed_length double precision,
+    salesperson_id integer,
     CONSTRAINT order_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.itemlist
+CREATE TABLE IF NOT EXISTS public."Item_itemlist"
+(
+    "Item_id" integer NOT NULL,
+    itemlist_id integer NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.salesperson
 (
     id integer NOT NULL,
-    order_id integer,
-    materials_id integer,
-    description character varying(70),
-    quantity integer,
+    firstname character varying(50),
+    lastname character varying(50),
+    email character varying(50),
+    phonenumber integer,
+    password character varying(50),
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS public."order"
-    ADD FOREIGN KEY (user_id)
-    REFERENCES public."User" (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
 ALTER TABLE IF EXISTS public.itemlist
-    ADD FOREIGN KEY (materials_id)
-    REFERENCES public.materials (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.itemlist
-    ADD FOREIGN KEY (order_id)
+    ADD CONSTRAINT itemlist_order_id_fkey FOREIGN KEY (order_id)
     REFERENCES public."order" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."order"
+    ADD FOREIGN KEY (salesperson_id)
+    REFERENCES public.salesperson (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."order"
+    ADD FOREIGN KEY (item_id)
+    REFERENCES public."Item" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Item_itemlist"
+    ADD FOREIGN KEY ("Item_id")
+    REFERENCES public."Item" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Item_itemlist"
+    ADD FOREIGN KEY (itemlist_id)
+    REFERENCES public.itemlist (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
