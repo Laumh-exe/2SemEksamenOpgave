@@ -1,151 +1,133 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract User{
-    - int userID
-    - String firstName
-    - String lastName
-    - String email
-    - int phoneNumber
-    - String username - kan diskuteres
-    - String password
-    - double balance - kan diskuteres
-    - List<Offer> listOfOffers - kan diskuteres
-    - List<Order> listOfOrders
-    - String role/rank
 
-    --
-    ..Constructor..
+package "entity" {
+    abstract User{
+        - int userID
+        - String firstName
+        - String lastName
+        - String email
+        - int phoneNumber
+        - String password
+        - List<Order> listOfOrders
 
-    + user(int userID, String firstName, String lastName,
-    String email, int phoneNumber,
-    String username, String password,
-    double balance, String role)
+        --
+        ..Constructor..
+        + User(int userID, String firstName, String lastName,
+        String email, int phoneNumber,
+        String username, String password,
+        double balance, String role)
 
-    ..Special Methods..
-
-    + void addOrder(Order order)
-    + void removeOrder(Order order)
-
-
-    ..Getters..
-    + ...()
-
-    ..Setters..
-    + ...()
-
-}
-
-class Customer extends User {
-
-}
-
-
-class Salesperson extends User {
-
-
-    + addMaterialToDB
-
-}
-
-Enum OrderStatus {
-    + CUSTOMER_ACCEPTED
-    + READY_FOR_REVIEW
-    + ORDER_ASSIGNED
-    + SALESPERSON_ACCEPTED
-    + PRICE_PRESENTED
-    + ORDER_PAID
-}
-
-class Order {
-    - int orderID
-    - OrderStatus status
-    - Carport carport
-    - Receipt receipt
-    - float price
-    ..Getters..
-    + ...()
-    ..Setters..
-    + ...()
-}
-class Receipt {
-    - Itemlist itemlist
-    - float price
-    + float getPrice()
-}
-/'class Receipt'/
-class Carport {
-
-    - int length
-    - int width
-    - Shed shed
-    - List<Materials> materialsOfCarport
-    - Blueprint blueprint
-    Carport (int length, int width, boolean trapeztag, Shed shed)
-
-    + List<Materials> getMaterialsOfCarport()
-
-
-}
-note left: Carport -> calculator -> items \nCarport -> blueprintCalculator -> bluepringt
-
-
-class Blueprint {
-    - Carport carport
-}
-
-class Drawing3D{
-
-    - Carport carport
-}
-
-class Itemlist{
-    - List<Item> items
-    + List<String> getItemList()
-    + float getPrice()
-}
-
-class Item {
-    - float pricePerUnit
-    - String name
-    - String description
-    - String unit
-    - float length
-}
-
-
-class Shed {
-    - List<Materials> materialsForShed
-}
-
-
-
-
-
-class ItemCalculator {
-    + {static} List<Item> calculateItems
-
-}
-note left: Not final
-
-class UserController
-class OrderController
-class CarportController {
-
-
-}
-
-
-class MaterialsController{
-
-    + List<Materials> findMaterialsForCarport(Carport carport)
+        ..Special Methods..
+        + void addOrder(Order order)
+        + void removeOrder(Order order)
     }
 
-class UserMapper
-class OrderMapper
-class CarportMapper
-class MaterialsMapper
+    class Customer extends User {
+    }
 
+    class Salesperson extends User {
+        + addMaterialToDB
+    }
+
+    Enum OrderStatus {
+        + CUSTOMER_ACCEPTED
+        + READY_FOR_REVIEW
+        + ORDER_ASSIGNED
+        + SALESPERSON_ACCEPTED
+        + PRICE_PRESENTED
+        + ORDER_PAID
+    }
+
+    class Order {
+        - int orderID
+        - OrderStatus status
+        - Carport carport
+        - Receipt receipt
+        - float price
+        ..Getters..
+        + ...()
+        ..Setters..
+        + ...()
+    }
+    class Receipt {
+        - Itemlist itemlist
+        - float price
+        + float getPrice()
+    }
+    /'class Receipt'/
+    class Carport {
+        - int length
+        - int width
+        - Shed shed
+        - Itemlist itemlist
+        - Blueprint blueprint
+        Carport (int length, int width, boolean trapeztag, Shed shed)
+
+        + List<Materials> getMaterialsOfCarport()
+    }
+    note left: Carport -> calculator -> items \nCarport -> blueprintCalculator -> bluepringt
+
+    class Blueprint {
+    }
+
+    note "Class used for visualisation" as n1
+
+    class Drawing3D{
+    }
+    n1 .. Drawing3D
+    n1 .. Blueprint
+
+    class Itemlist{
+        - List<Item> items
+        + List<String> getItemList()
+        + float getPrice()
+    }
+
+    class Item {
+        - float pricePerUnit
+        - String name
+        - String description
+        - String unit
+        - float length
+    }
+    note left: this is a Record
+
+    class Shed {
+        - Itemlist itemlist
+    }
+}
+
+package "controllers" {
+    class UserController {}
+    class OrderController
+    class CarportController {
+        Carport
+        Itemlist calculateItems(Carport carport)
+    }
+}
+
+package "mappers" {
+    class UserMapper
+    class OrderMapper
+    class CarportMapper
+    class MaterialsMapper
+}
+
+/'Relations'/
+package "entity" {
+    Order --o User
+    OrderStatus --* Order
+    Carport --* Order
+    Shed --* Carport
+    Itemlist --* Shed
+    Itemlist --* Carport
+    Item --o Itemlist
+    Receipt --* Order
+    Blueprint --* Carport
+    Drawing3D --* Carport
+}
 
 
 
