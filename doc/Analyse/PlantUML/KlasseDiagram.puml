@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-
+skinparam linetype ortho
 package "entity" {
     abstract User{
         - int userID
@@ -28,7 +28,8 @@ package "entity" {
     }
 
     class Salesperson extends User {
-        + addMaterialToDB
+
+        + void addItemToDb(Item item)
     }
 
     Enum OrderStatus {
@@ -67,7 +68,6 @@ package "entity" {
 
         + List<Materials> getMaterialsOfCarport()
     }
-    note left: Carport -> calculator -> items \nCarport -> blueprintCalculator -> bluepringt
 
     class Blueprint {
     }
@@ -86,6 +86,7 @@ package "entity" {
     }
 
     class Item {
+        - int itemID
         - float pricePerUnit
         - String name
         - String description
@@ -100,34 +101,85 @@ package "entity" {
 }
 
 package "controllers" {
-    class UserController {}
-    class OrderController
+
+    class UserController {
+        + {static} User createUser(Context ctx, ConnectionPool connectionPool)
+        + {static} void login(Context ctx, ConnectionPool connectionPool)
+        + {static} void logout(Context ctx)
+    }
+
+    class OrderController {
+        + {static} Order creatOrder(Context ctx, ConnectionPool connectionPool)
+        + {static} void editOrder(Context ctx, Order order, ConnectionPool connectionPool)
+    }
+
     class CarportController {
-        Carport
-        Itemlist calculateItems(Carport carport)
+        + {static} Carport createCarport(Context ctx, ConnectionPool connectionPool)
+        + {static} Itemlist calculateItems(Carport carport)
+    }
+
+    class ItemController {
+        + {static} Item addItem(Context ctx, ConnectionPool connectionPool, Item item)
+        + {static} Item removeItem(Context ctx, ConnectionPool connectionPool, int itemID)
+        + {static} Item editItem(Context ctx, ConnectionPool connectionPool, Item item)
     }
 }
 
-package "mappers" {
-    class UserMapper
-    class OrderMapper
-    class CarportMapper
-    class MaterialsMapper
+package "persistence" {
+    class UserMapper {
+        + {static} User login(String email, String password, ConnectionPool connectionPool)
+        + {static} void createUser(String name, String email, int phoneNumber, String password, ConnectionPool connectionPool)
+        + {static} List<Order> getUserOrders(int userId, ConnectionPool connectionPool)
+    }
+
+    class OrderMapper {
+        + {static} void createOrder(Order order, ConnectionPool connectionPool)
+        + {static} List<Order> getAllOpenOrders(ConnectionPool connectionPool)
+        + {static} List<Order> getUserOrders(int userID, ConnectionPool connectionPool)
+        + {static} List<Order> getAllOrders(ConnectionPool connectionPool)
+        + {static} List<Order> getAssignedOrders(int userID, (ConnectionPool connectionPool)
+    }
+
+    class ItemMapper {
+        + {static} Item addItem(Item item, ConnectionPool connectionPool)
+        + {static} Item removeItem(int itemID, ConnectionPool connectionPool)
+        + {static} Item editItem(Item item, ConnectionPool connectionPool)
+    }
 }
 
 /'Relations'/
-package "entity" {
-    Order --o User
-    OrderStatus --* Order
-    Carport --* Order
-    Shed --* Carport
-    Itemlist --* Shed
-    Itemlist --* Carport
-    Item --o Itemlist
-    Receipt --* Order
-    Blueprint --* Carport
-    Drawing3D --* Carport
-}
+/'entities'/
+
+Order --o User
+OrderStatus --* Order
+Carport --* Order
+Shed --* Carport
+Itemlist --* Shed
+Itemlist --* Carport
+Item --o Itemlist
+Receipt --* Order
+Blueprint --* Carport
+Drawing3D --* Carport
+
+/'controllers'/
+/'
+UserController ..> User
+OrderController ..> Order
+CarportController ..> Carport
+ItemController ..> Item
+'
+persistence ...> controllers
+controllers ...>  entity
+
+/'persistence'/
+/'
+UserMapper <.. UserController
+OrderMapper <.. OrderController
+ItemMapper <.. ItemController
+'/
+
+
+
 
 
 
