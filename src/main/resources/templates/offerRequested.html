@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Offer Requested</title>
+</head>
+
+<body>
+
+<div class="Background">
+
+    <div id="headline">
+        <p> Offer Requested!</p>
+    </div>
+
+    <div id="info-text">
+
+        <p>Your request for an offer has been sent! We have created a user for you in our system where you can
+        see your requests (with all details and a blueprint) and where you will be sent an offer when
+            one of our salespersons has reviewed your request. You can see your username and password
+            below. We have also mailed you your username and password. You can login by pressing
+            the Login-button in the right corner of this page and enter your username and password.
+       <p/>
+
+        <p>Your username is:</p>
+        <p th:text="${#ctx.userEmail}"> th-generated email...</p>
+
+        <p>Your password is:</p>
+        <p th:text="${#ctx.userPassword}"> th-generated password...</p>
+
+
+        <p>Here is a blueprint of the carport you have requested an offer for:</p>
+
+        <p>[drawing with measurements and other choices]</p>
+
+
+    </div>
+
+</div>
+
+</body>
+</html>
