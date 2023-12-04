@@ -5,19 +5,18 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS public.customer
 (
-    id integer NOT NULL,
+    id serial NOT NULL,
     email character varying(50) COLLATE pg_catalog."default",
     "firstName" character varying(50) COLLATE pg_catalog."default",
     "lastName" character varying(50) COLLATE pg_catalog."default",
     "phoneNumber" integer,
     password character varying(50) COLLATE pg_catalog."default",
-    salesperson_id integer,
     CONSTRAINT "User_pkey" PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.itemlist
 (
-    id integer NOT NULL,
+    id serial NOT NULL,
     order_id integer,
     materials_id integer,
     description character varying(70) COLLATE pg_catalog."default",
@@ -27,7 +26,7 @@ CREATE TABLE IF NOT EXISTS public.itemlist
 
 CREATE TABLE IF NOT EXISTS public."Item"
 (
-    id integer NOT NULL,
+    id serial NOT NULL,
     prise_pr_unit double precision,
     length double precision,
     unit character varying(50) COLLATE pg_catalog."default",
@@ -37,7 +36,7 @@ CREATE TABLE IF NOT EXISTS public."Item"
 
 CREATE TABLE IF NOT EXISTS public."order"
 (
-    id integer NOT NULL,
+    id serial NOT NULL,
     status character varying(30) COLLATE pg_catalog."default",
     date date,
     customer_id integer NOT NULL,
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS public."Item_itemlist"
 
 CREATE TABLE IF NOT EXISTS public.salesperson
 (
-    id integer NOT NULL,
+    id serial NOT NULL,
     firstname character varying(50),
     lastname character varying(50),
     email character varying(50),
