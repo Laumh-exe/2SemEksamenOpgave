@@ -145,7 +145,7 @@ Blueprint --* Carport
 Drawing3D --* Carport
 
 /'controllers'/
-/'
+
 UserController ..> User
 OrderController ..> Order
 CarportController ..> Carport
@@ -155,10 +155,10 @@ persistence ...> controllers
 controllers ...>  entity
 
 /'persistence'/
-/'
+
 UserMapper <.. UserController
 OrderMapper <.. OrderController
 ItemMapper <.. ItemController
-'/
+
 
 @enduml
