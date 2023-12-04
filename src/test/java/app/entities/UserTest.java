@@ -79,5 +79,8 @@ String password;
 
     @Test
     void setBalance() {
+        double expected = 15;
+        double actual = name.setBalance(15);
+        assertEquals(expected, actual);
     }
 }
