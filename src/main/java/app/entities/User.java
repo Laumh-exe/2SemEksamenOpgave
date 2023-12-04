@@ -15,10 +15,6 @@ public class User {
         this.balance = balance;
     }
 
-    public User(String name){
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }
