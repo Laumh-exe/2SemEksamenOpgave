@@ -4,14 +4,18 @@ import java.util.Date;
 
 public class Order {
     private int id;
+    private int customerId;
+    private int salespersonId;
     private Date date;
     private OrderStatus status;
     private Carport carport;
     private Receipt receipt;
     private double price;
 
-    public Order(int id, Date date, OrderStatus status, double price, double carportLength, double carportWidth, double shedLength, double shedWidth){
+    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, double carportLength, double carportWidth, double shedLength, double shedWidth){
         this.id = id;
+        this.customerId = customerId;
+        this.salespersonId = salespersonId;
         this.date = date;
         this.status = status;
         carport = new Carport(carportLength,carportWidth);
@@ -42,6 +46,14 @@ public class Order {
         return price;
     }
 
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public int getSalespersonId() {
+        return salespersonId;
+    }
+
     @Override
     public boolean equals(Object arg0) {
         if (!(arg0 instanceof Order)) {
@@ -53,5 +65,6 @@ public class Order {
 
         return true;
     }
- 
+
+
 }

@@ -33,7 +33,7 @@ public class OrderMapper {
                     double shedWidth = resultSet.getDouble("shed_width");
                     
 
-                    Order order = new Order(id, date, status, price, carportLength, carportWidth, shedLength, shedWidth);
+                    Order order = new Order(id, customerId, salespersonId, date, status, price, carportLength, carportWidth, shedLength, shedWidth);
                     orders.add(order);
                 }
             }
