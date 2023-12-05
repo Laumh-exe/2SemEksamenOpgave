@@ -1,5 +1,6 @@
 package app.controllers;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import app.entities.Order;
@@ -36,7 +38,6 @@ public class OrderContorllerTest {
         ctx = mock(Context.class);
         
         
-        getAllTestSetup();
     }
     
     private void getAllTestSetup() throws SQLException {
@@ -68,12 +69,17 @@ public class OrderContorllerTest {
 
     @Test
     public void testAllOrders() throws SQLException{
-
+        
+        //arrange
+        getAllTestSetup();
+        
         //act
         OrderController.sellerSeeAllOrders(ctx, connectionPool);
-        getAllTestSetup();
+        
         //assert
-        verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
-        verify(ctx).render("SellerAllOrders.html");
+        getAllTestSetup();
+        InOrder inOrder = inOrder(ctx);
+        inOrder.verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
+        inOrder.verify(ctx).render("SellerAllOrders.html");
     }
 }
