@@ -150,9 +150,6 @@ UserController ..> User
 OrderController ..> Order
 CarportController ..> Carport
 ItemController ..> Item
-'
-persistence ...> controllers
-controllers ...>  entity
 
 /'persistence'/
 
