@@ -12,6 +12,6 @@ public class OrderController {
     public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool){
         List<Order> allOrders = OrderMapper.getAllOrders(connectionPool);
         ctx.sessionAttribute("allOrders", allOrders);
-        ctx.render("SellerAllOrders.html");
+        ctx.render("SellersAllOrders.html");
     }
 }

@@ -80,6 +80,6 @@ public class OrderContorllerTest {
         getAllTestSetup();
         InOrder inOrder = inOrder(ctx);
         inOrder.verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
-        inOrder.verify(ctx).render("SellerAllOrders.html");
+        inOrder.verify(ctx).render("SellersAllOrders.html");
     }
 }
