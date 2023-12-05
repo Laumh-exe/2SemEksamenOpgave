@@ -29,7 +29,7 @@ public class Main {
         // Routing
         app.get("/", ctx -> ctx.render("index.html"));
         
-        app.get("/sellers/AllOrders", ctx -> OrderController.seeAllOrders(ctx, connectionPool));
+        app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
 
     }
 }

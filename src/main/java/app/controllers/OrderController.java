@@ -9,7 +9,9 @@ import app.persistence.OrderMapper;
 import io.javalin.http.Context;
 
 public class OrderController {
-    public static void seeAllOrders(Context ctx, ConnectionPool connectionPool){
-        return;
+    public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool){
+        List<Order> allOrders = OrderMapper.getAllOrders(connectionPool);
+        ctx.sessionAttribute("allOrders", allOrders);
+        ctx.render("SellersAllOrders.html");
     }
 }

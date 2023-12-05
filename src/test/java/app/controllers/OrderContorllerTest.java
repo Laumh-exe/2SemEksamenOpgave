@@ -67,11 +67,13 @@ public class OrderContorllerTest {
     }
 
     @Test
-    public void testAllOrders(){
+    public void testAllOrders() throws SQLException{
 
-        OrderController.seeAllOrders(ctx, connectionPool);
-
-        verify(ctx).status(418);
-        
+        //act
+        OrderController.sellerSeeAllOrders(ctx, connectionPool);
+        getAllTestSetup();
+        //assert
+        verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
+        verify(ctx).render("SellerAllOrders.html");
     }
 }
