@@ -1,4 +1,4 @@
 package app.entities;
 
-abstract class User {
+public abstract class User {
 }
