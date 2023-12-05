@@ -16,8 +16,9 @@ public class UserMapper {
         String sql= "INSERT INTO \"user\" (username, password, rank, balance) VALUES (?, ?, ?, 200)";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)){
-                
-            }
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, password);
+                preparedStatement.setString(3, rank);            }
 
         }
     }
