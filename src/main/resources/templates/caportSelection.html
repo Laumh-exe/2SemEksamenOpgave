@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CarportSelection</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<h1> Design din carport!</h1>
+    <div id="CarportForm">
+        <form method="post" class="selector-form">
+            <h3>Længde</h3>
+            <select class="selector bottom-selector" name="højde">
+                <option>180</option>
+                <option>240</option>
+                <option>300</option>
+                <option>400</option>
+            </select><h3>Bredde</h3>
+            <select class="selector bottom-selector" name="bredde">
+                <option>180</option>
+                <option>240</option>
+                <option>300</option>
+                <option>400</option>
+            </select><br><br>
+            <input type="checkbox" id="shed" name="shed" value="shed">
+            <label for="shed">Tilføj skur</label> <br><br>
+            <button class="accept-btn" formaction="/godkendMål">Godkend mål</button>
+
+        </form>
+    </div>
+
+</body>
+</html>
