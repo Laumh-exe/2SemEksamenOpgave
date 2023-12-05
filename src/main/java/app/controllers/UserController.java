@@ -29,13 +29,7 @@ public class UserController {
                 ctx.redirect("/userpage");
             }
 
-        }
-        catch (DatabaseException e)
-        {
-            ctx.attribute("message", e.getMessage());
-            ctx.render("login.html");
-        }
-        catch (SQLException e)
+        } catch (SQLException e)
         {
             ctx.attribute("message", e.getMessage());
             ctx.render("login.html");
