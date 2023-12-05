@@ -34,10 +34,11 @@ package "entity" {
 
     class Order {
         - int orderID
+        - Date date
         - OrderStatus status
         - Carport carport
         - Receipt receipt
-        - float price
+        - double price
     }
     class Receipt {
         - Itemlist itemlist
@@ -46,8 +47,8 @@ package "entity" {
     }
     /'class Receipt'/
     class Carport {
-        - int length
-        - int width
+        - double length
+        - double width
         - Shed shed
         - Itemlist itemlist
         - Blueprint blueprint
@@ -94,6 +95,7 @@ package "controllers" {
     class OrderController {
         + {static} Order creatOrder(Context ctx, ConnectionPool connectionPool)
         + {static} void editOrder(Context ctx, Order order, ConnectionPool connectionPool)
+        + {static} void seeAllOrders(Context ctx, ConnectionPool connectionPool)
     }
 
     class CarportController {
