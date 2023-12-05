@@ -2,11 +2,14 @@ package app.controllers;
 
 import java.util.List;
 
+
 import app.entities.Order;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
+import io.javalin.http.Context;
 
 public class OrderController {
-    public static List<Order> seeAllOrders(ConnectionPool connectionPool){
-return null;
+    public static void seeAllOrders(Context ctx, ConnectionPool connectionPool){
+        return;
     }
 }

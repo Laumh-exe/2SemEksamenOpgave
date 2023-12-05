@@ -1,18 +1,14 @@
-package app.persistence;
+package app.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Answers.valueOf;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
@@ -23,28 +19,31 @@ import org.mockito.Mockito;
 import app.entities.Order;
 import app.entities.OrderStatus;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
+import io.javalin.http.Context;
 
-public class OrderMapperTest {
-
+public class OrderContorllerTest {
+    
     private ConnectionPool connectionPool;
+    private Context ctx;
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @BeforeEach
     public void setup() throws SQLException{
-        String sql = "SELECT * FROM orders";
         
         connectionPool = mock(ConnectionPool.class);
+        ctx = mock(Context.class);
+        
+        
+        getAllTestSetup();
+    }
+    
+    private void getAllTestSetup() throws SQLException {
+        String sql = "SELECT * FROM orders";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         ResultSet rs = mock(ResultSet.class);
-        
-        
-
-        getAllTestSetup(sql, connection, ps, rs);
-        
-    }
-
-    private void getAllTestSetup(String sql, Connection connection, PreparedStatement ps, ResultSet rs) throws SQLException {
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
@@ -64,27 +63,15 @@ public class OrderMapperTest {
     @AfterEach
     public void tearDown(){
         connectionPool = null;
+        ctx = null;
     }
-    
+
     @Test
-    public void allOrdersTest() throws ParseException{
-        // arrange
-        ArrayList<Order> expected = new ArrayList<>();
-        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, 10d, 10d, -1d, -1d));
-        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, 100d, 20d, 10d, 10d));
+    public void testAllOrders(){
 
-        // act
-        var actual = OrderMapper.getAllOrders(connectionPool);
+        OrderController.seeAllOrders(ctx, connectionPool);
 
-        // assert
-        assertEquals(expected.size(), actual.size());
-        for (int i = 0; i < actual.size(); i++) {
-            
-            
-            assertTrue(expected.get(i).equals(actual.get(i)));
-        }
-
-
-
+        verify(ctx).status(418);
+        
     }
 }
