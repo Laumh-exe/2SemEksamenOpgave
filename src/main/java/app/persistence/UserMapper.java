@@ -18,7 +18,8 @@ public class UserMapper {
             try(PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)){
                 preparedStatement.setString(1, name);
                 preparedStatement.setString(2, password);
-                preparedStatement.setString(3, rank);            }
+                preparedStatement.setString(3, rank);
+            }
 
         }
     }
