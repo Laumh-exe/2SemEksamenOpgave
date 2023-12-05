@@ -14,7 +14,7 @@ String password;
 
     @BeforeEach
     void setUp() {
-        name = new User(1, "Alex", "1234", "Admin", 5);
+        name = new Customer(1, "Alex", "1234", "Admin", 5);
     }
 
     @AfterEach
@@ -35,7 +35,7 @@ String password;
     @Test
     void getName() {
         String expected = "Valde";
-        name2 = new User(1, "Valde", "1234", "Kunde", 20);
+        name2 = new Customer(1, "Valde", "1234", "Kunde", 20);
         String actual = name.getName();
         assertEquals(expected, actual);
     }
@@ -47,7 +47,7 @@ String password;
         assertEquals(expected1, actual1);
 
         String expected2 = "1235";
-        name = new User(1, "Alex", "1235", "Admin", 5);
+        name = new Customer(1, "Alex", "1235", "Admin", 5);
         String actual2 = name.getPassword();
         assertEquals(expected2, actual2);
     }
@@ -60,7 +60,7 @@ String password;
         assertEquals(expected, actual); */
 
         String expected2 = "Admin";
-        name = new User(1, "Alex", "1234", "Admin", 5);
+        name = new Customer(1, "Alex", "1234", "Admin", 5);
         String actual2 = name.getRank();
         assertEquals(expected2,actual2);
     }
@@ -72,7 +72,7 @@ String password;
         assertEquals(expected, actual);*/
 
         double expected2 = 20;
-        name = new User(2,"Valde","1235","Kunde",20);
+        name = new Customer(2,"Valde","1235","Kunde",20);
         double actual2 = name.getBalance();
         assertEquals(expected2, actual2);
     }
