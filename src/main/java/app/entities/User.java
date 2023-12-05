@@ -1,6 +1,6 @@
 package app.entities;
 
-public class User {
+abstract class User {
     private int id;
     private String name;
     private String password;
