@@ -53,15 +53,15 @@ String password;
     }
 
     @Test
-    void getRank() {
+    void getRole() {
         /*String expected = "Admin";
         name2 = new User(2, "Valde", "1235", "Kunde", 20);
-        String actual = name2.getRank();
+        String actual = name2.getRole();
         assertEquals(expected, actual); */
 
         String expected2 = "Admin";
         name = new Customer(1, "Alex", "1234", "Admin", 5);
-        String actual2 = name.getRank();
+        String actual2 = name.getRole();
         assertEquals(expected2,actual2);
     }
 

@@ -1,17 +1,17 @@
 package app.entities;
 
-abstract class User {
+public abstract class User {
     private int id;
     private String name;
     private String password;
-    private String rank;
+    private String role;
     private double balance;
 
     public User(int id, String name, String password, String rank, double balance){
         this.id = id;
         this.name = name;
         this.password = password;
-        this.rank = rank;
+        this.role = rank;
         this.balance = balance;
     }
 
@@ -27,8 +27,8 @@ abstract class User {
         return password;
     }
 
-    public String getRank() {
-        return rank;
+    public String getRole() {
+        return role;
     }
 
     public double getBalance() {
@@ -48,7 +48,7 @@ abstract class User {
                 + "id=" + id
                 + ", name=" + name + '\''
                 + ", password='" + password + '\''
-                + ", rank='" + rank + "\''"
+                + ", rank='" + role + "\''"
                 + '}';
     }
 }
