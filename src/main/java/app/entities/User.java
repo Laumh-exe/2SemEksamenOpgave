@@ -38,4 +38,17 @@ public class User {
         balance = newBalance;
         return balance;
     }
+    public void removeFromBalance(double valueToRemove){
+        balance -=valueToRemove;
+    }
+
+    @Override
+    public String toString(){
+        return "User{"
+                + "id=" + id
+                + ", name=" + name + '\''
+                + ", password='" + password + '\''
+                + ", rank='" + rank + "\''"
+                + '}';
+    }
 }
