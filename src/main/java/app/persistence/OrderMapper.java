@@ -10,6 +10,10 @@ import java.util.List;
 
 import app.entities.Order;
 import app.entities.OrderStatus;
+import app.exceptions.DatabaseException;
+import app.entities.User;
+
+
 
 public class OrderMapper {
 
@@ -42,4 +46,43 @@ public class OrderMapper {
         }
         return orders;
     }
+
+
+    public static void placeOrder(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
+
+        String sql = "INSERT INTO order (status, date, customer_id, total_price, " +
+                "carport_width, carport_length, shed_width, shed_length, salesperson_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setString(1, order.getStatus());
+                preparedStatement.setDate(2, order.getDate());
+                preparedStatement.setInt(3, currentUser.getId());
+                preparedStatement.setDouble(4, 0);
+                preparedStatement.setDouble(5, order.getCarport().getWidth());
+                preparedStatement.setDouble(6, order.getCarport().getLength());
+                preparedStatement.setDouble(7, order.getCarport().getShed().getWidth());
+                preparedStatement.setDouble(8, order.getCarport().getShed().getLength());
+                preparedStatement.setInt(9, 0);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 1) {
+                    ResultSet rs = preparedStatement.getGeneratedKeys();
+                    rs.next();
+                    generatedOrderId = rs.getInt(1);
+
+                } else {
+                    throw new DatabaseException("Fejl");
+                }
+
+
+
+            }
+        } catch (SQLException e) {
+
+        }
+    }
+
+
 }

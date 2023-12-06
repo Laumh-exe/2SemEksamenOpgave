@@ -30,7 +30,7 @@ public class Main {
         // Routing
         app.get("/", ctx -> ctx.render("index.html"));
 
-        app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
+        app.post("/offerRequested", ctx -> OrderController.placeOrderInDB(ctx, connectionPool));
         
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
 

@@ -54,6 +54,10 @@ public class Order {
         return salespersonId;
     }
 
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object arg0) {
         if (!(arg0 instanceof Order)) {
