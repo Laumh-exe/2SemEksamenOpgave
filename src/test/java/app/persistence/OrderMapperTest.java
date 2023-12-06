@@ -67,7 +67,7 @@ public class OrderMapperTest {
     }
     
     @Test
-    public void allOrdersTest() throws ParseException{
+    public void allOrdersTest() throws ParseException, SQLException{
         // arrange
         ArrayList<Order> expected = new ArrayList<>();
         expected.add(new Order(1, 1, 1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, 10d, 10d, -1d, -1d));
