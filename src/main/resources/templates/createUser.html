@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>createUser</title>
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<h1>Create user</h1>
+<form method="post">
+  <input type="text" name="username" placeholder="username"/><br>
+  <input type="password" name="password" placeholder="password"/><br>
+  <button type="submit" formaction="/createUser" class="create-user">Create user</button>
+
+  <p th:text="${#ctx.message}"></p>
+
+</form>
+</body>
+</html>
