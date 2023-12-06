@@ -34,7 +34,5 @@ public class OrderController {
         } else {
             ctx.render("/login.html");
         }
-
     }
-
 }
