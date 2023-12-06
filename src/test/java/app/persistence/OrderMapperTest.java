@@ -83,8 +83,10 @@ public class OrderMapperTest {
             
             assertTrue(expected.get(i).equals(actual.get(i)));
         }
+    }
 
-
+    @Test
+    public void createOrderTest() {
 
     }
 }
