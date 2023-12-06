@@ -30,6 +30,8 @@ public class OrderController {
 
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+            ctx.render("/offerRequestConfirmed.html");
+
         }
         catch (DatabaseException e){
 

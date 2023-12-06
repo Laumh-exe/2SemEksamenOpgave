@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import app.entities.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,27 @@ public class OrderMapperTest {
         assertEquals(expected.size(), actual.size());
         for (int i = 0; i < actual.size(); i++) {
             
-            
+            assertTrue(expected.get(i).equals(actual.get(i)));
+        }
+
+
+
+    }
+
+
+    public void placeOrderTest() throws ParseException{
+        // arrange
+        User user = new User(?, ?, ?, ?, ?)
+        Order order = new Order(?, ?, ?)
+
+
+        // act
+        var actual = OrderMapper.placeOrder(user, order, connectionPool);
+
+        // assert
+        assertEquals(expected.size(), actual.size());
+        for (int i = 0; i < actual.size(); i++) {
+
             assertTrue(expected.get(i).equals(actual.get(i)));
         }
 
