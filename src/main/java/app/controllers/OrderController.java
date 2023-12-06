@@ -10,6 +10,8 @@ import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
 import org.eclipse.jetty.server.Authentication;
 
+import static app.entities.OrderStatus.ORDER_NOT_ACCEPTED;
+
 public class OrderController {
     public static List<Order> seeAllOrders(ConnectionPool connectionPool) {
         return null;
@@ -22,7 +24,16 @@ public class OrderController {
 
         //Create order
         Date date = new Date(System.currentTimeMillis());
-        Order order = new Order(Date date, OrderStatus status, double price, double carportLength, double carportWidth, double shedLength, double shedWidth)
+        Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);
+
+        ctx.sessionAttribute("order", order);
+
+        // send til login side hvis bruger ikke er logget ind - ellers send til odreside
+        if (ctx.formParam("currentUser") != null) {
+            ctx.render("/confirmOrders.html");
+        } else {
+            ctx.render("/login.html");
+        }
 
     }
 

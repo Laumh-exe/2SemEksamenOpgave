@@ -25,6 +25,12 @@ public class Order {
         this.price = price;
     }
 
+    public Order(Date date, OrderStatus status, Carport carport){
+        this.date = date;
+        this.status = status;
+        this.carport = carport;
+    }
+
     public int getId() {
         return id;
     }

@@ -17,12 +17,5 @@ public class CarportController {
         Shed shed = new Shed(shedLength, shedWidth);
         Carport carport = new Carport(length, width, shed);
         ctx.sessionAttribute("carport", carport);
-
-        // send til login side hvis bruger ikke er logget ind - ellers send til odreside
-        if (ctx.formParam("currentUser") != null) {
-            ctx.render("/confirmOrders.html");
-        } else {
-            ctx.render("/login.html");
-        }
     }
 }
