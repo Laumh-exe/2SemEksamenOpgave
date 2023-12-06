@@ -1,5 +1,6 @@
 package app.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import app.entities.Order;
@@ -12,7 +13,13 @@ import io.javalin.http.Context;
 public class OrderController {
     
     public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool){
-        List<Order> allOrders = OrderMapper.getAllOrders(connectionPool);
+        List<Order> allOrders = null;
+        try {
+            allOrders = OrderMapper.getAllOrders(connectionPool);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         ctx.sessionAttribute("allOrders", allOrders);
         ctx.render("SellersAllOrders.html");
     }
