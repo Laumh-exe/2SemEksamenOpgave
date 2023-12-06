@@ -32,6 +32,7 @@ public class Main {
 
         app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
         
+        app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
 
     }
 }
