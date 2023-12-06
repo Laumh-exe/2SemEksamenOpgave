@@ -1,6 +1,7 @@
 package app;
 
 import app.config.ThymeleafConfig;
+
 import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
@@ -28,6 +29,8 @@ public class Main {
 
         // Routing
         app.get("/", ctx -> ctx.render("index.html"));
+
+        app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
         
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
 
