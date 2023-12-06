@@ -12,36 +12,51 @@ import java.util.List;
 
 public class UserController {
 
-    public static void login(Context ctx, ConnectionPool connectionPool)
-    {
+    public static void login(Context ctx, ConnectionPool connectionPool) {
 
         String name = ctx.formParam("username");
         String password = ctx.formParam("password");
 
-        try
-        {
+        try {
             User user = UserMapper.login(name, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
 
-            if(user.getRole().equals("admin")){
+            if (user.getRole().equals("admin")) {
                 ctx.redirect("/adminpage");
             } else {
                 ctx.redirect("/userpage");
             }
 
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             ctx.attribute("message", e.getMessage());
             ctx.render("login.html");
         }
     }
 
-    public static void logout(Context ctx)
-    {
+    public static void logout(Context ctx) {
         // Invalidate session
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }
 
-
+    public static void createUser(Context ctx, ConnectionPool connectionPool) {
+        String name = ctx.formParam("username");
+        String password = ctx.formParam("password");
+        String role = ctx.formParam("salesperson");
+        if (role == null) {
+            role = "user";
+        } else {
+            role = "salesperson";
         }
+        try {
+            UserMapper.createUser(name, password, role, connectionPool);
+            ctx.render("login.html");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            ctx.render("createUser.html");
+        }
+    }
+
+
+}
