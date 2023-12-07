@@ -27,7 +27,7 @@ class CalculatorTest {
 
     @Test
     public void calculateItemListTest(){
-        // Arrange
+        // Arrange - ItemList setup
 
 
         // Act
