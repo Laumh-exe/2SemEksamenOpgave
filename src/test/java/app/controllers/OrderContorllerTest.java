@@ -40,8 +40,8 @@ public class OrderContorllerTest {
         
         connectionPool = mock(ConnectionPool.class);
         ctx = mock(Context.class);
-        
-        
+
+
         getAllTestSetup();
     }
     
@@ -52,7 +52,7 @@ public class OrderContorllerTest {
         Mockito.when(ps.executeQuery()).thenReturn(rs);
         Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         Mockito.when(rs.getInt("id")).thenReturn(1).thenReturn(2);
-        Mockito.when(rs.getString("sataus")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
+        Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
         Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
         Mockito.when(rs.getDate("date")).thenReturn(java.sql.Date.valueOf("2023-12-20")).thenReturn(java.sql.Date.valueOf("2023-12-21"));
         Mockito.when(rs.getInt("customer_id")).thenReturn(1).thenReturn(1);
@@ -72,20 +72,14 @@ public class OrderContorllerTest {
 
     @Test
     public void testAllOrders() throws SQLException{
+        //arrange
+        getAllTestSetup();
 
         //act
         OrderController.sellerSeeAllOrders(ctx, connectionPool);
         getAllTestSetup();
-        //assert
-        verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
-        verify(ctx).render("SellerAllOrders.html");
-        
-        //arrange
-        getAllTestSetup();
-        
-        //act
-        OrderController.sellerSeeAllOrders(ctx, connectionPool);
-        
+
+
         //assert
         getAllTestSetup();
         InOrder inOrder = inOrder(ctx);

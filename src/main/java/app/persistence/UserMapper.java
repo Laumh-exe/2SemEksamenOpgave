@@ -12,7 +12,7 @@ public class UserMapper {
 
 
     public static User login(String firstName, String lastName, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT * FROM public.user WHERE username=? AND password=?";
+        String sql = "SELECT * FROM public.user WHERE firstName=? AND lastName=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
@@ -33,10 +33,10 @@ public class UserMapper {
     }
 
     public static void createUser(String name, String password, String role, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO \"user\" (username, password, role, balance) VALUES (?, ?, ?, 200)";
+        String sql = "INSERT INTO \"user\" (firstName, lastName, password, role, balance) VALUES (?, ?, ?, 200)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
-                preparedStatement.setString(1, name);
+                preparedStatement.setString(1, firstName + " " + lastName);
                 preparedStatement.setString(2, password);
                 preparedStatement.setString(3, role);
                 int rowsAffected = preparedStatement.executeUpdate();
