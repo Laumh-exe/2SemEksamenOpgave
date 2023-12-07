@@ -90,8 +90,10 @@ public class OrderMapperTest {
 
 
     public void placeOrderTest() throws ParseException{
+
         // arrange
-        User user = new User(?, ?, ?, ?, ?)
+        User user = new User(1, "Tobias", "Rossen", 123, "customer", 200);
+
         Order order = new Order(?, ?, ?)
 
 
