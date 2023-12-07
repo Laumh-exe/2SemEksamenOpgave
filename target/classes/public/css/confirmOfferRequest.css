@@ -1,0 +1,151 @@
+
+.background{
+    background-color: white;
+
+}
+
+
+#subheader-when-logged-in{
+    border: solid black;
+    margin: 1vw;
+    padding: 1vw;
+
+}
+
+#headline{
+    border: solid darkorange;
+    margin: 1vw;
+    padding: 1vw;
+
+    display: flex;
+    justify-content: center;
+
+    font-size: 4vw;
+    font-weight: bold;
+
+}
+
+#blueprint-text-and-box-box{
+    border: solid darkslateblue;
+    margin: 1vw;
+    padding: 1vw;
+
+    font-size: 1.8vw;
+    font-weight: bold;
+
+
+}
+
+#blueprint-text{
+    border: solid darkolivegreen;
+    margin: 1vw;
+    padding: 1vw;
+
+    display: flex;
+    justify-content: center;
+
+}
+
+#blueprint-box{
+    border: solid saddlebrown;
+    margin: 1vw;
+    padding: 1vw;
+
+    display: flex;
+    justify-content: center;
+}
+
+#body-box{
+    border: solid darkred;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#measurements-box{
+    border: solid green;
+    margin: 1vw;
+    padding: 1vw;
+
+}
+
+.measurements{
+    font-size: 1.2vw;
+}
+.measurements-parameters{
+    font-weight: bold;
+}
+
+.chosen-measurements{
+
+}
+
+#carport-length-box{
+    border: solid royalblue;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#carport-width-box{
+    border: solid grey;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#shed-or-not-box{
+    border: solid mediumvioletred;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#shed-length{
+    border: solid yellow;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#shed-width{
+    border: solid deepskyblue;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+
+
+#back-button-and-confirm-button{
+    border: solid palevioletred;
+    margin: 1vw;
+    padding: 1vw;
+
+    display: flex;
+    justify-content: center;
+    gap: 12vw;
+}
+
+
+.bottom-buttons{
+    width: 18vw;
+    height: 4vw;
+}
+
+#go-back-and-edit-carport-button-box{
+    border: solid darkblue;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#go-back-and-edit-carport-button{
+
+}
+
+#confirm-offer-button-box{
+    border: solid rebeccapurple;
+    margin: 1vw;
+    padding: 1vw;
+}
+
+#confirm-offer-button{
+
+}
+
+
+
