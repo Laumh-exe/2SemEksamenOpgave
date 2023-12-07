@@ -9,16 +9,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserMapperTest {
+    int id;
     User name;
     User name2;
-    int id;
+    User email;
     String password;
     double balance;
 
 
     @BeforeEach
     void setUp() {
-        name = new Customer(1,"Alexander", "Rasmussen", "1234", "Admin", 20);
+        name = new Customer(1,"Alexander", "Rasmussen", "ba@gmail.com", "1234", "Admin", 20);
     }
 
     @AfterEach
