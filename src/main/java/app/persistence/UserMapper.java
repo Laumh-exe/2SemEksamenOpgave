@@ -32,7 +32,7 @@ public class UserMapper {
         }
     }
 
-    public static void createUser(String name, String password, String role, ConnectionPool connectionPool) throws SQLException {
+    public static void createUser(String firstName, String lastName, String password, String role, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO \"user\" (firstName, lastName, password, role, balance) VALUES (?, ?, ?, 200)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
