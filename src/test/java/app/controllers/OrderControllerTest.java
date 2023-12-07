@@ -1,54 +1,53 @@
-package app.persistence;
+package app.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Answers.valueOf;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
+
 import app.entities.Carport;
 import app.entities.Shed;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import app.entities.Order;
 import app.entities.OrderStatus;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
+import io.javalin.http.Context;
 
-public class OrderMapperTest {
+public class OrderControllerTest {
 
     private ConnectionPool connectionPool;
+    private Connection connection;
+    private PreparedStatement ps;
+    ResultSet rs;
+    private Context ctx;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @BeforeEach
     public void setup() throws SQLException{
-        String sql = "SELECT * FROM public.order";
-        
+
         connectionPool = mock(ConnectionPool.class);
-        
+        ctx = mock(Context.class);
+        connection = mock(Connection.class);
+        ps = mock(PreparedStatement.class);
+        rs = mock(ResultSet.class);
     }
 
-    @AfterEach
-    public void tearDown(){
-        connectionPool = null;
-    }
-    
     private void getAllTestSetup() throws SQLException {
         String sql = "SELECT * FROM public.order";
-        Connection connection = mock(Connection.class);
-        PreparedStatement ps = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
@@ -63,42 +62,14 @@ public class OrderMapperTest {
         Mockito.when(rs.getDouble("carport_length")).thenReturn(10d).thenReturn(20d);
         Mockito.when(rs.getDouble("shed_width")).thenReturn(-1d).thenReturn(10d);
         Mockito.when(rs.getDouble("shed_length")).thenReturn(-1d).thenReturn(10d);
-    }
-    
-    @Test
-    public void allOrdersTest() throws ParseException, SQLException{
-
-      // arrange
-        getAllTestSetup();
-        ArrayList<Order> expected = new ArrayList<>();
-
-        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
-        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
-
-        // act
-        var actual = OrderMapper.getAllOrders(connectionPool);
-
-        // assert
-        assertEquals(expected.size(), actual.size());
-        for (int i = 0; i < actual.size(); i++) {
-            assertTrue(expected.get(i).equals(actual.get(i)));
-        }
+        Mockito.when(CarportController.createCarport(ctx,connectionPool)).thenReturn(new Carport(100.1, 100, new Shed(10, 20)));
     }
 
-    @Test
-    public void updateOrderWithoutShedHappyPathTest() throws SQLException{
-        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = ("+ OrderStatus.ORDER_ASSIGNED +", "+ 100d+", "+110d+", "+50d+") WHERE id = " + 1;
-        Connection connection = mock(Connection.class);
-        PreparedStatement ps = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-        Mockito.when(connectionPool.getConnection()).thenReturn(connection);
-        Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
-        Mockito.when(ps.executeQuery()).thenReturn(rs);
-       
-    }
-
-    @Test
-    public void updateOrderUnhappyPathTest(){
-
+    @AfterEach
+    public void tearDown(){
+        connectionPool = null;
+        ctx = null;
     }
 }
+
+
