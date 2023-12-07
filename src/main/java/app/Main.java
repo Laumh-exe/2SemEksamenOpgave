@@ -28,6 +28,8 @@ public class Main {
 
         // Routing
         app.get("/", ctx -> ctx.render("index.html"));
+
+        app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
         
         app.get("/sellers/AllOrders", ctx -> {OrderController.seeAllOrders(connectionPool); ctx.render("AllOrders.html");});
 

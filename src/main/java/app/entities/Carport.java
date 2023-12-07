@@ -17,6 +17,12 @@ public class Carport {
         this.shed = shed;
         this.itemList = itemList;
     }
+    public Carport(double length, double width) {
+        this.length = length;
+        this.width = width;
+        this.shed = shed;
+        this.itemList = itemList;
+    }
 
     public double getLength() {
         return length;

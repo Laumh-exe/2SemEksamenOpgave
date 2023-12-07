@@ -1,10 +1,10 @@
 package app.entities;
 
 public class Shed {
-    float length;
-    float width;
+    double length;
+    double width;
 
-    public Shed(float length, float width) {
+    public Shed(double length, double width) {
         this.length = length;
         this.width = width;
     }

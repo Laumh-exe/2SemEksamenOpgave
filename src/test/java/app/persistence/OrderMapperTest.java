@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import app.entities.Carport;
+import app.entities.Shed;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,8 +72,8 @@ public class OrderMapperTest {
     public void allOrdersTest() throws ParseException{
         // arrange
         ArrayList<Order> expected = new ArrayList<>();
-        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, 10d, 10d, -1d, -1d));
-        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, 100d, 20d, 10d, 10d));
+        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
+        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
 
         // act
         var actual = OrderMapper.getAllOrders(connectionPool);
