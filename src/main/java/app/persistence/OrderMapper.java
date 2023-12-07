@@ -15,8 +15,6 @@ import app.entities.Shed;
 
 public class OrderMapper {
 
-
-
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws SQLException {
 
         String sql = "SELECT * FROM public.order";
