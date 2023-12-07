@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Offer Requested</title>
+</head>
+
+<body>
+
+<div class="Background">
+
+
+    <div>
+        <span>Your orders</span>
+        <span>Messages</span>
+        <span>Your account</span>
+
+    </div>
+
+    <div id="headline">
+        <p>Carport (with customized measurements)</p>
+    </div>
+
+    <div id="order_status">
+        <span></span>
+        <span th:text="${#ctx.orderStatus}"> </span>
+    </div>
+
+    <div>
+
+        <a href="/allOrdersCustomer">
+            <button id="leave-specific-order">X</button>
+        </a>
+
+
+    </div>
+
+    <div>
+        <div id="carpot-blueprint">
+
+            <p>Here is a blueprint of the carport you have requested an offer for:</p>
+
+            <p>[drawing with measurements and other choices]</p>
+
+        </div>
+
+
+        <div>
+            <p>Length:</p>
+            <p th:text="${#ctx.length}"> th-generated length</p>
+
+            <p>Width:</p>
+            <p th:text="${#ctx.width}"> th-generated width</p>
+
+            <p>Shed:</p>
+            <p th:if="${#ctx.yesOrNo}"> Yes </p>
+
+            <p th:if="${!#ctx.yesOrNo}"> No </p>
+
+            <p th:if="${#ctx.yesOrNo}"> Shed length: </p>
+            <p th:text="${#ctx.shedLength}"> h-generated shed length</p>
+
+            <p th:if="${#ctx.yesOrNo}"> Shed width: </p>
+            <p th:text="${#ctx.shedWidth}"> h-generated shed width</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

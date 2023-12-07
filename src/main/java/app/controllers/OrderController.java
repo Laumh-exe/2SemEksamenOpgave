@@ -26,7 +26,7 @@ public class OrderController {
 
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
         // hent carport og lav ordre!
-        Carport carport = CarportController.createCarport(ctx,connectionPool);
+        Carport carport = CarportController.createCarport(ctx, connectionPool);
         Customer currentUser = ctx.sessionAttribute("currentUser");
 
         //Create order
@@ -40,11 +40,5 @@ public class OrderController {
         } else {
             ctx.render("/login.html");
         }
-
-    public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
-
-        Order orderToPlace = ctx.sessionAttribute("newOrder");
-
-        User user = ctx.sessionAttribute("currentUser");
     }
 }
