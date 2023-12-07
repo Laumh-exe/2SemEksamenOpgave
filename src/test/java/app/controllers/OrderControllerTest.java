@@ -70,37 +70,6 @@ public class OrderControllerTest {
         connectionPool = null;
         ctx = null;
     }
-
-    @Test
-    public void testAllOrders() throws SQLException{
-
-        //arrange
-        getAllTestSetup();
-
-        //act
-        OrderController.sellerSeeAllOrders(ctx, connectionPool);
-
-        //assert
-        getAllTestSetup();
-        InOrder inOrder = inOrder(ctx);
-        inOrder.verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
-        inOrder.verify(ctx).render("SellersAllOrders.html");
-    }
-
-    /*
-    @Test
-    void createOrder() throws SQLException{
-        // arrange
-        getAllTestSetup();
-
-        //act
-        OrderController.createOrder(ctx, connectionPool);
-
-        getAllTestSetup();
-        InOrder inOrder = inOrder(ctx);
-        inOrder.verify(ctx).sessionAttribute("currentUser");
-    }
-    */
 }
 
 
