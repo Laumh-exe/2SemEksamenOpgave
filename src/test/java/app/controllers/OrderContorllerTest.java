@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
@@ -40,9 +39,10 @@ public class OrderContorllerTest {
         
         connectionPool = mock(ConnectionPool.class);
         ctx = mock(Context.class);
+        connection = mock(Connection.class);
+        ps = mock(PreparedStatement.class);
+        rs = mock(ResultSet.class);
 
-
-        getAllTestSetup();
     }
     
     private void getAllTestSetup() throws SQLException {
@@ -52,7 +52,6 @@ public class OrderContorllerTest {
         Mockito.when(ps.executeQuery()).thenReturn(rs);
         Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         Mockito.when(rs.getInt("id")).thenReturn(1).thenReturn(2);
-        Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
         Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
         Mockito.when(rs.getDate("date")).thenReturn(java.sql.Date.valueOf("2023-12-20")).thenReturn(java.sql.Date.valueOf("2023-12-21"));
         Mockito.when(rs.getInt("customer_id")).thenReturn(1).thenReturn(1);
@@ -72,6 +71,7 @@ public class OrderContorllerTest {
 
     @Test
     public void testAllOrders() throws SQLException{
+
         //arrange
         getAllTestSetup();
 

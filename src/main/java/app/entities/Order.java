@@ -17,7 +17,6 @@ public class Order {
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;
-
         this.date = date;
         this.status = status;
         carport = new Carport(carportLength,carportWidth);

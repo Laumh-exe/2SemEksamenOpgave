@@ -35,17 +35,22 @@ public class OrderMapperTest {
         String sql = "SELECT * FROM public.order";
         
         connectionPool = mock(ConnectionPool.class);
-        Connection connection = mock(Connection.class);
-        PreparedStatement ps = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
         
         
-
-        getAllTestSetup(sql, connection, ps, rs);
+        
         
     }
 
-    private void getAllTestSetup(String sql, Connection connection, PreparedStatement ps, ResultSet rs) throws SQLException {
+    @AfterEach
+    public void tearDown(){
+        connectionPool = null;
+    }
+    
+    private void getAllTestSetup() throws SQLException {
+        String sql = "SELECT * FROM public.order";
+        Connection connection = mock(Connection.class);
+        PreparedStatement ps = mock(PreparedStatement.class);
+        ResultSet rs = mock(ResultSet.class);
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
@@ -62,14 +67,10 @@ public class OrderMapperTest {
         Mockito.when(rs.getDouble("shed_length")).thenReturn(-1d).thenReturn(10d);
     }
     
-    @AfterEach
-    public void tearDown(){
-        connectionPool = null;
-    }
-    
     @Test
-    public void allOrdersTest() throws ParseException{
+    public void allOrdersTest() throws ParseException, SQLException{
         // arrange
+        getAllTestSetup();
         ArrayList<Order> expected = new ArrayList<>();
 
         expected.add(new Order(1, 1, 1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, 10d, 10d, -1d, -1d));
@@ -82,12 +83,26 @@ public class OrderMapperTest {
         // assert
         assertEquals(expected.size(), actual.size());
         for (int i = 0; i < actual.size(); i++) {
-            
-            
             assertTrue(expected.get(i).equals(actual.get(i)));
         }
+    }
 
+    
 
+    @Test
+    public void updateOrderWithoutShedHappyPathTest() throws SQLException{
+        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = ("+ OrderStatus.ORDER_ASSIGNED +", "+ 100d+", "+110d+", "+50d+") WHERE id = " + 1;
+        Connection connection = mock(Connection.class);
+        PreparedStatement ps = mock(PreparedStatement.class);
+        ResultSet rs = mock(ResultSet.class);
+        Mockito.when(connectionPool.getConnection()).thenReturn(connection);
+        Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
+        Mockito.when(ps.executeQuery()).thenReturn(rs);
+        
+    }
+
+    @Test
+    public void updateOrderUnhappyPathTest(){
 
     }
 }
