@@ -1,9 +1,15 @@
 package app.controllers;
+
 import java.util.Date;
 import java.util.List;
 
 import app.entities.Carport;
 import app.entities.Customer;
+
+
+
+import java.sql.SQLException;
+
 import app.entities.Order;
 import app.entities.OrderStatus;
 import app.persistence.ConnectionPool;
@@ -14,17 +20,24 @@ import org.eclipse.jetty.server.Authentication;
 import static app.entities.OrderStatus.ORDER_NOT_ACCEPTED;
 
 public class OrderController {
-    public static List<Order> seeAllOrders(ConnectionPool connectionPool) {
-        return null;
-    }
 
-    public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool){
+    public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool) throws SQLException {
+
         List<Order> allOrders = OrderMapper.getAllOrders(connectionPool);
         ctx.sessionAttribute("allOrders", allOrders);
         ctx.render("SellersAllOrders.html");
     }
 
+
+    public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
+
+        Order orderToPlace = ctx.sessionAttribute("newOrder");
+
+        User user = ctx.sessionAttribute("currentUser");
+      
+
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
+  
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
         Customer currentUser = ctx.sessionAttribute("currentUser");
@@ -36,9 +49,10 @@ public class OrderController {
 
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
         if (currentUser != null) {
-            ctx.render("/confirmOfferRequest.html");
-        } else {
-            ctx.render("/login.html");
+
+           // ctx.render("/confirmOrders.html");
+     } else {
+           // ctx.render("/login.html");
         }
     }
 }

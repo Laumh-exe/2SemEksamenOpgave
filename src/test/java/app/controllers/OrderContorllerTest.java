@@ -42,8 +42,7 @@ public class OrderContorllerTest {
         connection = mock(Connection.class);
         ps = mock(PreparedStatement.class);
         rs = mock(ResultSet.class);
-        
-        
+
     }
     
     private void getAllTestSetup() throws SQLException {
@@ -72,13 +71,15 @@ public class OrderContorllerTest {
 
     @Test
     public void testAllOrders() throws SQLException{
-        
+
         //arrange
         getAllTestSetup();
-        
+
         //act
         OrderController.sellerSeeAllOrders(ctx, connectionPool);
-        
+        getAllTestSetup();
+
+
         //assert
         getAllTestSetup();
         InOrder inOrder = inOrder(ctx);

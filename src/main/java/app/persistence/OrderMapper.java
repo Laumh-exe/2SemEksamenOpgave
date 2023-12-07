@@ -15,7 +15,10 @@ import app.entities.Shed;
 
 public class OrderMapper {
 
-    public static List<Order> getAllOrders(ConnectionPool connectionPool) {
+
+
+    public static List<Order> getAllOrders(ConnectionPool connectionPool) throws SQLException {
+
         String sql = "SELECT * FROM public.order";
         List<Order> orders = new ArrayList<>();
 
@@ -39,9 +42,55 @@ public class OrderMapper {
                     orders.add(order);
                 }
             }
-        } catch (SQLException e){
-
         }
         return orders;
+    }
+
+    /**
+     * This method is for orders with out sheds
+     * @param order
+     * @param connectionPool
+     * @throws SQLException
+     */
+    public static void updateOrderWidthOutShed(Order order, ConnectionPool connectionPool) throws SQLException {
+        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
+        Carport carport = order.getCarport();
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setString(1, order.getStatus().toString());
+                preparedStatement.setDouble(2, order.getPrice());
+                preparedStatement.setDouble(3, carport.getLength());
+                preparedStatement.setDouble(4, carport.getWidth());
+                preparedStatement.setInt(5, order.getId());
+                
+                int numRowsAffected = preparedStatement.executeUpdate();
+                if (numRowsAffected > 1){
+                    // TODO: do something meaningfull when more than one order is affected
+                }
+                
+            }
+        }
+    }
+
+    public static void updateOrderWidthShed(Order order, ConnectionPool connectionPool) throws SQLException {
+        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width, shed_length, shed_width) = (?, ?, ?, ?, ?, ?) WHERE id = ?";
+        Carport carport = order.getCarport();
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setString(1, order.getStatus().toString());
+                preparedStatement.setDouble(2, order.getPrice());
+                preparedStatement.setDouble(3, carport.getLength());
+                preparedStatement.setDouble(4, carport.getWidth());
+                // TODO: When shed is implemented this needs to be updated to reflect the needed shed
+                // preparedStatement.setDouble(5, carport.getShed().getLength());
+                // preparedStatement.setDouble(6, carport.getShed().getWidth());
+                preparedStatement.setInt(7, order.getId());
+
+                int numRowsAffected = preparedStatement.executeUpdate();
+                if (numRowsAffected > 1){
+                    // TODO: do something meaningfull when more than one order is affected
+                }
+            }
+        }
     }
 }
