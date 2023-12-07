@@ -12,6 +12,7 @@ public class Order {
     private Receipt receipt;
     private double price;
 
+
     public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, double carportLength, double carportWidth, double shedLength, double shedWidth){
         this.id = id;
         this.customerId = customerId;
@@ -54,6 +55,7 @@ public class Order {
         return salespersonId;
     }
 
+
     @Override
     public boolean equals(Object arg0) {
         if (!(arg0 instanceof Order)) {
@@ -65,6 +67,4 @@ public class Order {
 
         return true;
     }
-
-
 }
