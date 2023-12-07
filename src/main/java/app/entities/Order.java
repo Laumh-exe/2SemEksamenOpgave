@@ -12,6 +12,7 @@ public class Order {
     private Receipt receipt;
     private double price;
 
+
     public Order(int id, Date date, OrderStatus status, double price, Carport carport){
         this.id = id;
         this.date = date;
@@ -19,7 +20,9 @@ public class Order {
         this.carport = carport;
         this.price = price;
     }
+  
     public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
+
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;
@@ -74,6 +77,7 @@ public class Order {
     public int getSalespersonId() {
         return salespersonId;
     }
+
 
     @Override
     public boolean equals(Object arg0) {
