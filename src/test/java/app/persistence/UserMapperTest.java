@@ -18,7 +18,7 @@ class UserMapperTest {
 
     @BeforeEach
     void setUp() {
-        name = new Customer(1,"Alex", "1234", "Admin", 20);
+        name = new Customer(1,"Alexander", "Rasmussen", "1234", "Admin", 20);
     }
 
     @AfterEach

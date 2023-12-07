@@ -11,12 +11,12 @@ import app.entities.*;
 public class UserMapper {
 
 
-    public static User login(String name, String password, ConnectionPool connectionPool) throws SQLException {
+    public static User login(String firstName, String lastName, String password, ConnectionPool connectionPool) throws SQLException {
         String sql = "SELECT * FROM public.user WHERE username=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
-                preparedStatement.setString(1, name);
+                preparedStatement.setString(1, firstName + " " + lastName);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
@@ -24,7 +24,7 @@ public class UserMapper {
                     String role = resultSet.getString("role");
                     double balance = resultSet.getDouble("balance");
 
-                    return new Customer(id, name, password, role, balance);
+                    return new Customer(id, firstName, lastName, password, role, balance);
                 } else {
                     throw new SQLException("Fejl i login");
                 }
