@@ -19,6 +19,15 @@ public class Order {
         this.carport = carport;
         this.price = price;
     }
+    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
+        this.id = id;
+        this.customerId = customerId;
+        this.salespersonId = salespersonId;
+        this.date = date;
+        this.status = status;
+        this.carport = carport;
+        this.price = price;
+    }
 
     public Order(Date date, OrderStatus status, double price, Carport carport){
         this.date = date;
