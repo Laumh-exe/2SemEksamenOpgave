@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.entities.Item;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -14,11 +15,11 @@ public class UserController {
 
     public static void login(Context ctx, ConnectionPool connectionPool) {
 
-        String name = ctx.formParam("username");
+        String email = ctx.formParam("E-mail");
         String password = ctx.formParam("password");
 
         try {
-            User user = UserMapper.login(name, password, connectionPool);
+            User user = UserMapper.login(email, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
 
             if (user.getRole().equals("admin")) {
@@ -40,7 +41,9 @@ public class UserController {
     }
 
     public static void createUser(Context ctx, ConnectionPool connectionPool) {
-        String name = ctx.formParam("username");
+        String firstName = ctx.formParam("firstName");
+        String lastName = ctx.formParam("lastName");
+        String email = ctx.formParam("E-mail");
         String password = ctx.formParam("password");
         String role = ctx.formParam("salesperson");
         if (role == null) {
@@ -49,7 +52,7 @@ public class UserController {
             role = "salesperson";
         }
         try {
-            UserMapper.createUser(name, password, role, connectionPool);
+            UserMapper.createUser(firstName, lastName, email, password, role, connectionPool);
             ctx.render("login.html");
 
         } catch (SQLException e) {
