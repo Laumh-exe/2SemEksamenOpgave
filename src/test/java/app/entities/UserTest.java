@@ -36,7 +36,7 @@ String password;
     void getName() {
         String expected = "Valde";
         name2 = new Customer(1, "Valde", "1234", "Kunde", 20);
-        String actual = name.getName();
+        String actual = name.getFirstName();
         assertEquals(expected, actual);
     }
 

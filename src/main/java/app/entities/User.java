@@ -2,14 +2,16 @@ package app.entities;
 
 public abstract class User {
     private int id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String password;
     private String role;
     private double balance;
 
-    public User(int id, String name, String password, String rank, double balance){
+    public User(int id, String firstName, String lastName, String password, String rank, double balance){
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.role = rank;
         this.balance = balance;
@@ -19,8 +21,8 @@ public abstract class User {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getPassword() {
@@ -46,7 +48,7 @@ public abstract class User {
     public String toString(){
         return "User{"
                 + "id=" + id
-                + ", name=" + name + '\''
+                + ", name=" + firstName + '\''
                 + ", password='" + password + '\''
                 + ", rank='" + role + "\''"
                 + '}';
