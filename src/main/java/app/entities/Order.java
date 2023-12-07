@@ -6,13 +6,13 @@ public class Order {
     private int id;
     private int customerId;
     private int salespersonId;
-    private Date date;
+    private java.sql.Date date;
     private OrderStatus status;
     private Carport carport;
     private Receipt receipt;
     private double price;
 
-    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
+    public Order(int id, int customerId, int salespersonId, java.sql.Date date, OrderStatus status, double price, Carport carport){
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;
@@ -27,7 +27,7 @@ public class Order {
         return id;
     }
 
-    public Date getDate() {
+    public java.sql.Date getDate() {
         return date;
     }
 

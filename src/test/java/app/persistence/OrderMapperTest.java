@@ -30,21 +30,21 @@ public class OrderMapperTest {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @BeforeEach
-    public void setup() throws SQLException{
+    public void setup() throws SQLException {
         String sql = "SELECT * FROM public.order";
-        
+
         connectionPool = mock(ConnectionPool.class);
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         ResultSet rs = mock(ResultSet.class);
-        
-        
+
 
         getAllTestSetup(sql, connection, ps, rs);
-        
+
     }
 
     private void getAllTestSetup(String sql, Connection connection, PreparedStatement ps, ResultSet rs) throws SQLException {
+
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
@@ -62,35 +62,23 @@ public class OrderMapperTest {
         Mockito.when(rs.getDouble("shed_length")).thenReturn(-1d).thenReturn(10d);
     }
 
-    private void placeOrderTestSetup(String sql, Connection connection, PreparedStatement ps, ResultSet rs) throws SQLException {
-        Mockito.when(connectionPool.getConnection()).thenReturn(connection);
-        Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
-        //Mockito.when(ps.executeUpdate()).thenReturn(rs);
 
-        //Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        Mockito.when(rs.getInt("id")).thenReturn(1).thenReturn(2);
-        Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
-        Mockito.when(rs.getDate("date")).thenReturn(java.sql.Date.valueOf("2023-12-20")).thenReturn(java.sql.Date.valueOf("2023-12-21"));
-        Mockito.when(rs.getInt("customer_id")).thenReturn(1).thenReturn(1);
-        Mockito.when(rs.getInt("salesperson_id")).thenReturn(1).thenReturn(1);
-        Mockito.when(rs.getDouble("total_price")).thenReturn(11500d).thenReturn(100.1);
-        Mockito.when(rs.getDouble("carport_width")).thenReturn(10d).thenReturn(100d);
-        Mockito.when(rs.getDouble("carport_length")).thenReturn(10d).thenReturn(20d);
-        Mockito.when(rs.getDouble("shed_width")).thenReturn(-1d).thenReturn(10d);
-        Mockito.when(rs.getDouble("shed_length")).thenReturn(-1d).thenReturn(10d);
-    }
-    
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         connectionPool = null;
     }
-    
+
     @Test
-    public void allOrdersTest() throws ParseException{
+    public void allOrdersTest() throws ParseException {
+
         // arrange
         ArrayList<Order> expected = new ArrayList<>();
-        expected.add(new Order(1, 1, 1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(1d, 1d))));
-        expected.add(new Order(2, 1, 1, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(20d, 10d, new Shed(2d, 2d))));
+
+        long millis = System.currentTimeMillis();
+        java.sql.Date dateOfOrder = new java.sql.Date(millis);
+
+        expected.add(new Order(1, 1, 1, dateOfOrder, OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(1d, 1d))));
+        expected.add(new Order(2, 1, 1, dateOfOrder, OrderStatus.PRICE_PRESENTED, 100.1, new Carport(20d, 10d, new Shed(2d, 2d))));
 
         // act
         var actual = OrderMapper.getAllOrders(connectionPool);
@@ -98,7 +86,7 @@ public class OrderMapperTest {
         // assert
         assertEquals(expected.size(), actual.size());
         for (int i = 0; i < actual.size(); i++) {
-            
+
             assertTrue(expected.get(i).equals(actual.get(i)));
         }
     }

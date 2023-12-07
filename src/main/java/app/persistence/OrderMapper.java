@@ -24,7 +24,7 @@ public class OrderMapper {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String statusString = resultSet.getString("status");
-                    Date date = resultSet.getDate("date");
+                    java.sql.Date date = resultSet.getDate("date");
                     int customerId = resultSet.getInt("customer_id");
                     int salespersonId = resultSet.getInt("salesperson_id");
                     double price = resultSet.getDouble("total_price");
@@ -54,22 +54,24 @@ public class OrderMapper {
                 "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // TODO: Delete this and make it work with order.getDate()
-        long millis = System.currentTimeMillis();
-        java.sql.Date dateOfOrder = new java.sql.Date(millis);
+        //Order orderWithId = order;
+
+        // TODO: Delete this and try to make it work with order.getDate()
+        //long millis = System.currentTimeMillis();
+        //java.sql.Date dateOfOrder = new java.sql.Date(millis);
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
                 ps.setString(1, order.getStatus().toString());
-                ps.setDate(2, dateOfOrder);
+                ps.setDate(2, order.getDate()); //dateOfOrder);
                 ps.setInt(3, currentUser.getId());
                 ps.setDouble(4, 0);
                 ps.setDouble(5, order.getCarport().getWidth());
                 ps.setDouble(6, order.getCarport().getLength());
                 ps.setDouble(7, order.getCarport().getShed().getWidth());
                 ps.setDouble(8, order.getCarport().getShed().getLength());
-                ps.setInt(9, 0);
+                ps.setInt(9, -1);
 
                 int rowsAffected = ps.executeUpdate();
 
@@ -78,8 +80,16 @@ public class OrderMapper {
                     rs.next();
                     int generatedOrderId = rs.getInt(1);
 
+                    /*
+                    orderWithId = new Order(generatedOrderId, order.getCustomerId(),
+                            order.getSalespersonId(),dateOfOrder, order.getStatus(),
+                            order.getPrice(), order.getCarport());
+                        return orderWithId;
+
+                     */
+
                 } else {
-                    return false;
+                    throw new DatabaseException("Order not inserted");
                 }
             }
         } catch (SQLException e) {

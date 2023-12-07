@@ -20,43 +20,21 @@ public class OrderController {
     
     public static void placeOrderInDB(Context ctx, ConnectionPool connectionPool) {
 
-
-
-        //Order orderToPlace = ctx.sessionAttribute("newOrder");
-
-        // TODO: Delete this
-        long millis = System.currentTimeMillis();
-        Date dateOfOrder = new Date();
-        Shed shed = new Shed(100, 100);
-        Carport carport = new Carport(100, 200, shed);
-
-        Order orderToPlace = new Order(1, 1, 1, dateOfOrder, OrderStatus.CUSTOMER_ACCEPTED,100,  carport);
-
-
+        Order orderToPlace = ctx.sessionAttribute("newOrder");
 
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
         User user = ctx.sessionAttribute("currentUser");
 
-
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
-            ctx.render("/offerRequestConfirmed.html");
 
+            ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
 
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
-
-
         }
-
-
-
-
-
-
-
     }
 }
