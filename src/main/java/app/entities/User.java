@@ -47,16 +47,7 @@ public abstract class User {
         balance -= valueToRemove;
     }
 
-    @Override
-    public String toString() {
-        return "User{"
-                + "id=" + id
-                + ", firstName=" + firstName + '' '
-                + ", lastName=" + lastName + '' '
-                + ", password='" + password + '' '
-                + ", rank='" + role + "''"
-                + '}';
-    }
-}
 
 }
+
+

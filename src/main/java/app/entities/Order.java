@@ -12,14 +12,15 @@ public class Order {
     private Receipt receipt;
     private double price;
 
-    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, double carportLength, double carportWidth, double shedLength, double shedWidth){
+    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;
         this.date = date;
         this.status = status;
-        carport = new Carport(carportLength,carportWidth);
         this.price = price;
+        this.carport = carport;
+
     }
 
     public int getId() {

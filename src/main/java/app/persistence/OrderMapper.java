@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import app.entities.Order;
-import app.entities.OrderStatus;
+import app.entities.*;
 import app.exceptions.DatabaseException;
-import app.entities.User;
-
 
 
 public class OrderMapper {
@@ -33,11 +30,14 @@ public class OrderMapper {
                     double price = resultSet.getDouble("total_price");
                     double carportLength = resultSet.getDouble("carport_length");
                     double carportWidth = resultSet.getDouble("carport_width");
-                    double shedLength = resultSet.getDouble("shed_length");
-                    double shedWidth = resultSet.getDouble("shed_width");
+                    int shedLength = resultSet.getInt("shed_length");
+                    int shedWidth = resultSet.getInt("shed_width");
+
+                    Shed newShed = new Shed(shedLength, shedWidth);
+                    Carport carport = new Carport(carportLength, carportWidth, newShed);
                     
                     OrderStatus status = OrderStatus.valueOf(statusString);
-                    Order order = new Order(id, customerId, salespersonId, date, status, price, carportLength, carportWidth, shedLength, shedWidth);
+                    Order order = new Order(id, customerId, salespersonId, date, status, price, carport);
                     orders.add(order);
                 }
             }
@@ -48,41 +48,43 @@ public class OrderMapper {
     }
 
 
-    public static void placeOrder(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
+    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
 
         String sql = "INSERT INTO order (status, date, customer_id, total_price, " +
-                "carport_width, carport_length, shed_width, shed_length, salesperson_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // TODO: Delete this and make it work with order.getDate()
+        long millis = System.currentTimeMillis();
+        java.sql.Date dateOfOrder = new java.sql.Date(millis);
 
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-                preparedStatement.setString(1, order.getStatus());
-                preparedStatement.setDate(2, order.getDate());
-                preparedStatement.setInt(3, currentUser.getId());
-                preparedStatement.setDouble(4, 0);
-                preparedStatement.setDouble(5, order.getCarport().getWidth());
-                preparedStatement.setDouble(6, order.getCarport().getLength());
-                preparedStatement.setDouble(7, order.getCarport().getShed().getWidth());
-                preparedStatement.setDouble(8, order.getCarport().getShed().getLength());
-                preparedStatement.setInt(9, 0);
+                ps.setString(1, order.getStatus().toString());
+                ps.setDate(2, dateOfOrder);
+                ps.setInt(3, currentUser.getId());
+                ps.setDouble(4, 0);
+                ps.setDouble(5, order.getCarport().getWidth());
+                ps.setDouble(6, order.getCarport().getLength());
+                ps.setDouble(7, order.getCarport().getShed().getWidth());
+                ps.setDouble(8, order.getCarport().getShed().getLength());
+                ps.setInt(9, 0);
 
-                int rowsAffected = preparedStatement.executeUpdate();
+                int rowsAffected = ps.executeUpdate();
+
                 if (rowsAffected == 1) {
-                    ResultSet rs = preparedStatement.getGeneratedKeys();
+                    ResultSet rs = ps.getGeneratedKeys();
                     rs.next();
-                    generatedOrderId = rs.getInt(1);
+                    int generatedOrderId = rs.getInt(1);
 
                 } else {
-                    throw new DatabaseException("Fejl");
+                    return false;
                 }
-
-
-
             }
         } catch (SQLException e) {
 
         }
+        return true;
     }
-
-
 }
