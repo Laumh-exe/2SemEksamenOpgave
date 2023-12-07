@@ -31,7 +31,8 @@ public class OrderMapperTest {
 
     @BeforeEach
     public void setup() throws SQLException{
-        String sql = "SELECT * FROM orders";
+
+        String sql = "SELECT * FROM public.order";
         
         connectionPool = mock(ConnectionPool.class);
         Connection connection = mock(Connection.class);
@@ -50,7 +51,7 @@ public class OrderMapperTest {
         Mockito.when(ps.executeQuery()).thenReturn(rs);
         Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         Mockito.when(rs.getInt("id")).thenReturn(1).thenReturn(2);
-        Mockito.when(rs.getString("sataus")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
+        Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
         Mockito.when(rs.getDate("date")).thenReturn(java.sql.Date.valueOf("2023-12-20")).thenReturn(java.sql.Date.valueOf("2023-12-21"));
         Mockito.when(rs.getInt("customer_id")).thenReturn(1).thenReturn(1);
         Mockito.when(rs.getInt("salesperson_id")).thenReturn(1).thenReturn(1);
@@ -70,8 +71,10 @@ public class OrderMapperTest {
     public void allOrdersTest() throws ParseException{
         // arrange
         ArrayList<Order> expected = new ArrayList<>();
-        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, 10d, 10d, -1d, -1d));
-        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, 100d, 20d, 10d, 10d));
+
+        expected.add(new Order(1, 1, 1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, 10d, 10d, -1d, -1d));
+        expected.add(new Order(2, 1, 1, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, 100d, 20d, 10d, 10d));
+
 
         // act
         var actual = OrderMapper.getAllOrders(connectionPool);

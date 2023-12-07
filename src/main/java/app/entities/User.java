@@ -8,7 +8,7 @@ public abstract class User {
     private String role;
     private double balance;
 
-    public User(int id, String firstName, String lastName, String password, String rank, double balance){
+    public User(int id, String firstName, String lastName, String password, String rank, double balance) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,19 +36,22 @@ public abstract class User {
     public double getBalance() {
         return balance;
     }
-    public double setBalance(double newBalance){
+
+    public double setBalance(double newBalance) {
         balance = newBalance;
         return balance;
     }
-    public void removeFromBalance(double valueToRemove){
-        balance -=valueToRemove;
+
+    public void removeFromBalance(double valueToRemove) {
+        balance -= valueToRemove;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "User{"
                 + "id=" + id
-                + ", name=" + firstName + '\''
+                + ", firstName=" + firstName + '\''
+                + ", lastName=" + lastName + '\''
                 + ", password='" + password + '\''
                 + ", rank='" + role + "\''"
                 + '}';

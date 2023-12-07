@@ -1,5 +1,6 @@
 package app.controllers;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import app.entities.Order;
@@ -25,6 +28,9 @@ import io.javalin.http.Context;
 public class OrderContorllerTest {
     
     private ConnectionPool connectionPool;
+    private Connection connection;
+    private PreparedStatement ps;
+    ResultSet rs;
     private Context ctx;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -40,16 +46,14 @@ public class OrderContorllerTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM orders";
-        Connection connection = mock(Connection.class);
-        PreparedStatement ps = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
+        String sql = "SELECT * FROM public.order";
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
         Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         Mockito.when(rs.getInt("id")).thenReturn(1).thenReturn(2);
         Mockito.when(rs.getString("sataus")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
+        Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
         Mockito.when(rs.getDate("date")).thenReturn(java.sql.Date.valueOf("2023-12-20")).thenReturn(java.sql.Date.valueOf("2023-12-21"));
         Mockito.when(rs.getInt("customer_id")).thenReturn(1).thenReturn(1);
         Mockito.when(rs.getInt("salesperson_id")).thenReturn(1).thenReturn(1);
@@ -75,5 +79,17 @@ public class OrderContorllerTest {
         //assert
         verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
         verify(ctx).render("SellerAllOrders.html");
+        
+        //arrange
+        getAllTestSetup();
+        
+        //act
+        OrderController.sellerSeeAllOrders(ctx, connectionPool);
+        
+        //assert
+        getAllTestSetup();
+        InOrder inOrder = inOrder(ctx);
+        inOrder.verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
+        inOrder.verify(ctx).render("SellersAllOrders.html");
     }
 }
