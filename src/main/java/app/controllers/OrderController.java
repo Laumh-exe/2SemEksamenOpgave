@@ -36,7 +36,7 @@ public class OrderController {
 
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
         if (currentUser != null) {
-            ctx.render("/confirmOrders.html");
+            ctx.render("/confirmOfferRequest.html");
         } else {
             ctx.render("/login.html");
         }
