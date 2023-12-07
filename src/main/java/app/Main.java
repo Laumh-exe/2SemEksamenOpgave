@@ -30,9 +30,8 @@ public class Main {
         app.get("/", ctx -> ctx.render("index.html"));
 
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
-        
-        app.get("/sellers/AllOrders", ctx -> {OrderController.seeAllOrders(connectionPool); ctx.render("AllOrders.html");});
-
+        app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
+        app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
     }
 }
 

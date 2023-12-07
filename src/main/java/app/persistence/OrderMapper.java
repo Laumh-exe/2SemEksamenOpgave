@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import app.entities.Carport;
 import app.entities.Order;
 import app.entities.OrderStatus;
@@ -16,7 +15,8 @@ import app.entities.Shed;
 public class OrderMapper {
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) {
-        String sql = "SELECT * FROM orders";
+
+        String sql = "SELECT * FROM public.order";
         List<Order> orders = new ArrayList<>();
 
         try(Connection connection = connectionPool.getConnection()){
@@ -24,7 +24,7 @@ public class OrderMapper {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
-                    OrderStatus status = OrderStatus.valueOf(resultSet.getString("sataus"));
+                    String statusString = resultSet.getString("status");
                     Date date = resultSet.getDate("date");
                     int customerId = resultSet.getInt("customer_id");
                     int salespersonId = resultSet.getInt("salesperson_id");
@@ -33,9 +33,8 @@ public class OrderMapper {
                     double carportWidth = resultSet.getDouble("carport_width");
                     double shedLength = resultSet.getDouble("shed_length");
                     double shedWidth = resultSet.getDouble("shed_width");
-
-
-                    Order order = new Order(id, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+                    Order order = new Order(id, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));      
+                    OrderStatus status = OrderStatus.valueOf(statusString);
                     orders.add(order);
                 }
             }

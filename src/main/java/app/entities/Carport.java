@@ -20,8 +20,6 @@ public class Carport {
     public Carport(double length, double width) {
         this.length = length;
         this.width = width;
-        this.shed = shed;
-        this.itemList = itemList;
     }
 
     public double getLength() {
@@ -30,6 +28,5 @@ public class Carport {
 
     public double getWidth() {
         return width;
-    }
-    
+    } 
 }

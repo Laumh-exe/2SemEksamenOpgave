@@ -1,5 +1,4 @@
 package app.controllers;
-
 import java.util.Date;
 import java.util.List;
 
@@ -41,5 +40,11 @@ public class OrderController {
         } else {
             ctx.render("/login.html");
         }
+
+    public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
+
+        Order orderToPlace = ctx.sessionAttribute("newOrder");
+
+        User user = ctx.sessionAttribute("currentUser");
     }
 }

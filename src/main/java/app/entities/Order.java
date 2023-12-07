@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Order {
     private int id;
+    private int customerId;
+    private int salespersonId;
     private Date date;
     private OrderStatus status;
     private Carport carport;
@@ -55,6 +57,15 @@ public class Order {
         return price;
     }
 
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public int getSalespersonId() {
+        return salespersonId;
+    }
+
     @Override
     public boolean equals(Object arg0) {
         if (!(arg0 instanceof Order)) {
@@ -66,5 +77,4 @@ public class Order {
 
         return true;
     }
- 
 }
