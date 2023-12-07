@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS public.order
     total_price double precision NOT NULL,
     carport_width double precision NOT NULL,
     carport_length double precision NOT NULL,
-    shed_width double precision NOT NULL,
-    shed_length double precision NOT NULL,
+    shed_width double precision,
+    shed_length double precision,
     salesperson_id integer NOT NULL,
     PRIMARY KEY (id)
 );

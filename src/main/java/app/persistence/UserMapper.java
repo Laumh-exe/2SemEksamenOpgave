@@ -11,12 +11,13 @@ import app.entities.*;
 public class UserMapper {
 
 
-    public static User login(String name, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT * FROM public.user WHERE username=? AND password=?";
+
+    public static User login(String firstName, String lastName, String email, String password, ConnectionPool connectionPool) throws SQLException {
+        String sql = "SELECT * FROM public.user WHERE firstName=? AND lastName=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
-                preparedStatement.setString(1, name);
+                preparedStatement.setString(1, firstName + " " + lastName);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
@@ -24,7 +25,7 @@ public class UserMapper {
                     String role = resultSet.getString("role");
                     double balance = resultSet.getDouble("balance");
 
-                    return new Customer(id, name, password, role, balance);
+                    return new Customer(id, firstName, lastName, email, password, role, balance);
                 } else {
                     throw new SQLException("Fejl i login");
                 }
@@ -32,13 +33,14 @@ public class UserMapper {
         }
     }
 
-    public static void createUser(String name, String password, String role, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO \"user\" (username, password, role, balance) VALUES (?, ?, ?, 200)";
+    public static void createUser(String firstName, String lastName, String email, String password, String role, ConnectionPool connectionPool) throws SQLException {
+        String sql = "INSERT INTO \"user\" (firstName, lastName, password, role, balance) VALUES (?, ?, ?, 200)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
-                preparedStatement.setString(1, name);
-                preparedStatement.setString(2, password);
-                preparedStatement.setString(3, role);
+                preparedStatement.setString(1, firstName + " " + lastName);
+                preparedStatement.setString(2, email);
+                preparedStatement.setString(3, password);
+                preparedStatement.setString(4, role);
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
                     throw new SQLException("Fejl ved at oprette en ny bruger");
