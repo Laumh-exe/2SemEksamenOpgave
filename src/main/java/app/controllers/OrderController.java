@@ -20,7 +20,7 @@ public class OrderController {
     
     public static void placeOrderInDB(Context ctx, ConnectionPool connectionPool) {
 
-        Order orderToPlace = ctx.sessionAttribute("newOrder");
+        Order orderToPlace = ctx.sessionAttribute("order");
 
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
