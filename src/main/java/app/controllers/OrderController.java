@@ -40,14 +40,17 @@ public class OrderController {
 
         Order orderToPlace = ctx.sessionAttribute("order");
 
+
+
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
+
+        System.out.println(orderToPlace);
 
         User user = ctx.sessionAttribute("currentUser");
       
  
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
-
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
@@ -62,6 +65,11 @@ public class OrderController {
         
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
+
+        //TODO: Better solution to checking if someone is logged in
+        User testUser = new Customer(1, "customer", "customer", "customer@email.com", "customer", "customer", 200);
+        ctx.sessionAttribute("currentUser", testUser);
+
         Customer currentUser = ctx.sessionAttribute("currentUser");
         
         
@@ -71,10 +79,12 @@ public class OrderController {
         ctx.sessionAttribute("order", order);
         
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
-        if (currentUser != null) {  
-            // ctx.render("/confirmOrders.html");
-        } else {
-            // ctx.render("/login.html");
+        if (currentUser != null) {
+
+           ctx.render("/confirmOfferRequest.html");
+     } else {
+            ctx.render("/login.html");
+
         }
     }
     public static void setupUpdatePage(Context ctx, ConnectionPool connectionPool){
@@ -87,6 +97,7 @@ public class OrderController {
         ctx.sessionAttribute("allSalespersonId", salespeople);
         ctx.render("updateOrder.html");
     }
+
 
     public static void updateOrderWidthOutShed(Context ctx, ConnectionPool connectionPool){
         int salespersonId = Integer.parseInt(ctx.formParam("salespersonId"));

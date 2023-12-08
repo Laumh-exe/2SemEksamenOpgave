@@ -74,6 +74,21 @@ public class Order {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customerId=" + customerId +
+                ", salespersonId=" + salespersonId +
+                ", date=" + date +
+                ", status=" + status +
+                ", carport=" + carport +
+                ", receipt=" + receipt +
+                ", price=" + price +
+                '}';
+    }
+
+
     public int getCustomerId() {
         return customerId;
     }
