@@ -14,15 +14,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+
+
+import app.entities.*;
+import app.exceptions.DatabaseException;
+
 import app.entities.Carport;
 import app.entities.Shed;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import app.entities.Order;
-import app.entities.OrderStatus;
 import app.persistence.ConnectionPool;
 
 public class OrderMapperTest {
@@ -32,11 +36,8 @@ public class OrderMapperTest {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @BeforeEach
-    public void setup() throws SQLException{
-        String sql = "SELECT * FROM public.order";
-        
-        connectionPool = mock(ConnectionPool.class);
-        
+    public void setup() throws SQLException {
+        connectionPool = mock(ConnectionPool.class);      
     }
 
     @AfterEach
@@ -49,9 +50,11 @@ public class OrderMapperTest {
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         ResultSet rs = mock(ResultSet.class);
+
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
+
         Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         Mockito.when(rs.getInt("id")).thenReturn(1).thenReturn(2);
         Mockito.when(rs.getString("status")).thenReturn("READY_FOR_REVIEW").thenReturn("PRICE_PRESENTED");
@@ -64,6 +67,7 @@ public class OrderMapperTest {
         Mockito.when(rs.getDouble("shed_width")).thenReturn(-1d).thenReturn(10d);
         Mockito.when(rs.getDouble("shed_length")).thenReturn(-1d).thenReturn(10d);
     }
+
     
     @Test
     public void allOrdersTest() throws ParseException, SQLException{
@@ -74,6 +78,7 @@ public class OrderMapperTest {
 
         expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
         expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
+
 
         // act
         var actual = OrderMapper.getAllOrders(connectionPool);
@@ -99,6 +104,7 @@ public class OrderMapperTest {
 
     @Test
     public void updateOrderUnhappyPathTest(){
+
 
     }
 }

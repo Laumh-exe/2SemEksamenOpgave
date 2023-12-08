@@ -1,8 +1,10 @@
 package app.entities;
 
 public class Shed {
+
     private double length;
     private double width;
+
 
     public Shed(double length, double width) {
         this.length = length;
@@ -24,4 +26,5 @@ public class Shed {
     public void setWidth(double width) {
         this.width = width;
     }
+
 }

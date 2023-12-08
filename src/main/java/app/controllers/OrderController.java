@@ -5,6 +5,8 @@ import java.util.List;
 
 import app.entities.*;
 
+import app.exceptions.DatabaseException;
+
 
 import java.sql.SQLException;
 
@@ -24,11 +26,27 @@ public class OrderController {
         ctx.render("SellersAllOrders.html");
     }
 
+
     public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
 
-        Order orderToPlace = ctx.sessionAttribute("newOrder");
+
+        Order orderToPlace = ctx.sessionAttribute("order");
+
+        orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
         User user = ctx.sessionAttribute("currentUser");
+      
+ 
+        try{
+            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+
+            ctx.render("/offerRequestConfirmed.html");
+        }
+        catch (DatabaseException e){
+
+            ctx.attribute("dbConnectionError", e);
+            ctx.render("/confirmOfferRequest.html");
+        }
     }
 
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
@@ -48,6 +66,7 @@ public class OrderController {
            // ctx.render("/confirmOrders.html");
      } else {
            // ctx.render("/login.html");
+
         }
     }
 }

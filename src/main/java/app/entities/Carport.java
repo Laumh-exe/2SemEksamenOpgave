@@ -3,6 +3,7 @@ package app.entities;
 public class Carport {
     private double length;
     private double width;
+
     private Shed shed;
     private ItemList itemList;
     
@@ -18,8 +19,10 @@ public class Carport {
         this.itemList = itemList;
     }
     public Carport(double length, double width) {
+
         this.length = length;
         this.width = width;
+        this.shed = shed;
     }
 
     public double getLength() {
@@ -53,4 +56,5 @@ public class Carport {
     public void setItemList(ItemList itemList) {
         this.itemList = itemList;
     }
+
 }

@@ -1,9 +1,11 @@
 package app.entities;
 
+
 public abstract class User {
     private int id;
     private String firstName;
     private String lastName;
+
     private String email;
     private String password;
     private String role;
@@ -15,6 +17,7 @@ public abstract class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+
         this.password = password;
         this.role = role;
         this.balance = balance;
@@ -27,6 +30,7 @@ public abstract class User {
     public String getFirstName() {
         return firstName;
     }
+
     public String getLastName(){return lastName;}
 
 
@@ -35,6 +39,7 @@ public abstract class User {
     }
 
     public String getEmail(){return email;}
+
 
     public String getRole() {
         return role;
@@ -53,6 +58,7 @@ public abstract class User {
         balance -= valueToRemove;
     }
 
+
     @Override
     public String toString() {
         return "User{"
@@ -64,4 +70,7 @@ public abstract class User {
                 + ", rank='" + role + "\''"
                 + '}';
     }
+
 }
+
+
