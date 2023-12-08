@@ -1,6 +1,7 @@
 package app.entities;
 
 public enum OrderStatus {
+    ORDER_NOT_ACCEPTED,
     CUSTOMER_ACCEPTED,
     READY_FOR_REVIEW,
     ORDER_ASSIGNED,
