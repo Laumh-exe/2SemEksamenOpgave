@@ -12,14 +12,37 @@ public class Order {
     private Receipt receipt;
     private double price;
 
-    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, double carportLength, double carportWidth, double shedLength, double shedWidth){
+
+    public Order(int id, Date date, OrderStatus status, double price, Carport carport){
+        this.id = id;
+        this.date = date;
+        this.status = status;
+        this.carport = carport;
+        this.price = price;
+    }
+  
+    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
+
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;
         this.date = date;
         this.status = status;
-        carport = new Carport(carportLength,carportWidth);
+        this.carport = carport;
         this.price = price;
+    }
+
+    public Order(Date date, OrderStatus status, double price, Carport carport){
+        this.date = date;
+        this.status = status;
+        this.carport = carport;
+        this.price = price;
+    }
+
+    public Order(Date date, OrderStatus status, Carport carport){
+        this.date = date;
+        this.status = status;
+        this.carport = carport;
     }
 
     public int getId() {
@@ -65,6 +88,4 @@ public class Order {
 
         return true;
     }
-
-
 }

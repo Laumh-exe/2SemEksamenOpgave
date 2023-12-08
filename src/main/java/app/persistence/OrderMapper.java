@@ -11,6 +11,7 @@ import java.util.List;
 import app.entities.Carport;
 import app.entities.Order;
 import app.entities.OrderStatus;
+import app.entities.Shed;
 
 public class OrderMapper {
 
@@ -32,9 +33,9 @@ public class OrderMapper {
                     double carportWidth = resultSet.getDouble("carport_width");
                     double shedLength = resultSet.getDouble("shed_length");
                     double shedWidth = resultSet.getDouble("shed_width");
-                    
+
                     OrderStatus status = OrderStatus.valueOf(statusString);
-                    Order order = new Order(id, customerId, salespersonId, date, status, price, carportLength, carportWidth, shedLength, shedWidth);
+                    Order order = new Order(id, customerId, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
                     orders.add(order);
                 }
             }

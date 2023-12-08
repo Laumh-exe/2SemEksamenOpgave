@@ -42,8 +42,6 @@ public class OrderContorllerTest {
         connection = mock(Connection.class);
         ps = mock(PreparedStatement.class);
         rs = mock(ResultSet.class);
-        
-        
     }
     
     private void getAllTestSetup() throws SQLException {
