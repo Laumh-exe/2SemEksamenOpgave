@@ -22,7 +22,7 @@ public class UserController {
             User user = UserMapper.login(email, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
 
-            if (user.getRole().equals("admin")) {
+            if (user.getRole().equals("salesperson")) {
                 ctx.redirect("/adminpage");
             } else {
                 ctx.redirect("/customerpage");
@@ -45,14 +45,10 @@ public class UserController {
         String lastName = ctx.formParam("lastName");
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
-        String role = ctx.formParam("salesperson");
-        if (role == null) {
-            role = "customer";
-        } else {
-            role = "salesperson";
-        }
+       // String role = ctx.formParam("salesperson");
+
         try {
-            UserMapper.createUser(firstName, lastName, email, password, role, connectionPool);
+            UserMapper.createUser(firstName, lastName, email, password, connectionPool);
             ctx.render("login.html");
 
         } catch (SQLException e) {

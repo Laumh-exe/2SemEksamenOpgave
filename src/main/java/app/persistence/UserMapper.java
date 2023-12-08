@@ -34,7 +34,7 @@ public class UserMapper {
         }
     }
 
-    public static void createUser(String firstName, String lastName, String email, String password, String role, ConnectionPool connectionPool) throws SQLException {
+    public static void createUser(String firstName, String lastName, String email, String password, ConnectionPool connectionPool) throws SQLException {
         boolean emailExists = checkIfEmailExists(email, connectionPool);
         if(emailExists){
             throw new SQLException("Email findes allerede");
@@ -46,7 +46,7 @@ public class UserMapper {
                 preparedStatement.setString(2, lastName);
                 preparedStatement.setString(3, email);
                 preparedStatement.setString(4, password);
-                preparedStatement.setString(5, role);
+                preparedStatement.setString(5, "customer");
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
                     throw new SQLException("Fejl ved at oprette en ny bruger");
