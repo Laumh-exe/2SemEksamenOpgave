@@ -6,7 +6,7 @@ public class Order {
     private int id;
     private int customerId;
     private int salespersonId;
-    private java.sql.Date date;
+    private Date date;
     private OrderStatus status;
     private Carport carport;
     private Receipt receipt;
