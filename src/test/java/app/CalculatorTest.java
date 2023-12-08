@@ -36,7 +36,7 @@ class CalculatorTest {
         ItemList actualItemList = Calculator.calculateItemList(standardCarport);
 
         // Assert
-        assertEquals(expectedItemList,actualItemList);
+        assertEquals(expectedItemList.getItemList(),actualItemList.getItemList());
     }
 
     private static String testString(){

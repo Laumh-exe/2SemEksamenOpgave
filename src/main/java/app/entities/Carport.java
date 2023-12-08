@@ -28,5 +28,29 @@ public class Carport {
 
     public double getWidth() {
         return width;
-    } 
+    }
+
+    public Shed getShed() {
+        return shed;
+    }
+
+    public ItemList getItemList() {
+        return itemList;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setShed(Shed shed) {
+        this.shed = shed;
+    }
+
+    public void setItemList(ItemList itemList) {
+        this.itemList = itemList;
+    }
 }
