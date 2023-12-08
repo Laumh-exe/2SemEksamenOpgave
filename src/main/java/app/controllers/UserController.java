@@ -1,15 +1,11 @@
 package app.controllers;
 
-import app.entities.Item;
-import app.entities.User;
-import app.exceptions.DatabaseException;
+import app.model.entities.User;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserController {
 

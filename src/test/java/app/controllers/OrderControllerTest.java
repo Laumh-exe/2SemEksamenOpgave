@@ -1,6 +1,5 @@
 package app.controllers;
 
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -8,22 +7,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
-import app.entities.Carport;
-import app.entities.Shed;
+import app.model.entities.Carport;
+import app.model.entities.Shed;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import app.entities.Order;
-import app.entities.OrderStatus;
 import app.persistence.ConnectionPool;
-import app.persistence.OrderMapper;
 import io.javalin.http.Context;
 
 public class OrderControllerTest {

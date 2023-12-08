@@ -1,7 +1,8 @@
-package app.entities;
+package app.model;
 
-import app.entities.Carport;
-import app.entities.ItemList;
+import app.model.entities.Carport;
+import app.model.entities.Item;
+import app.model.entities.ItemList;
 
 public class Calculator {
 

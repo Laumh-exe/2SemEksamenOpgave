@@ -1,8 +1,7 @@
 package app.controllers;
 
-import app.entities.Carport;
-import app.entities.Order;
-import app.entities.Shed;
+import app.model.entities.Carport;
+import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
 

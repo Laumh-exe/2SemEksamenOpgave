@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import app.entities.Carport;
-import app.entities.Customer;
-import app.entities.Order;
-import app.entities.OrderStatus;
-import app.entities.Salesperson;
-import app.entities.User;
+import app.model.entities.Carport;
+import app.model.entities.Customer;
+import app.model.entities.Order;
+import app.model.entities.OrderStatus;
+import app.model.entities.Salesperson;
+import app.model.entities.User;
 import app.exceptions.OrderNotFoundException;
 
 import app.exceptions.DatabaseException;
@@ -19,7 +19,7 @@ import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
-import static app.entities.OrderStatus.ORDER_NOT_ACCEPTED;
+import static app.model.entities.OrderStatus.ORDER_NOT_ACCEPTED;
 
 public class OrderController {
     

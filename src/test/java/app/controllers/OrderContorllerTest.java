@@ -8,10 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
@@ -20,9 +18,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import app.entities.Carport;
-import app.entities.Order;
-import app.entities.OrderStatus;
+import app.model.entities.Carport;
+import app.model.entities.Order;
+import app.model.entities.OrderStatus;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import io.javalin.http.Context;

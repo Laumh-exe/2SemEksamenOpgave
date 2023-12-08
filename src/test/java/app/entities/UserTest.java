@@ -1,5 +1,7 @@
 package app.entities;
 
+import app.model.entities.Customer;
+import app.model.entities.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

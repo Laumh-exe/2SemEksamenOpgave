@@ -12,10 +12,7 @@ import app.entities.*;
 import app.exceptions.DatabaseException;
 
 
-import app.entities.Carport;
-import app.entities.Order;
-import app.entities.OrderStatus;
-import app.entities.Shed;
+import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
 
 

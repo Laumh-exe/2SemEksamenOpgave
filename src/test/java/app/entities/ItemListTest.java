@@ -1,6 +1,7 @@
 package app.entities;
 
-import app.TestTemplate;
+import app.model.entities.Item;
+import app.model.entities.ItemList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

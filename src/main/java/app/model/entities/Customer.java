@@ -1,4 +1,4 @@
-package app.entities;
+package app.model.entities;
 
 public class Customer extends User{
 

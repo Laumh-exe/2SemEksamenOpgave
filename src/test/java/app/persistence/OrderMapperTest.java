@@ -17,11 +17,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 
-import app.entities.*;
-import app.exceptions.DatabaseException;
-
-import app.entities.Carport;
-import app.entities.Shed;
+import app.model.entities.Carport;
+import app.model.entities.Shed;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +26,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import app.entities.Order;
-import app.entities.OrderStatus;
+import app.model.entities.Order;
+import app.model.entities.OrderStatus;
 import app.exceptions.OrderNotFoundException;
-import app.persistence.ConnectionPool;
 
 public class OrderMapperTest {
 

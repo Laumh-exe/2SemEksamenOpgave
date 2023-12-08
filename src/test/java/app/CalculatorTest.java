@@ -1,8 +1,7 @@
 package app;
 
-import app.TestTemplate;
-import app.entities.*;
-import org.checkerframework.checker.units.qual.C;
+import app.model.Calculator;
+import app.model.entities.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
