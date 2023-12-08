@@ -1,13 +1,18 @@
 package app.entities;
 
 public abstract class User {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String role;
-    private double balance;
+    protected int id;
+    protected String firstName;
+    protected String lastName;
+    protected String email;
+    protected String password;
+    protected String role;
+    protected double balance;
+
+    /**
+     * this consturctor if there is need a simple constructor if somethin is neede from the database in the frontend
+     */
+    public User(){}
 
     public User(int id, String firstName, String lastName, String email, String password, String rank, double balance) {
         this.id = id;

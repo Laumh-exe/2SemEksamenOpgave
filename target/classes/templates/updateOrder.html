@@ -13,24 +13,38 @@
 <div id="CarportForm">
     <form method="post" class="selector-form">
         <label for="salespersonId">Id på den ansvarlige sælger</label>
-        <input type="number" id="salespersonId" name="salespersonId">
+        <select id="salespersonId" name="salespersonId">
+            <option selected="selected">Vælg sælger</option>
+            <option th:each="salespersonId: ${#ctx.session.allSalespersonId}" th.value="${salespersonId.id}" 
+                    th:text ="${salespersonId.firstName + ' ' + salespersonId.lastName}"></option>
+        </select>
+            <br>
         <label for="newCarprotLength">Den nye carport længde</label>
         <select class="selector bottom-selector" name="newCarprotLength">    
-            <option>180</option>
-            <option>240</option>
-            <option>300</option>
-            <option>400</option>
-        </select>
+            <option selected="selected" value = 180>180</option>
+            <option value = 240>240</option>
+            <option value = 300>300</option>
+            <option value = 400>400</option>
+        </select><br>
         <label for="newCarprotWidth">Den nye carport bræde</label>
-        <select class="selector bottom-selector" name="bredde">
-            <option>180</option>
-            <option>240</option>
-            <option>300</option>
-            <option>400</option>
+        <select class="selector bottom-selector" name="newCarprotWidth">
+            <option selected="selected" value = 180>180</option>
+            <option  value = 240>240</option>
+            <option value = 300>300</option>
+            <option value = 400>400</option>
+        </select>
+        <select class="selector bottom-selector" name="newStatus">
+            <option value="ORDER_NOT_ACCEPTED">Afvist ordre</option>
+            <option value="CUSTOMER_ACCEPTED">Kunde accepteret</option>
+            <option value="READY_FOR_REVIEW">Klar til sælger</option>
+            <option value="ORDER_ASSIGNED">Tildelt sælger</option>
+            <option value="SALESPERSON_ACCEPTED">Sælger acceptert</option>
+            <option value="PRICE_PRESENTED">Pris presentert</option>
+            <option value="ORDER_PAID">Betalt</option>
         </select>
         <button class="accept-btn" type="submit" formaction="/sellers/EditOrder">Updatere ordre</button>
     </form>
 </div>
-
+<p th:text = "${#ctx.session.errorMessage}"></p>
 </body>
 </html>

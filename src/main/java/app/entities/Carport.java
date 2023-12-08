@@ -28,5 +28,11 @@ public class Carport {
 
     public double getWidth() {
         return width;
+    }
+    public void setLength(double newLength) {
+        length = newLength;
+    } 
+    public void setWidth(double newWidth) {
+        width = newWidth;
     } 
 }

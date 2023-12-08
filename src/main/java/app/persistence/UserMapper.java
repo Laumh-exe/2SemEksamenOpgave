@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import app.entities.*;
 
@@ -15,7 +17,7 @@ public class UserMapper {
         String sql = "SELECT * FROM public.user WHERE firstName=? AND lastName=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, firstName + " " + lastName);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -35,7 +37,7 @@ public class UserMapper {
     public static void createUser(String firstName, String lastName, String email, String password, String role, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO \"user\" (firstName, lastName, password, role, balance) VALUES (?, ?, ?, 200)";
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, firstName + " " + lastName);
                 preparedStatement.setString(2, email);
                 preparedStatement.setString(3, password);
@@ -53,5 +55,23 @@ public class UserMapper {
             }
             throw new SQLException(msg);
         }
+    }
+
+    public static List<Salesperson> getAllSellerID(ConnectionPool connectionPool) throws SQLException {
+        String sql = "SELECT id, firstname, lastname FROM salesperson";
+        ArrayList<Salesperson> salespeople = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) { 
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String firstName = rs.getString("firstname");
+                    String lastName = rs.getString("lastname");
+                    salespeople.add(new Salesperson(id, firstName, lastName));
+                }
+            }
+        } 
+        return salespeople;
+
     }
 }
