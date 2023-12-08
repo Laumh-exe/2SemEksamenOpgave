@@ -33,6 +33,9 @@ public class Main {
         app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
         
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
+        app.get("/sellers/EditOrder", ctx -> ctx.render("updateOrder.html"));
+        app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
+
     }
 }
 

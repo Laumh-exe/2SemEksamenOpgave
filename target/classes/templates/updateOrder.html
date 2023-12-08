@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CarportSelection</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<h1>Updater carport</h1>
+<div id="CarportForm">
+    <form method="post" class="selector-form">
+        <label for="salespersonId">Id på den ansvarlige sælger</label>
+        <input type="number" id="salespersonId" name="salespersonId">
+        <label for="newCarprotLength">Den nye carport længde</label>
+        <select class="selector bottom-selector" name="newCarprotLength">    
+            <option>180</option>
+            <option>240</option>
+            <option>300</option>
+            <option>400</option>
+        </select>
+        <label for="newCarprotWidth">Den nye carport bræde</label>
+        <select class="selector bottom-selector" name="bredde">
+            <option>180</option>
+            <option>240</option>
+            <option>300</option>
+            <option>400</option>
+        </select>
+        <button class="accept-btn" type="submit" formaction="/sellers/EditOrder">Updatere ordre</button>
+    </form>
+</div>
+
+</body>
+</html>

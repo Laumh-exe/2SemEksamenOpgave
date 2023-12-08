@@ -8,6 +8,7 @@ import app.entities.Carport;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.User;
+import app.exceptions.OrderNotFoundException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 
@@ -42,6 +43,7 @@ public class OrderController {
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
         Customer currentUser = ctx.sessionAttribute("currentUser");
+   
 
         //Create order
         Date date = new Date(System.currentTimeMillis());
@@ -55,5 +57,21 @@ public class OrderController {
      } else {
            // ctx.render("/login.html");
         }
+    }
+
+    public static void updateOrderWidthOutShed(Context ctx, ConnectionPool connectionPool){
+        
+        Order order = ctx.sessionAttribute("order");
+
+        try {
+            OrderMapper.updateOrderWidthOutShed(order, connectionPool);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OrderNotFoundException e) {
+            ctx.sessionAttribute("errorMessage", "Order did not exist");
+        }
+
+        ctx.redirect("/sellers/EditOrder");
     }
 }

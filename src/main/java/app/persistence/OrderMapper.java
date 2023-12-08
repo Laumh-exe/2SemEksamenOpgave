@@ -12,6 +12,7 @@ import app.entities.Carport;
 import app.entities.Order;
 import app.entities.OrderStatus;
 import app.entities.Shed;
+import app.exceptions.OrderNotFoundException;
 
 public class OrderMapper {
 
@@ -48,8 +49,9 @@ public class OrderMapper {
      * @param order
      * @param connectionPool
      * @throws SQLException
+     * @throws OrderNotFoundException
      */
-    public static void updateOrderWidthOutShed(Order order, ConnectionPool connectionPool) throws SQLException {
+    public static void updateOrderWidthOutShed(Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Carport carport = order.getCarport();
         try(Connection connection = connectionPool.getConnection()){
@@ -64,12 +66,15 @@ public class OrderMapper {
                 if (numRowsAffected > 1){
                     // TODO: do something meaningfull when more than one order is affected
                 }
+                                if (numRowsAffected < 1) {
+                    throw new OrderNotFoundException("Order with id:" + order.getId() + " was not found");
+                }
                 
             }
         }
     }
 
-    public static void updateOrderWidthShed(Order order, ConnectionPool connectionPool) throws SQLException {
+    public static void updateOrderWidthShed(Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width, shed_length, shed_width) = (?, ?, ?, ?, ?, ?) WHERE id = ?";
         Carport carport = order.getCarport();
         try(Connection connection = connectionPool.getConnection()){
@@ -86,6 +91,9 @@ public class OrderMapper {
                 int numRowsAffected = preparedStatement.executeUpdate();
                 if (numRowsAffected > 1){
                     // TODO: do something meaningfull when more than one order is affected
+                }
+                if (numRowsAffected < 1) {
+                    throw new OrderNotFoundException("Order with id:" + order.getId() + " was not found");
                 }
             }
         }
