@@ -15,7 +15,7 @@ public class UserController {
 
     public static void login(Context ctx, ConnectionPool connectionPool) {
 
-        String email = ctx.formParam("E-mail");
+        String email = ctx.formParam("email");
         String password = ctx.formParam("password");
 
         try {
@@ -25,7 +25,7 @@ public class UserController {
             if (user.getRole().equals("admin")) {
                 ctx.redirect("/adminpage");
             } else {
-                ctx.redirect("/userpage");
+                ctx.redirect("/customerpage");
             }
 
         } catch (SQLException e) {
@@ -43,11 +43,11 @@ public class UserController {
     public static void createUser(Context ctx, ConnectionPool connectionPool) {
         String firstName = ctx.formParam("firstName");
         String lastName = ctx.formParam("lastName");
-        String email = ctx.formParam("E-mail");
+        String email = ctx.formParam("email");
         String password = ctx.formParam("password");
         String role = ctx.formParam("salesperson");
         if (role == null) {
-            role = "user";
+            role = "customer";
         } else {
             role = "salesperson";
         }
