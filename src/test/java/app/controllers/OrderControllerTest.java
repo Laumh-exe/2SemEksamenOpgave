@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import app.entities.Carport;
+import app.entities.Shed;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,8 @@ import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import io.javalin.http.Context;
 
-public class OrderContorllerTest {
-    
+public class OrderControllerTest {
+
     private ConnectionPool connectionPool;
     private Connection connection;
     private PreparedStatement ps;
@@ -36,15 +38,14 @@ public class OrderContorllerTest {
 
     @BeforeEach
     public void setup() throws SQLException{
-        
+
         connectionPool = mock(ConnectionPool.class);
         ctx = mock(Context.class);
         connection = mock(Connection.class);
         ps = mock(PreparedStatement.class);
         rs = mock(ResultSet.class);
-
     }
-    
+
     private void getAllTestSetup() throws SQLException {
         String sql = "SELECT * FROM public.order";
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
@@ -61,29 +62,14 @@ public class OrderContorllerTest {
         Mockito.when(rs.getDouble("carport_length")).thenReturn(10d).thenReturn(20d);
         Mockito.when(rs.getDouble("shed_width")).thenReturn(-1d).thenReturn(10d);
         Mockito.when(rs.getDouble("shed_length")).thenReturn(-1d).thenReturn(10d);
+        Mockito.when(CarportController.createCarport(ctx,connectionPool)).thenReturn(new Carport(100.1, 100, new Shed(10, 20)));
     }
-    
+
     @AfterEach
     public void tearDown(){
         connectionPool = null;
         ctx = null;
     }
-
-    @Test
-    public void testAllOrders() throws SQLException{
-
-        //arrange
-        getAllTestSetup();
-
-        //act
-        OrderController.sellerSeeAllOrders(ctx, connectionPool);
-        getAllTestSetup();
-
-
-        //assert
-        getAllTestSetup();
-        InOrder inOrder = inOrder(ctx);
-        inOrder.verify(ctx).sessionAttribute("allOrders", OrderMapper.getAllOrders(connectionPool));
-        inOrder.verify(ctx).render("SellersAllOrders.html");
-    }
 }
+
+

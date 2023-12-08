@@ -2,13 +2,15 @@ package app.entities;
 
 public class Shed {
 
-  double length;
-  double width;
+    double length;
+    double width;
+
 
     public Shed(double length, double width) {
         this.length = length;
         this.width = width;
     }
+
 
     public double getLength() {
         return length;
@@ -17,4 +19,5 @@ public class Shed {
     public double getWidth() {
         return width;
     }
+
 }
