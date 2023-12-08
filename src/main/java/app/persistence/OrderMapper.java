@@ -58,6 +58,10 @@ public class OrderMapper {
                 "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+
+        
+        Date utilDate = order.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         //Order orderWithId = order;
 
         // TODO: Delete this and try to make it work with order.getDate()
@@ -68,7 +72,7 @@ public class OrderMapper {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
                 ps.setString(1, order.getStatus().toString());
-                ps.setDate(2, order.getDate()); //dateOfOrder);
+                ps.setDate(2, sqlDate);
                 ps.setInt(3, currentUser.getId());
                 ps.setDouble(4, 0);
                 ps.setDouble(5, order.getCarport().getWidth());
