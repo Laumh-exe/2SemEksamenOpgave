@@ -32,7 +32,11 @@ public class OrderController {
 
         Order orderToPlace = ctx.sessionAttribute("order");
 
+
+
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
+
+        System.out.println(orderToPlace);
 
         User user = ctx.sessionAttribute("currentUser");
       
@@ -54,7 +58,7 @@ public class OrderController {
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
         //TODO: Better solution to checking if someone is logged in
-        User testUser = new Customer(4, "Cool", "Test", "acm@hotmail.com", "123", "customer", 200);
+        User testUser = new Customer(1, "customer", "customer", "customer@email.com", "customer", "customer", 200);
         ctx.sessionAttribute("currentUser", testUser);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
