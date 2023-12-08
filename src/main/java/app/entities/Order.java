@@ -74,7 +74,6 @@ public class Order {
         return price;
     }
 
-
     public int getCustomerId() {
         return customerId;
     }
@@ -83,11 +82,17 @@ public class Order {
         return salespersonId;
     }
 
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setCarportLength(double newCarportLength) {
+        carport.setLength(newCarportLength);
+    }
+    public void setCarportWidth(double newCarportWidth) {
+        carport.setWidth(newCarportWidth);
     }
 
+    public void setStatus(OrderStatus newStatus) {
+        status = newStatus;
+    }
+    
     @Override
     public boolean equals(Object arg0) {
         if (!(arg0 instanceof Order)) {
@@ -98,5 +103,9 @@ public class Order {
         if(other.getDate().compareTo(date) != 0) return false;
 
         return true;
+    }
+
+    public void setSalesPersonId(int salespersonId) {
+        this.salespersonId=salespersonId;
     }
 }

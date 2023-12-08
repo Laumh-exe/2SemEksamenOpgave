@@ -7,4 +7,10 @@ public class Salesperson extends User{
 
 
     }
+
+    public Salesperson(int id, String firstName, String lastName){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
