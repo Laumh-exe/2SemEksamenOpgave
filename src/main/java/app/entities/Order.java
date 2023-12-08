@@ -12,7 +12,7 @@ public class Order {
     private Receipt receipt;
     private double price;
 
-
+// TODO: maybe change Date to java.sql.Date so it can be inserted in database
     public Order(int id, Date date, OrderStatus status, double price, Carport carport){
         this.id = id;
         this.date = date;
@@ -23,11 +23,13 @@ public class Order {
   
     public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
 
+
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;
         this.date = date;
         this.status = status;
+
         this.carport = carport;
         this.price = price;
     }
@@ -36,7 +38,10 @@ public class Order {
         this.date = date;
         this.status = status;
         this.carport = carport;
+
         this.price = price;
+        this.carport = carport;
+
     }
 
     public Order(Date date, OrderStatus status, Carport carport){
@@ -76,8 +81,6 @@ public class Order {
     public int getSalespersonId() {
         return salespersonId;
     }
-
-
 
     public void setCarportLength(double newCarportLength) {
         carport.setLength(newCarportLength);

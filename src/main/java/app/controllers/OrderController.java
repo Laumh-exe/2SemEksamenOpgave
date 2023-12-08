@@ -11,11 +11,13 @@ import app.entities.OrderStatus;
 import app.entities.Salesperson;
 import app.entities.User;
 import app.exceptions.OrderNotFoundException;
+
+import app.exceptions.DatabaseException;
+
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
-import org.eclipse.jetty.server.Authentication;
 
 import static app.entities.OrderStatus.ORDER_NOT_ACCEPTED;
 
@@ -32,12 +34,27 @@ public class OrderController {
         ctx.sessionAttribute("allOrders", allOrders);
         ctx.render("SellersAllOrders.html");
     }
-    
+
     public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
 
-        Order orderToPlace = ctx.sessionAttribute("newOrder");
+
+        Order orderToPlace = ctx.sessionAttribute("order");
+
+        orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
         User user = ctx.sessionAttribute("currentUser");
+      
+ 
+        try{
+            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+
+            ctx.render("/offerRequestConfirmed.html");
+        }
+        catch (DatabaseException e){
+
+            ctx.attribute("dbConnectionError", e);
+            ctx.render("/confirmOfferRequest.html");
+        }
     }
 
     
@@ -54,8 +71,7 @@ public class OrderController {
         ctx.sessionAttribute("order", order);
         
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
-        if (currentUser != null) {
-            
+        if (currentUser != null) {  
             // ctx.render("/confirmOrders.html");
         } else {
             // ctx.render("/login.html");
