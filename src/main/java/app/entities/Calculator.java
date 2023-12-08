@@ -1,4 +1,4 @@
-package app.model;
+package app.entities;
 
 import app.entities.Carport;
 import app.entities.ItemList;
