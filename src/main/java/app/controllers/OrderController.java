@@ -39,7 +39,6 @@ public class OrderController {
  
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
-
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
@@ -53,6 +52,11 @@ public class OrderController {
   
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
+
+        //TODO: Better solution to checking if someone is logged in
+        User testUser = new Customer(4, "Cool", "Test", "acm@hotmail.com", "123", "customer", 200);
+        ctx.sessionAttribute("currentUser", testUser);
+
         Customer currentUser = ctx.sessionAttribute("currentUser");
 
         //Create order
@@ -63,9 +67,9 @@ public class OrderController {
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
         if (currentUser != null) {
 
-           // ctx.render("/confirmOrders.html");
+           ctx.render("/confirmOfferRequest.html");
      } else {
-           // ctx.render("/login.html");
+            ctx.render("/login.html");
 
         }
     }

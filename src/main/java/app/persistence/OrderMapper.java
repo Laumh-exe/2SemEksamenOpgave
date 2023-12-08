@@ -54,12 +54,11 @@ public class OrderMapper {
 
     public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
 
-        String sql = "INSERT INTO order (status, date, customer_id, total_price, " +
+        String sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                 "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
-        
         Date utilDate = order.getDate();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         //Order orderWithId = order;
