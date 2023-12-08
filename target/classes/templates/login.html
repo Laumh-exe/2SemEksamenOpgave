@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="../public/css/loginStyle.css" th:href="@{/css/loginStyle.css}" rel="stylesheet"/>
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
+<div class="background-login">
+  <div th:replace="~{frontpage :: header}"></div>
+
+  <div class="center-screen">
+    <form class="big" method="post">
+      <h1 style=font-size:70px;> Login</h1>
+
+      <label for="email">Email:</label><br>
+      <input type="text" class="login-input" id="email" name="email"><br>
+
+      <label for="pwd">Password:</label><br>
+      <input type="password" class="login-input" id="pwd" name="password"><br><br>
+
+      <button type="submit" class="loginFormButton" formaction="/login">Login</button>
+
+      <a href="/createUser">
+        <button type="button" class="loginFormButton">Sign Up</button>
+      </a>
+    </form>
+  </div>
+</div>
+
+<p th:text="${#ctx.message}"></p>
 
 </body>
 </html>

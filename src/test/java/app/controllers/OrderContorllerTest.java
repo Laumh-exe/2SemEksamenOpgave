@@ -94,6 +94,10 @@ public class OrderContorllerTest {
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         Mockito.when(ctx.sessionAttribute("order")).thenReturn(order);
+        Mockito.when(ctx.formParam("salespersonId")).thenReturn("1");
+        Mockito.when(ctx.formParam("newCarprotLength")).thenReturn("100");
+        Mockito.when(ctx.formParam("newCarprotWidth")).thenReturn("100");
+        Mockito.when(ctx.formParam("newStatus")).thenReturn(OrderStatus.ORDER_ASSIGNED.toString());
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeUpdate()).thenReturn(1);
@@ -102,7 +106,8 @@ public class OrderContorllerTest {
         
         InOrder inOrderCtx = Mockito.inOrder(ctx);
         inOrderCtx.verify(ctx).sessionAttribute("order");
-        inOrderCtx.verify(ctx).redirect("/sellers/EditOrder");
+        inOrderCtx.verify(ctx).render("updateOrder.html");
+        ;
 
         InOrder inOrderPs = Mockito.inOrder(ps);
         inOrderPs.verify(ps).setString(1, order.getStatus().toString());
@@ -119,6 +124,10 @@ public class OrderContorllerTest {
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         Mockito.when(ctx.sessionAttribute("order")).thenReturn(order);
+        Mockito.when(ctx.formParam("salespersonId")).thenReturn("1");
+        Mockito.when(ctx.formParam("newCarprotLength")).thenReturn("100");
+        Mockito.when(ctx.formParam("newCarprotWidth")).thenReturn("100");
+        Mockito.when(ctx.formParam("newStatus")).thenReturn(OrderStatus.ORDER_ASSIGNED.toString());
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeUpdate()).thenReturn(0);
