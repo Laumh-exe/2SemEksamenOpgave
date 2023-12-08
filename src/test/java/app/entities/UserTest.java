@@ -14,6 +14,7 @@ String password;
 
     @BeforeEach
     void setUp() {
+
         name = new Customer(1, "Alexander", "Rasmussen", "email@email.com", "1234", "Admin", 5);
     }
 
@@ -38,7 +39,6 @@ String password;
         name2 = new Customer(1, "Val", "de", "jaja@gmail.com", "1235", "Kunde", 20);
         String actual = name2.getFirstName();
         assertEquals(expected1, actual);
-
     }
 
     @Test
@@ -47,7 +47,6 @@ String password;
         name2 = new Customer(1, "Val", "de", "jaja@gmail.com", "1235", "Kunde", 20);
         String actual = name2.getLastName();
         assertEquals(expected, actual);
-
     }
 
     @Test

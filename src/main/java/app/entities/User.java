@@ -9,13 +9,14 @@ public abstract class User {
     private String role;
     private double balance;
 
-    public User(int id, String firstName, String lastName, String email, String password, String rank, double balance) {
+
+    public User(int id, String firstName, String lastName, String email, String password, String role, double balance) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.role = rank;
+        this.role = role;
         this.balance = balance;
     }
 
@@ -28,9 +29,11 @@ public abstract class User {
     }
     public String getLastName(){return lastName;}
 
+
     public String getPassword() {
         return password;
     }
+
     public String getEmail(){return email;}
 
     public String getRole() {
