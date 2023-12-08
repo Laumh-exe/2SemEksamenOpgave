@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS item
     prise_pr_unit double precision NOT NULL,
     length double precision NOT NULL,
     unit character varying(50) NOT NULL,
-    description character varying(60) NOT NULL,
+    description character varying(200) NOT NULL,
     PRIMARY KEY (id)
 );
 

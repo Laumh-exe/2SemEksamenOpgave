@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import app.entities.*;
 
@@ -57,6 +59,24 @@ public class UserMapper {
             throw new SQLException("FEJL!!");
         }
         }
+    }
+
+    public static List<Salesperson> getAllSellerID(ConnectionPool connectionPool) throws SQLException {
+        String sql = "SELECT id, firstname, lastname FROM salesperson";
+        ArrayList<Salesperson> salespeople = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) { 
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String firstName = rs.getString("firstname");
+                    String lastName = rs.getString("lastname");
+                    salespeople.add(new Salesperson(id, firstName, lastName));
+                }
+            }
+        } 
+        return salespeople;
+
     }
 
     public static boolean checkIfEmailExists(String email, ConnectionPool connectionPool) throws SQLException {

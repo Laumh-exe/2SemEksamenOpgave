@@ -1,0 +1,38 @@
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+    text-align: center;
+
+}
+.background-login{
+
+    background-size: cover;
+    margin: 0 auto;
+    height: 100vh;
+    min-width: 100%;
+}
+
+.loginFormButton{
+    background-color: cornflowerblue;
+    color: black;
+    font-size: 20px;
+    padding: 0.5vw 2.5vw;
+}
+.big {
+    font-size: 20px;
+}
+
+.login-input{
+    width: 20vw;
+    height: 2.5vw;
+
+
+}
+h1 {
+
+    font-size: 40px;
+
+}

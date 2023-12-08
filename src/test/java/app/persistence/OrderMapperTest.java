@@ -1,6 +1,7 @@
 package app.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Answers.valueOf;
 import static org.mockito.Mockito.mock;
@@ -25,14 +26,17 @@ import app.entities.Shed;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 
+import app.entities.Order;
+import app.entities.OrderStatus;
+import app.exceptions.OrderNotFoundException;
 import app.persistence.ConnectionPool;
 
 public class OrderMapperTest {
 
     private ConnectionPool connectionPool;
-
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @BeforeEach
@@ -91,20 +95,42 @@ public class OrderMapperTest {
     }
 
     @Test
-    public void updateOrderWithoutShedHappyPathTest() throws SQLException{
-        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = ("+ OrderStatus.ORDER_ASSIGNED +", "+ 100d+", "+110d+", "+50d+") WHERE id = " + 1;
+    public void updateOrderWithoutShedTest() throws SQLException, OrderNotFoundException{
+        //Arrange
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 100d, new Carport(110d, 50d,null));
+        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
-        Mockito.when(ps.executeQuery()).thenReturn(rs);
-       
+        Mockito.when(ps.executeUpdate()).thenReturn(1);
+        
+        //Act
+        OrderMapper.updateOrderWidthOutShed(order, connectionPool);
+        
+        //Assert
+        InOrder inOrder = Mockito.inOrder(ps);
+        inOrder.verify(ps).setString(1, order.getStatus().toString());
+        inOrder.verify(ps).setDouble(2, order.getPrice());
+        inOrder.verify(ps).setDouble(3, order.getCarport().getLength());
+        inOrder.verify(ps).setDouble(4, order.getCarport().getWidth());
+        inOrder.verify(ps).setInt(5, order.getId());
+
     }
 
     @Test
-    public void updateOrderUnhappyPathTest(){
-
-
+    public void updateOrderWidthoutShedNoOrdersUpdatedTest() throws SQLException{
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 100d, new Carport(110d, 50d,null));
+        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
+        Connection connection = mock(Connection.class);
+        PreparedStatement ps = mock(PreparedStatement.class);
+        Mockito.when(connectionPool.getConnection()).thenReturn(connection);
+        Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
+        Mockito.when(ps.executeUpdate()).thenReturn(0);
+        
+        assertThrows(OrderNotFoundException.class, () -> {OrderMapper.updateOrderWidthOutShed(order, connectionPool);});
     }
+
+    
+    
 }
