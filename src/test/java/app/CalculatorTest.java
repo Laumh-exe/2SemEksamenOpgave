@@ -1,10 +1,7 @@
 package app;
 
 import app.TestTemplate;
-import app.entities.Carport;
-import app.entities.Item;
-import app.entities.ItemList;
-import app.entities.Shed;
+import app.entities.*;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,15 +28,15 @@ class CalculatorTest {
     public void calculateItemListTest(){
         // Arrange - ItemList setup
         ItemList expectedItemList = new ItemList();
-        expectedItemList.add(new Item(100, 360, "Stk", "25x200 mm. trykimp. Bræt| understernbrædder til for & bag ende"));
-        expectedItemList.add(new Item(100, 540, "Stk", "25x200 mm. trykimp. Bræt| understernbrædder til siderne");
-        expectedItemList.add(new Item(75, 300, "Stk", "97x97 mm. trykimp. stolpe"));
+        expectedItemList.add(new Item(100, 360, "Stk", "25x200 mm. trykimp. Bræt| understernbrædder til for & bag ende"), 4);
+        expectedItemList.add(new Item(100, 540, "Stk", "25x200 mm. trykimp. Bræt| understernbrædder til siderne"), 4);
+        expectedItemList.add(new Item(75, 300, "Stk", "97x97 mm. trykimp. stolpe"), 11);
 
         // Act
-        actual = TestTemplate.testString();
+        ItemList actualItemList = Calculator.calculateItemList(standardCarport);
 
         // Assert
-        assertEquals(expected,actual);
+        assertEquals(expectedItemList,actualItemList);
     }
 
     private static String testString(){

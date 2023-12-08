@@ -15,7 +15,7 @@ public class ItemList {
     }
 
     public void add(Item item, int amount) {
-        for(int i = 0; i > amount; i++)
+        for(int i = 0; i < amount; i++)
         itemList.add(item);
     }
 
