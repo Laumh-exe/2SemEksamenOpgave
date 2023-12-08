@@ -14,11 +14,11 @@
     <form class="big" method="post">
       <h1 style=font-size:70px;> Login</h1>
 
-      <label for="email">E-mail:</label><br>
+      <label for="email">Email:</label><br>
       <input type="text" class="login-input" id="email" name="email"><br>
 
       <label for="pwd">Password:</label><br>
-      <input type="password" class="login-input" id="pwd" name="password"><br><br>
+      <input type="password" class="login-input" id="pwd" name="password"><br>
 
       <button type="submit" class="loginFormButton" formaction="/login">Login</button>
 
@@ -26,16 +26,10 @@
         <button type="button" class="loginFormButton">Sign Up</button>
       </a>
     </form>
-
   </div>
 </div>
 
-
 <p th:text="${#ctx.message}"></p>
-
-
-
-
 
 </body>
 </html>
