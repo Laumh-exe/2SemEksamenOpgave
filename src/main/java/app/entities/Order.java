@@ -54,7 +54,7 @@ public class Order {
         return id;
     }
 
-    public java.sql.Date getDate() {
+    public Date getDate() {
         return date;
     }
 
