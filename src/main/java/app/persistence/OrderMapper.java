@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import app.entities.*;
+import app.model.entities.*;
 import app.exceptions.DatabaseException;
 
 
@@ -48,22 +48,23 @@ public class OrderMapper {
     }
 
 
+    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
+            throws DatabaseException{
 
-    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
+        Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
+
+
+        return true;
+    }
+
+    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
 
         String sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                 "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-
         Date utilDate = order.getDate();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-        //Order orderWithId = order;
-
-        // TODO: Delete this and try to make it work with order.getDate()
-        //long millis = System.currentTimeMillis();
-        //java.sql.Date dateOfOrder = new java.sql.Date(millis);
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -76,6 +77,7 @@ public class OrderMapper {
                 ps.setDouble(6, order.getCarport().getLength());
                 ps.setDouble(7, order.getCarport().getShed().getWidth());
                 ps.setDouble(8, order.getCarport().getShed().getLength());
+                // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?
                 ps.setInt(9, 1);
 
                 int rowsAffected = ps.executeUpdate();
@@ -85,13 +87,13 @@ public class OrderMapper {
                     rs.next();
                     int generatedOrderId = rs.getInt(1);
 
-                    /*
-                    orderWithId = new Order(generatedOrderId, order.getCustomerId(),
-                            order.getSalespersonId(),dateOfOrder, order.getStatus(),
+
+                    Order orderWithId = new Order(generatedOrderId, order.getCustomerId(),
+                            order.getSalespersonId(),sqlDate, order.getStatus(),
                             order.getPrice(), order.getCarport());
                         return orderWithId;
 
-                     */
+
 
                 } else {
                     throw new DatabaseException("Order not inserted");
@@ -100,8 +102,62 @@ public class OrderMapper {
         } catch (SQLException e) {
 
         }
-        return true;
+        return order;
 }
+
+
+    public static Order placeItemListInDB(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
+
+        String sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
+                "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Date utilDate = order.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+                ps.setString(1, order.getStatus().toString());
+                ps.setDate(2, sqlDate);
+                ps.setInt(3, currentUser.getId());
+                ps.setDouble(4, 0);
+                ps.setDouble(5, order.getCarport().getWidth());
+                ps.setDouble(6, order.getCarport().getLength());
+                ps.setDouble(7, order.getCarport().getShed().getWidth());
+                ps.setDouble(8, order.getCarport().getShed().getLength());
+                // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?
+                ps.setInt(9, 1);
+
+                int rowsAffected = ps.executeUpdate();
+
+                if (rowsAffected == 1) {
+                    ResultSet rs = ps.getGeneratedKeys();
+                    rs.next();
+                    int generatedOrderId = rs.getInt(1);
+
+
+                    Order orderWithId = new Order(generatedOrderId, order.getCustomerId(),
+                            order.getSalespersonId(),sqlDate, order.getStatus(),
+                            order.getPrice(), order.getCarport());
+                    return orderWithId;
+
+
+
+                } else {
+                    throw new DatabaseException("Order not inserted");
+                }
+            }
+        } catch (SQLException e) {
+
+        }
+        return order;
+    }
+
+
+
+
+
 
 
     /**

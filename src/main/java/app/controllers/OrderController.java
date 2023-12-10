@@ -41,7 +41,6 @@ public class OrderController {
         Order orderToPlace = ctx.sessionAttribute("order");
 
 
-
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
         System.out.println(orderToPlace);
