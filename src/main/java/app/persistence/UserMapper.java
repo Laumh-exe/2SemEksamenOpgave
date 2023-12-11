@@ -20,23 +20,24 @@ public class UserMapper {
 
     public static User login(String email, String password, ConnectionPool connectionPool) throws SQLException {
 
-        boolean customerExists = checkIfCustomerExists(email, password, connectionPool);
+        User customerExists = checkIfCustomerExists(email, password, connectionPool);
 
-        if (customerExists) {
-            return currentCustomer;
+        if (customerExists != null) {
+            return customerExists;
+        }
+
+        User salespersonExists = checkIfSalespersonExists(email, password, connectionPool);
+
+        if (salespersonExists != null) {
+            return salespersonExists;
+
         } else {
-            boolean salespersonExists = checkIfSalespersonExists(email, password, connectionPool);
-
-            if (salespersonExists) {
-                return currentSalesperson;
-            } else {
                 throw new SQLException("Email eller kodeord eksisterer ikke i vores database");
             }
         }
 
-    }
 
-    public static boolean checkIfCustomerExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
+    public static User checkIfCustomerExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
 
         String sql1 = "SELECT * FROM public.customer WHERE email=? AND password=?";
 
@@ -52,17 +53,17 @@ public class UserMapper {
                     String role = resultSet.getString("role");
                     double balance = resultSet.getDouble("balance");
 
-                    currentCustomer = new Customer(id, firstName, lastName, email, password, role, balance);
-                    return true;
+                    Customer customer = new Customer(id, firstName, lastName, email, password, role, balance);
+                    return customer;
 
                 } else {
-                    return false;
+                    return null;
                 }
             }
         }
     }
 
-    public static boolean checkIfSalespersonExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
+    public static User checkIfSalespersonExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
 
         String sql1 = "SELECT * FROM public.salsespersom WHERE email=? AND password=?";
 
@@ -78,11 +79,11 @@ public class UserMapper {
                     String role = resultSet.getString("role");
                     double balance = resultSet.getDouble("balance");
 
-                    currentSalesperson = new Salesperson(id, firstName, lastName, email, password, role, balance);
-                    return true;
+                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, role, balance);
+                    return salesperson;
 
                 } else {
-                    return false;
+                    return null;
                 }
             }
         }
