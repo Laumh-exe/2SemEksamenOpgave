@@ -48,10 +48,9 @@ public class UserMapper {
                     int id = resultSet.getInt("id");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
-                    String role = resultSet.getString("role");
                     double balance = resultSet.getDouble("balance");
 
-                    Customer customer = new Customer(id, firstName, lastName, email, password, role, balance);
+                    Customer customer = new Customer(id, firstName, lastName, email, password, "customer", balance);
                     return customer;
 
                 } else {
@@ -74,10 +73,7 @@ public class UserMapper {
                     int id = resultSet.getInt("id");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
-                    String role = resultSet.getString("role");
-                    double balance = resultSet.getDouble("balance");
-
-                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, role, balance);
+                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, "salesperson", balance);
                     return salesperson;
 
                 } else {
