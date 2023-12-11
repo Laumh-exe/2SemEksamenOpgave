@@ -80,11 +80,9 @@ public class OrderController {
         
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
         if (currentUser != null) {
-
-           ctx.render("/confirmOfferRequest.html");
+            ctx.redirect("/confirmOffer");
      } else {
-            ctx.render("/login.html");
-
+            ctx.redirect("/login");
         }
     }
     public static void setupUpdatePage(Context ctx, ConnectionPool connectionPool){
@@ -95,7 +93,6 @@ public class OrderController {
             ctx.sessionAttribute("errorMessage", "Database not responding");
         }
         ctx.sessionAttribute("allSalespersonId", salespeople);
-        ctx.render("updateOrder.html");
     }
 
 
