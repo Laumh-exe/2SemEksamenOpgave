@@ -6,11 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 import app.model.entities.*;
+
 import app.exceptions.DatabaseException;
-
-
-import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
+import app.model.entities.*;
 
 
 public class OrderMapper {
@@ -50,11 +49,7 @@ public class OrderMapper {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
 
-        System.out.println("Før itemmapper");
-
         ItemMapper.placeItemListInDB(orderPlacedInDB, connectionPool);
-
-        System.out.println("Efter itemmapper");
 
         return true;
     }
