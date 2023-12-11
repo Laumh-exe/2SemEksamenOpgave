@@ -13,8 +13,8 @@ class CalculatorTest {
     private Carport standardCarport;
     @BeforeEach
     public void setup(){
-        standardShed = new Shed(6, 2.2);
-        standardCarport = new Carport(6 ,7.8, standardShed);
+        standardShed = new Shed(180, 180);
+        standardCarport = new Carport(180 ,180, standardShed);
     }
 
     @AfterEach
