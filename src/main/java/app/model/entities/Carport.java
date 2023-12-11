@@ -3,7 +3,7 @@ package app.model.entities;
 public class Carport {
     private double length;
     private double width;
-
+    private boolean bShed;
     private Shed shed;
     private ItemList itemList;
     
@@ -11,18 +11,24 @@ public class Carport {
         this.length = length;
         this.width = width;
         this.shed = shed;
+        bShed = true;
     }
     public Carport(double length, double width, Shed shed, ItemList itemList) {
         this.length = length;
         this.width = width;
         this.shed = shed;
         this.itemList = itemList;
+        bShed = true;
     }
     public Carport(double length, double width) {
 
         this.length = length;
         this.width = width;
-        this.shed = shed;
+        bShed = false;
+    }
+
+    public boolean isShed() {
+        return bShed;
     }
 
     public double getLength() {
