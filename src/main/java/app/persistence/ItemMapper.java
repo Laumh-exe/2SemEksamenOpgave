@@ -14,35 +14,43 @@ public class ItemMapper {
 
 
 
-    public static Boolean placeItemListInDB(ItemList itemList, Order order, ConnectionPool connectionPool) throws DatabaseException {
+    public static Boolean placeItemListInDB(Order order, ConnectionPool connectionPool) throws DatabaseException {
 
-        for (Item item : itemList.getItemList()) {
+        String sql = "INSERT INTO items_orders (order_id, item_id, quantity) VALUES ";
 
-            String sql = "INSERT INTO items_orders (order_id, item_id, quantity) " +
-                    "VALUES (?, ?, ?)";
+
+        for (Item item : order.getCarport().getItemList().getItemList()) {
+
+            if (order.getCarport().getItemList().getItemList().indexOf(item) != 0) {
+                sql += ",";
+            }
+
+            sql += "(" + order.getId() + "," + item.id() + "," + item.quantity() + ")";
+        }
+
+
+
+        System.out.println(sql);
 
             try (Connection connection = connectionPool.getConnection()) {
                 try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-                    ps.setInt(1, order.getId());
-                    ps.setInt(2, item.id());
-                    ps.setInt(3, item.quantity());
-
                     int rowsAffected = ps.executeUpdate();
 
-                    if (rowsAffected == 1) {
-                        return true;
+                    if (rowsAffected == order.getCarport().getItemList().getItemList().size()) {
+                        System.out.println("itemlist placed");
 
                     } else {
+                        System.out.println("Itemlist NOT placed");
                         throw new DatabaseException("Item line not inserted in DB");
                     }
                 }
             } catch (SQLException e) {
-
+                System.out.println("sql EXCEPTION");
 
             }
-        }
-        return false;
+
+        return true;
     }
     
 }

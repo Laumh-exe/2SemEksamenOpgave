@@ -1,9 +1,6 @@
 package app.persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,13 +45,16 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeOrder(User currentUser, Order order, ItemList itemlist, ConnectionPool connectionPool)
+    public static Boolean placeOrder(User currentUser, Order order,  ConnectionPool connectionPool)
             throws DatabaseException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
 
-        ItemMapper.placeItemListInDB(itemlist, order, connectionPool);
+        System.out.println("Før itemmapper");
 
+        ItemMapper.placeItemListInDB(orderPlacedInDB, connectionPool);
+
+        System.out.println("Efter itemmapper");
 
         return true;
     }
@@ -69,7 +69,7 @@ public class OrderMapper {
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
                 ps.setString(1, order.getStatus().toString());
                 ps.setDate(2, sqlDate);
@@ -93,6 +93,7 @@ public class OrderMapper {
                     Order orderWithId = new Order(generatedOrderId, order.getCustomerId(),
                             order.getSalespersonId(), sqlDate, order.getStatus(),
                             order.getPrice(), order.getCarport());
+
                     return orderWithId;
 
                 } else {

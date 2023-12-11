@@ -4,12 +4,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import app.model.entities.Carport;
-import app.model.entities.Customer;
-import app.model.entities.Order;
-import app.model.entities.OrderStatus;
-import app.model.entities.Salesperson;
-import app.model.entities.User;
+import app.model.Calculator;
+import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
 
 import app.exceptions.DatabaseException;
@@ -40,21 +36,19 @@ public class OrderController {
 
         Order orderToPlace = ctx.sessionAttribute("order");
 
-        ItemList itemlist = ctx.sessionAttribute("itemlist");
-
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
-        System.out.println(orderToPlace);
-
         User user = ctx.sessionAttribute("currentUser");
-      
+
  
         try{
-            OrderMapper.placeOrder(user, orderToPlace, itemlist, connectionPool);
+            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+            System.out.println("placeOrder worked");
+
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
-
+            System.out.println("Database or sql exception");
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
@@ -67,12 +61,12 @@ public class OrderController {
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
         //TODO: Better solution to checking if someone is logged in
-        User testUser = new Customer(1, "customer", "customer", "customer@email.com", "customer", "customer", 200);
+        User testUser = new Customer(1, "customer", "customer",
+                "customer@email.com", "customer", "customer", 200);
         ctx.sessionAttribute("currentUser", testUser);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
-        
-        
+
         //Create order
         Date date = new Date(System.currentTimeMillis());
         Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);

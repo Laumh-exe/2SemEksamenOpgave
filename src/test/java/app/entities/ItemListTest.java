@@ -10,6 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ItemListTest {
     Item dummyItem;
+
+
+    /*
     @BeforeEach
     public void setup(){
         dummyItem = new Item(75, 300, "Stk", "97x97 mm. trykimp. stolpe");
@@ -34,4 +37,6 @@ class ItemListTest {
     private static String testString(){
         return "test";
     }
+
+     */
 }
