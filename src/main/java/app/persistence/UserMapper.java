@@ -50,7 +50,7 @@ public class UserMapper {
                     String lastName = resultSet.getString("lastName");
                     double balance = resultSet.getDouble("balance");
 
-                    Customer customer = new Customer(id, firstName, lastName, email, password, "customer", balance);
+                    Customer customer = new Customer(id, firstName, lastName, email, password, "customer");
                     return customer;
 
                 } else {
