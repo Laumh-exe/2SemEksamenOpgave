@@ -15,8 +15,6 @@ import app.model.entities.User;
 
 public class UserMapper {
 
-    private static User currentCustomer;
-    private static User currentSalesperson;
 
     public static User login(String email, String password, ConnectionPool connectionPool) throws SQLException {
 
