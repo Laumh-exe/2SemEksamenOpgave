@@ -18,7 +18,9 @@ public class UserMapper {
 
 
     public static User login(String email, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT * FROM public.customer, public.salesperson WHERE email=? AND password=?";
+
+       String sql = "SELECT * FROM public.customer WHERE email=? AND password=?";
+
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
                 preparedStatement.setString(1, email);
@@ -33,11 +35,16 @@ public class UserMapper {
 
                     return new Customer(id, firstName, lastName, email, password, role, balance);
                 } else {
+
+
                     throw new SQLException("Fejl i login");
                 }
             }
         }
     }
+
+
+
 
     public static void createUser(String firstName, String lastName, String email, String password, ConnectionPool connectionPool) throws SQLException {
         boolean emailExists = checkIfEmailExists(email, connectionPool);

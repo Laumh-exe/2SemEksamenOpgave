@@ -16,26 +16,25 @@ CREATE TABLE IF NOT EXISTS customer
     phoneNumber integer,
     password character varying(50),
     PRIMARY KEY (id)
-);
+    );
 
-CREATE TABLE IF NOT EXISTS itemlist
+CREATE TABLE IF NOT EXISTS items_orders
 (
-    id serial NOT NULL,
+
     order_id integer NOT NULL,
-    description character varying(70) NOT NULL,
-    quantity integer NOT NULL,
-    PRIMARY KEY (id)
+    item_id integer NOT NULL,
+    quantity integer NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS item
 (
     id serial NOT NULL,
-    prise_pr_unit double precision NOT NULL,
-    length double precision NOT NULL,
-    unit character varying(50) NOT NULL,
+    unit character varying (70) NOT NULL,
     description character varying(200) NOT NULL,
+    length double precision NOT NULL,
+    price_pr_unit double precision NOT NULL,
     PRIMARY KEY (id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS public.order
 (
@@ -48,15 +47,10 @@ CREATE TABLE IF NOT EXISTS public.order
     carport_length double precision NOT NULL,
     shed_width double precision NOT NULL,
     shed_length double precision NOT NULL,
-    salesperson_id integer NOT NULL,
+    salesperson_id integer,
     PRIMARY KEY (id)
-);
+    );
 
-CREATE TABLE IF NOT EXISTS item_itemlist
-(
-    item_id integer NOT NULL,
-    itemlist_id integer NOT NULL
-);
 
 CREATE TABLE IF NOT EXISTS salesperson
 (
@@ -67,21 +61,13 @@ CREATE TABLE IF NOT EXISTS salesperson
     phonenumber integer NOT NULL,
     password character varying(50) NOT NULL,
     PRIMARY KEY (id)
-);
-
-ALTER TABLE IF EXISTS itemlist
-    ADD CONSTRAINT itemlist_order_id_fkey FOREIGN KEY (order_id)
-    REFERENCES public.order (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
+    );
 
 ALTER TABLE IF EXISTS public.order
     ADD FOREIGN KEY (salesperson_id)
     REFERENCES salesperson (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+       ON DELETE NO ACTION
     NOT VALID;
 
 
@@ -89,23 +75,22 @@ ALTER TABLE IF EXISTS public.order
     ADD FOREIGN KEY (customer_id)
     REFERENCES customer (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+       ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS item_itemlist
+ALTER TABLE IF EXISTS public.items_orders
+    ADD FOREIGN KEY (order_id)
+    REFERENCES public.order (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+       ON DELETE NO ACTION
+    NOT VALID;
+
+ALTER TABLE IF EXISTS public.items_orders
     ADD FOREIGN KEY (item_id)
     REFERENCES item (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS item_itemlist
-    ADD FOREIGN KEY (itemlist_id)
-    REFERENCES itemlist (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+       ON DELETE NO ACTION
     NOT VALID;
 
 END;

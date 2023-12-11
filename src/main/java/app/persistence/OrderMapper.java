@@ -48,10 +48,12 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
+    public static Boolean placeOrder(User currentUser, Order order, ItemList itemlist, ConnectionPool connectionPool)
             throws DatabaseException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
+
+        ItemMapper.placeItemListInDB(itemlist, order, connectionPool);
 
 
         return true;
@@ -104,36 +106,7 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeItemListInDB(ItemList itemList, Order order, ConnectionPool connectionPool) throws DatabaseException {
 
-        for (Item item : itemList.getItemList()) {
-
-            String sql = "INSERT INTO items_for_orders (order_id, item_id, quantity) " +
-                    "VALUES (?, ?, ?)";
-
-            try (Connection connection = connectionPool.getConnection()) {
-                try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
-                    ps.setInt(1, order.getId());
-                    ps.setInt(2, item.id());
-                    ps.setInt(3, item.quantity());
-
-                    int rowsAffected = ps.executeUpdate();
-
-                    if (rowsAffected == 1) {
-                        return true;
-
-                    } else {
-                        throw new DatabaseException("Item line not inserted in DB");
-                    }
-                }
-            } catch (SQLException e) {
-
-
-            }
-        }
-        return false;
-    }
 
 
     /**

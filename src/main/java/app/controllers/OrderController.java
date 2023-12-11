@@ -40,6 +40,7 @@ public class OrderController {
 
         Order orderToPlace = ctx.sessionAttribute("order");
 
+        ItemList itemlist = ctx.sessionAttribute("itemlist");
 
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
@@ -49,7 +50,7 @@ public class OrderController {
       
  
         try{
-            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+            OrderMapper.placeOrder(user, orderToPlace, itemlist, connectionPool);
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
