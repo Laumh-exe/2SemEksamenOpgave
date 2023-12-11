@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import app.entities.*;
 import app.model.entities.Customer;
 import app.model.entities.Salesperson;
 import app.model.entities.User;

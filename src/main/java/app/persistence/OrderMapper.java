@@ -7,13 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import app.entities.*;
 import app.exceptions.DatabaseException;
-
-
-import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
+import app.model.entities.*;
 
 
 public class OrderMapper {
