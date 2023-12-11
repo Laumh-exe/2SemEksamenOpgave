@@ -73,7 +73,7 @@ public class UserMapper {
                     int id = resultSet.getInt("id");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
-                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, "salesperson", balance);
+                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, "salesperson");
                     return salesperson;
 
                 } else {
