@@ -32,13 +32,14 @@ public class Main {
 
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx, connectionPool));
+        app.get("/logout", ctx -> UserController.logout(ctx));
         app.get("/createUser", ctx -> ctx.render("createUser.html"));
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
-        app.get("/adminpage", ctx -> ctx.render("/index.html")); //TODO: make the sellers home page
-        app.get("/customerpage", ctx -> ctx.render("/index.html")); //TODO: make the customer home page
+        app.get("/adminpage", ctx -> ctx.render("/SellersPage.html")); //TODO: make the sellers home page
+        app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
 
-        app.get("/createOrder", ctx -> ctx.render("caportSelection.html"));
+        app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
         app.get("/confirmOffer", ctx -> ctx.render("/confirmOfferRequest.html"));
 
