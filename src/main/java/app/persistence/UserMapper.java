@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import app.exceptions.DatabaseException;
 import app.model.entities.Customer;
 import app.model.entities.Salesperson;
 import app.model.entities.User;
@@ -14,11 +16,31 @@ import app.model.entities.User;
 public class UserMapper {
 
 
-
     public static User login(String email, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT * FROM public.customer, public.salesperson WHERE email=? AND password=?";
+
+        User customerExists = checkIfCustomerExists(email, password, connectionPool);
+
+        if (customerExists != null) {
+            return customerExists;
+        }
+
+        User salespersonExists = checkIfSalespersonExists(email, password, connectionPool);
+
+        if (salespersonExists != null) {
+            return salespersonExists;
+
+        } else {
+                throw new SQLException("Email eller kodeord eksisterer ikke i vores database");
+            }
+        }
+
+
+    public static User checkIfCustomerExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
+
+        String sql1 = "SELECT * FROM public.customer WHERE email=? AND password=?";
+
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql1)) {
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -29,9 +51,37 @@ public class UserMapper {
                     String role = resultSet.getString("role");
                     double balance = resultSet.getDouble("balance");
 
-                    return new Customer(id, firstName, lastName, email, password, role, balance);
+                    Customer customer = new Customer(id, firstName, lastName, email, password, role, balance);
+                    return customer;
+
                 } else {
-                    throw new SQLException("Fejl i login");
+                    return null;
+                }
+            }
+        }
+    }
+
+    public static User checkIfSalespersonExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
+
+        String sql1 = "SELECT * FROM public.salsespersom WHERE email=? AND password=?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql1)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setString(2, password);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String firstName = resultSet.getString("firstName");
+                    String lastName = resultSet.getString("lastName");
+                    String role = resultSet.getString("role");
+                    double balance = resultSet.getDouble("balance");
+
+                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, role, balance);
+                    return salesperson;
+
+                } else {
+                    return null;
                 }
             }
         }
@@ -39,26 +89,26 @@ public class UserMapper {
 
     public static void createUser(String firstName, String lastName, String email, String password, ConnectionPool connectionPool) throws SQLException {
         boolean emailExists = checkIfEmailExists(email, connectionPool);
-        if(emailExists){
+        if (emailExists) {
             throw new SQLException("Email findes allerede");
         } else {
-        String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role, balance) VALUES (?, ?, ?, 200)";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
-                preparedStatement.setString(1, firstName);
-                preparedStatement.setString(2, lastName);
-                preparedStatement.setString(3, email);
-                preparedStatement.setString(4, password);
-                preparedStatement.setString(5, "customer");
-                int rowsAffected = preparedStatement.executeUpdate();
-                if (rowsAffected != 1) {
-                    throw new SQLException("Fejl ved at oprette en ny bruger");
+            String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role, balance) VALUES (?, ?, ?, 200)";
+            try (Connection connection = connectionPool.getConnection()) {
+                try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
+                    preparedStatement.setString(1, firstName);
+                    preparedStatement.setString(2, lastName);
+                    preparedStatement.setString(3, email);
+                    preparedStatement.setString(4, password);
+                    preparedStatement.setString(5, "customer");
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    if (rowsAffected != 1) {
+                        throw new SQLException("Fejl ved at oprette en ny bruger");
+                    }
                 }
-            }
 
-        } catch (SQLException e) {
-            throw new SQLException("FEJL!!");
-        }
+            } catch (SQLException e) {
+                throw new SQLException("FEJL!!");
+            }
         }
     }
 
@@ -66,7 +116,7 @@ public class UserMapper {
         String sql = "SELECT id, firstname, lastname FROM salesperson";
         ArrayList<Salesperson> salespeople = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) { 
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 ResultSet rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -75,7 +125,7 @@ public class UserMapper {
                     salespeople.add(new Salesperson(id, firstName, lastName));
                 }
             }
-        } 
+        }
         return salespeople;
 
     }
@@ -90,8 +140,7 @@ public class UserMapper {
                     return true;
                 }
 
-            }
-            catch (SQLException e){
+            } catch (SQLException e) {
                 throw new SQLException("Fejl i check");
             }
         }
