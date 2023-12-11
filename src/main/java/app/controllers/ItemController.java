@@ -9,13 +9,13 @@ import java.sql.SQLException;
 public class ItemController {
 
     public static void addItem(Context ctx, ConnectionPool connectionPool){
-        String price_pr_unit = ctx.formParam("price_pr_unit");
-        String length = ctx.formParam("length");
+        double price_pr_unit = Double.parseDouble(ctx.formParam("price_pr_unit"));
+        double length = Double.parseDouble(ctx.formParam("length"));
         String unit = ctx.formParam("unit");
         String description = ctx.formParam("description");
 
         try{
-            ItemMapper.addItem(price_pr_unit, length, unit, description);
+            ItemMapper.addItem(price_pr_unit, length, unit, description, connectionPool);
             ctx.render("item.html");
         } catch (SQLException e){
             System.out.println(e.getMessage());
