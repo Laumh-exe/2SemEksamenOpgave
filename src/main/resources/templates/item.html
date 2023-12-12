@@ -25,7 +25,7 @@
   </form>
   <table>
     <tr>
-      <th>Qty</th>
+
       <th>id</th>
       <th>description</th>
       <th>price_pr_unit</th>
@@ -35,7 +35,7 @@
     </tr>
 
     <tr th:each="item: ${#ctx.session.itemlist}">
-      <td th:text = "${#item.quantity}"></td>
+
     <td th:text = "${#item.id}"></td>
     <td th:text = "${#item.description}"></td>
     <td th:text = "${#item.price_pr_unit}"></td>
