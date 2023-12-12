@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="background-login">
-  <div th:replace="~{frontpage :: header}"></div>
+  <!--<div th:replace="~{frontpage :: header}"></div>-->
 
   <div class="center-screen">
     <form class="big" method="post">
@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<p th:text="${#ctx.message}"></p>
+<p th:text="${#ctx.session.message}"></p>
 
 </body>
 </html>

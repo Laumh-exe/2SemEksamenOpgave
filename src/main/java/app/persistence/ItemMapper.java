@@ -9,13 +9,14 @@ import java.sql.SQLException;
 public class ItemMapper {
 
     public static void addItem(double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO \"item\" (price_pr_unit, length, unit, description";
+        String sql = "INSERT INTO public.item (unit, description, length, price_pr_unit)" +
+                "VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDouble(1, price_pr_unit);
-                preparedStatement.setDouble(2, length);
-                preparedStatement.setString(3, unit);
-                preparedStatement.setString(4, description);
+                preparedStatement.setString(1, unit);
+                preparedStatement.setString(2, description);
+                preparedStatement.setDouble(3, length);
+                preparedStatement.setDouble(4, price_pr_unit);
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
                     throw new SQLException("Fejl");
