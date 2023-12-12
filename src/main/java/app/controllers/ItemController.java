@@ -32,7 +32,7 @@ public class ItemController {
 
 
     public static void removeItem(Context ctx, ConnectionPool connectionPool) {
-        int id = Integer.parseInt(ctx.formParam("id"));
+        int id = Integer.parseInt(ctx.formParam("item_id"));
         try {
             ItemMapper.removeItem(id, connectionPool);
             List<Item> itemlist = ItemMapper.getAllItems(connectionPool);
