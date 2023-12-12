@@ -45,7 +45,6 @@ public class OrderController {
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
-            System.out.println("Database or sql exception");
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
