@@ -26,19 +26,21 @@
   <table>
     <tr>
       <th>Qty</th>
-      <th></th>
+      <th>id</th>
+      <th>description</th>
       <th>price_pr_unit</th>
       <th>length</th>
       <th>unit</th>
-      <th>description</th>
+
     </tr>
 
-    <tr th:each="item: ${#ctx.session.itemlist}"
+    <tr th:each="item: ${#ctx.session.itemlist}">
+      <td th:text = "${#item.quantity}"></td>
     <td th:text = "${#item.id}"></td>
+    <td th:text = "${#item.description}"></td>
     <td th:text = "${#item.price_pr_unit}"></td>
     <td th:text = "${#item.length}"></td>
     <td th:text = "${#item.unit}"></td>
-    <td th:text = "${#item.description}"></td>
 
 
     </tr>
