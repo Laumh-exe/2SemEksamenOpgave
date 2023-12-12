@@ -87,7 +87,7 @@ public class UserMapper {
         if (emailExists) {
             throw new SQLException("Email findes allerede");
         } else {
-            String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role) VALUES (?, ?, ?, 200)";
+            String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = connectionPool.getConnection()) {
                 try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
                     preparedStatement.setString(1, firstName);
