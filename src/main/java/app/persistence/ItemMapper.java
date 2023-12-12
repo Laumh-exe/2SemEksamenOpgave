@@ -23,9 +23,7 @@ public class ItemMapper {
         for (Item item : order.getCarport().getItemList().getItemList()) {
 
             if (order.getCarport().getItemList().getItemList().indexOf(item) != 0) {
-                sql += ",";
-            }
-
+                sql += ",";}
             sql += "(" + order.getId() + "," + item.id() + "," + item.quantity() + ")";
         }
 
