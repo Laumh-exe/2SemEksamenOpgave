@@ -48,10 +48,8 @@ public class UserMapper {
                     int id = resultSet.getInt("id");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
-                    String role = resultSet.getString("role");
-                    double balance = resultSet.getDouble("balance");
 
-                    Customer customer = new Customer(id, firstName, lastName, email, password, role, balance);
+                    Customer customer = new Customer(id, firstName, lastName, email, password, "customer");
                     return customer;
 
                 } else {
@@ -63,7 +61,7 @@ public class UserMapper {
 
     public static User checkIfSalespersonExists(String email, String password, ConnectionPool connectionPool) throws SQLException {
 
-        String sql1 = "SELECT * FROM public.salsespersom WHERE email=? AND password=?";
+        String sql1 = "SELECT * FROM public.salesperson WHERE email=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql1)) {
@@ -74,10 +72,7 @@ public class UserMapper {
                     int id = resultSet.getInt("id");
                     String firstName = resultSet.getString("firstName");
                     String lastName = resultSet.getString("lastName");
-                    String role = resultSet.getString("role");
-                    double balance = resultSet.getDouble("balance");
-
-                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, role, balance);
+                    Salesperson salesperson = new Salesperson(id, firstName, lastName, email, password, "salesperson");
                     return salesperson;
 
                 } else {
@@ -92,7 +87,7 @@ public class UserMapper {
         if (emailExists) {
             throw new SQLException("Email findes allerede");
         } else {
-            String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role, balance) VALUES (?, ?, ?, 200)";
+            String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = connectionPool.getConnection()) {
                 try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
                     preparedStatement.setString(1, firstName);

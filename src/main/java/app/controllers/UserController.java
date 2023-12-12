@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.model.entities.Order;
 import app.model.entities.User;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
@@ -21,7 +22,12 @@ public class UserController {
             if (user.getRole().equals("salesperson")) {
                 ctx.redirect("/adminpage");
             } else {
-                ctx.redirect("/customerpage");
+                Order order = ctx.sessionAttribute("order");
+                if(order != null){
+                    ctx.redirect("/confirmOffer");
+                } else {
+                    ctx.redirect("/customerpage");
+                }
             }
 
         } catch (SQLException e) {

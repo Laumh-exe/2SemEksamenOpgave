@@ -8,7 +8,7 @@ public abstract class User {
     protected String email;
     protected String password;
     protected String role;
-    protected double balance;
+    // protected double balance;
 
     /**
      * this consturctor if there is need a simple constructor if somethin is neede from the database in the frontend
@@ -16,7 +16,7 @@ public abstract class User {
     public User(){}
 
 
-    public User(int id, String firstName, String lastName, String email, String password, String role, double balance) {
+    public User(int id, String firstName, String lastName, String email, String password, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,7 +24,6 @@ public abstract class User {
 
         this.password = password;
         this.role = role;
-        this.balance = balance;
     }
 
     public int getId() {
@@ -47,19 +46,6 @@ public abstract class User {
 
     public String getRole() {
         return role;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public double setBalance(double newBalance) {
-        balance = newBalance;
-        return balance;
-    }
-
-    public void removeFromBalance(double valueToRemove) {
-        balance -= valueToRemove;
     }
 
 

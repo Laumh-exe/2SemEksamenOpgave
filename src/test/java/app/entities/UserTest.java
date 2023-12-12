@@ -17,7 +17,7 @@ String password;
     @BeforeEach
     void setUp() {
 
-        name = new Customer(1, "Alexander", "Rasmussen", "email@email.com", "1234", "Admin", 5);
+        name = new Customer(1, "Alexander", "Rasmussen", "email@email.com", "1234", "Admin");
     }
 
     @AfterEach
@@ -38,7 +38,7 @@ String password;
     @Test
     void getfirstName() {
         String expected1 = "Val";
-        name2 = new Customer(1, "Val", "de", "jaja@gmail.com", "1235", "Kunde", 20);
+        name2 = new Customer(1, "Val", "de", "jaja@gmail.com", "1235", "Kunde");
         String actual = name2.getFirstName();
         assertEquals(expected1, actual);
     }
@@ -46,7 +46,7 @@ String password;
     @Test
     void getlastName(){
         String expected = "de";
-        name2 = new Customer(1, "Val", "de", "jaja@gmail.com", "1235", "Kunde", 20);
+        name2 = new Customer(1, "Val", "de", "jaja@gmail.com", "1235", "Kunde");
         String actual = name2.getLastName();
         assertEquals(expected, actual);
     }
@@ -58,7 +58,7 @@ String password;
         assertEquals(expected1, actual1);
 
         String expected2 = "1234";
-        name = new Customer(1, "Alexander", "Rasmussen", "ba@gmail.com", "1234", "Admin", 5);
+        name = new Customer(1, "Alexander", "Rasmussen", "ba@gmail.com", "1234", "Admin");
         String actual2 = name.getPassword();
         assertEquals(expected2, actual2);
     }
@@ -66,32 +66,32 @@ String password;
     @Test
     void getRole() {
         /*String expected = "Admin";
-        name2 = new User(2, "Valde", "1235", "Kunde", 20);
+        name2 = new User(2, "Valde", "1235", "Kunde");
         String actual = name2.getRole();
         assertEquals(expected, actual); */
 
         String expected2 = "Admin";
-        name = new Customer(1, "Alexander", "Rasmussen", "ba@gmail.com", "1234", "Admin", 5);
+        name = new Customer(1, "Alexander", "Rasmussen", "ba@gmail.com", "1234", "Admin");
         String actual2 = name.getRole();
         assertEquals(expected2,actual2);
     }
 
-    @Test
-    void getBalance() {
-        /*double expected = 20;
-        double actual = name.getBalance();
-        assertEquals(expected, actual);*/
+    // @Test
+    // void getBalance() {
+    //     /*double expected = 20;
+    //     double actual = name.getBalance();
+    //     assertEquals(expected, actual);*/
 
-        double expected2 = 20;
-        name2 = new Customer(2,"Valde", "Valde", "jaja@gmail.com","1235","Kunde",20);
-        double actual2 = name2.getBalance();
-        assertEquals(expected2, actual2);
-    }
+    //     double expected2 = 20;
+    //     name2 = new Customer(2,"Valde", "Valde", "jaja@gmail.com","1235","Kunde");
+    //     double actual2 = name2.getBalance();
+    //     assertEquals(expected2, actual2);
+    // }
 
-    @Test
-    void setBalance() {
-        double expected = 5;
-        double actual = name.setBalance(5);
-        assertEquals(expected, actual);
-    }
+    // @Test
+    // void setBalance() {
+    //     double expected = 5;
+    //     double actual = name.setBalance(5);
+    //     assertEquals(expected, actual);
+    // }
 }

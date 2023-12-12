@@ -10,7 +10,7 @@ public class CarportController {
         double length = Double.parseDouble(ctx.formParam("længde"));
         double width = Double.parseDouble(ctx.formParam("bredde"));
         String isShed = ctx.formParam("skur");
-        if (isShed == null) {
+        if (isShed != null) {
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
             Shed shed = new Shed(shedLength, shedWidth);
