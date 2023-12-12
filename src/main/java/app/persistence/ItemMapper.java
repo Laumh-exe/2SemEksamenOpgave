@@ -19,36 +19,31 @@ public class ItemMapper {
 
         String sql = "INSERT INTO items_orders (order_id, item_id, quantity) VALUES ";
 
-
         for (Item item : order.getCarport().getItemList().getItemList()) {
 
             if (order.getCarport().getItemList().getItemList().indexOf(item) != 0) {
-                sql += ",";}
+                sql += ",";
+            }
             sql += "(" + order.getId() + "," + item.id() + "," + item.quantity() + ")";
         }
 
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            try (Connection connection = connectionPool.getConnection()) {
-                try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                int rowsAffected = ps.executeUpdate();
 
-                    int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == order.getCarport().getItemList().getItemList().size()) {
 
-                    if (rowsAffected == order.getCarport().getItemList().getItemList().size()) {
-                        System.out.println("itemlist placed");
-
-                    } else {
-                        System.out.println("Itemlist NOT placed");
-                        throw new DatabaseException("Item line not inserted in DB");
-                    }
+                } else {
+                    throw new DatabaseException("Item line not inserted in DB");
                 }
-            } catch (SQLException e) {
-                System.out.println("sql EXCEPTION");
-
             }
-
+        } catch (SQLException e) {
+            System.out.println("sql EXCEPTION");
+        }
         return true;
     }
-    
+
 
     public static void addItem(double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO public.item (unit, description, length, price_pr_unit)" +
