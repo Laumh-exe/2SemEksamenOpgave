@@ -36,18 +36,22 @@ public class ItemMapper {
         String sql = "SELECT id, price_pr_unit, length, unit, description FROM public.item";
         ArrayList<Item> item = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection()) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    ResultSet rs = preparedStatement.executeQuery();
-                    while (rs.next()) {
-                        int id = rs.getInt("id");
-                        double price_pr_unit = rs.getDouble("price_pr_unit");
-                        double length = rs.getDouble("length");
-                        String unit = rs.getString("unit");
-                        String description = rs.getString("description");
-                        item.add(new Item(price_pr_unit, length, unit, description));
-                    }
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    double price_pr_unit = rs.getDouble("price_pr_unit");
+                    double length = rs.getDouble("length");
+                    String unit = rs.getString("unit");
+                    String description = rs.getString("description");
+                    item.add(new Item(price_pr_unit, length, unit, description));
                 }
             }
-            return item;
         }
+        return item;
     }
+
+    public static void removeItem(){
+        
+    }
+}
