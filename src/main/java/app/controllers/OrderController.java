@@ -4,12 +4,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import app.model.entities.Carport;
-import app.model.entities.Customer;
-import app.model.entities.Order;
-import app.model.entities.OrderStatus;
-import app.model.entities.Salesperson;
-import app.model.entities.User;
+import app.model.Calculator;
+import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
 
 import app.exceptions.DatabaseException;
@@ -37,24 +33,21 @@ public class OrderController {
 
     public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
 
-
         Order orderToPlace = ctx.sessionAttribute("order");
-
-
-
+        
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
-
-        System.out.println(orderToPlace);
-
+        
         User user = ctx.sessionAttribute("currentUser");
-      
- 
+        if (orderToPlace.getCustomerId() == -1){
+            orderToPlace.setCustomerId(user.getId());
+        }
+
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
-
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
@@ -66,13 +59,8 @@ public class OrderController {
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
-        //TODO: Better solution to checking if someone is logged in
-        User testUser = new Customer(1, "customer", "customer", "customer@email.com", "customer", "customer", 200);
-        ctx.sessionAttribute("currentUser", testUser);
-
         Customer currentUser = ctx.sessionAttribute("currentUser");
-        
-        
+
         //Create order
         Date date = new Date(System.currentTimeMillis());
         Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);
@@ -80,11 +68,9 @@ public class OrderController {
         
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
         if (currentUser != null) {
-
-           ctx.render("/confirmOfferRequest.html");
+            ctx.redirect("/confirmOffer");
      } else {
-            ctx.render("/login.html");
-
+            ctx.redirect("/login");
         }
     }
     public static void setupUpdatePage(Context ctx, ConnectionPool connectionPool){
@@ -95,7 +81,6 @@ public class OrderController {
             ctx.sessionAttribute("errorMessage", "Database not responding");
         }
         ctx.sessionAttribute("allSalespersonId", salespeople);
-        ctx.render("updateOrder.html");
     }
 
 

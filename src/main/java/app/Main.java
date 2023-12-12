@@ -3,6 +3,7 @@ package app;
 import app.config.ThymeleafConfig;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
+import app.controllers.UserController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -28,14 +29,25 @@ public class Main {
         }).start(7070);
 
         // Routing
-        app.get("/", ctx -> ctx.render("caportSelection.html"));
+        app.get("/", ctx -> ctx.render("FrontPage.html"));
 
+        app.get("/login", ctx -> ctx.render("login.html"));
+        app.post("/login", ctx -> UserController.login(ctx, connectionPool));
+        app.get("/logout", ctx -> UserController.logout(ctx));
+        app.get("/createUser", ctx -> ctx.render("createUser.html"));
+        app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
+        app.get("/adminpage", ctx -> ctx.render("/SellersPage.html")); //TODO: make the sellers home page
+        app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
+
+        app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
+        app.get("/confirmOffer", ctx -> ctx.render("/confirmOfferRequest.html"));
+
         app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
 
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
-        app.get("/sellers/EditOrder", ctx -> OrderController.setupUpdatePage(ctx, connectionPool));
+        app.get("/sellers/EditOrder", ctx -> {OrderController.setupUpdatePage(ctx, connectionPool); ctx.render("updateOrder.html");});
         app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
         app.post("/removeItem", ctx -> ItemController.removeItem(ctx, connectionPool));
         app.post("/addItem", ctx -> ItemController.addItem(ctx, connectionPool));
