@@ -53,10 +53,10 @@ public class ItemMapper {
                 "VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDouble(4, price_pr_unit);
-                preparedStatement.setDouble(3, length);
-                preparedStatement.setString(1, unit);
-                preparedStatement.setString(2, description);
+                preparedStatement.setDouble(1, price_pr_unit);
+                preparedStatement.setDouble(2, length);
+                preparedStatement.setString(3, unit);
+                preparedStatement.setString(4, description);
 
 
                 int rowsAffected = preparedStatement.executeUpdate();
@@ -70,7 +70,7 @@ public class ItemMapper {
     }
 
     public static List<Item> getAllItems(ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT id, price_pr_unit, length, unit, description FROM public.item";
+        String sql = "SELECT * FROM public.item";
         ArrayList<Item> item = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -88,8 +88,24 @@ public class ItemMapper {
         return item;
     }
 
-    public static void removeItem(){
-        
+    public static void removeItem(double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
+        String sql = "DELETE FROM public.item";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, price_pr_unit);
+                preparedStatement.setDouble(2, length);
+                preparedStatement.setString(3, unit);
+                preparedStatement.setString(4, description);
+
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected != 1) {
+                    throw new SQLException("Fejl");
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("FEJL!!");
+        }
     }
 }
 
