@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.model.entities.*;
 import app.exceptions.DatabaseException;
+
 import app.model.entities.Customer;
 import app.model.entities.Salesperson;
 import app.model.entities.User;
@@ -17,6 +19,7 @@ public class UserMapper {
 
 
     public static User login(String email, String password, ConnectionPool connectionPool) throws SQLException {
+
 
         User customerExists = checkIfCustomerExists(email, password, connectionPool);
 
@@ -53,6 +56,7 @@ public class UserMapper {
                     return customer;
 
                 } else {
+
                     return null;
                 }
             }
@@ -77,10 +81,14 @@ public class UserMapper {
 
                 } else {
                     return null;
+
                 }
             }
         }
     }
+
+
+
 
     public static void createUser(String firstName, String lastName, String email, String password, ConnectionPool connectionPool) throws SQLException {
         boolean emailExists = checkIfEmailExists(email, connectionPool);
