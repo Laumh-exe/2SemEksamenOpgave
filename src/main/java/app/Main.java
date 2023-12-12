@@ -1,6 +1,7 @@
 package app;
 
 import app.config.ThymeleafConfig;
+import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
@@ -36,7 +37,8 @@ public class Main {
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.get("/sellers/EditOrder", ctx -> OrderController.setupUpdatePage(ctx, connectionPool));
         app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
-
+        app.post("/removeItem", ctx -> ItemController.removeItem(ctx, connectionPool));
+        app.post("/addItem", ctx -> ItemController.addItem(ctx, connectionPool));
     }
 }
 
