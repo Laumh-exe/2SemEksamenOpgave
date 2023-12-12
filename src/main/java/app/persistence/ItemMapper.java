@@ -53,11 +53,11 @@ public class ItemMapper {
                 "VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDouble(4, price_pr_unit);
-                preparedStatement.setDouble(3, length);
-                preparedStatement.setString(1, unit);
-                preparedStatement.setString(2, description);
 
+                preparedStatement.setDouble(1, price_pr_unit);
+                preparedStatement.setDouble(2, length);
+                preparedStatement.setString(3, unit);
+                preparedStatement.setString(4, description);
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
@@ -75,12 +75,15 @@ public class ItemMapper {
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 ResultSet rs = preparedStatement.executeQuery();
+
                 while (rs.next()) {
+
                     int id = rs.getInt("id");
                     double price_pr_unit = rs.getDouble("price_pr_unit");
                     double length = rs.getDouble("length");
                     String unit = rs.getString("unit");
                     String description = rs.getString("description");
+
                     item.add(new Item(id, price_pr_unit, length, unit, description));
                 }
             }
