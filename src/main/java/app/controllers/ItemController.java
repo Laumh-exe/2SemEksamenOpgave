@@ -35,9 +35,15 @@ public class ItemController {
         int id = Integer.parseInt(ctx.formParam("id"));
         try {
             ItemMapper.removeItem(id, connectionPool);
+            List<Item> itemlist = ItemMapper.getAllItems(connectionPool);
+            ctx.sessionAttribute("itemlist", itemlist);
             ctx.render("item.html");
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            ctx.render("item.html");
         }
-
     }
+
+
 }

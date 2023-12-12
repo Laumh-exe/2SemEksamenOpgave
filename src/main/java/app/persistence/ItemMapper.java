@@ -88,7 +88,7 @@ public class ItemMapper {
         return item;
     }
 
-    public static void removeItem(int id, double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
+    public static void removeItem(int id,ConnectionPool connectionPool) throws SQLException {
         String sql = "DELETE FROM public.item WHERE id=?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
