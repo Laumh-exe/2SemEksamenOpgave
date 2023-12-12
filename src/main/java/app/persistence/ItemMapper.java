@@ -88,16 +88,11 @@ public class ItemMapper {
         return item;
     }
 
-    public static void removeItem(double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
-        String sql = "DELETE FROM public.item";
+    public static void removeItem(int id, double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
+        String sql = "DELETE FROM public.item WHERE id=?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDouble(1, price_pr_unit);
-                preparedStatement.setDouble(2, length);
-                preparedStatement.setString(3, unit);
-                preparedStatement.setString(4, description);
-
-
+                preparedStatement.setInt(1, id);
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
                     throw new SQLException("Fejl");
