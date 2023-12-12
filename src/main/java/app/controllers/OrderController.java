@@ -33,17 +33,14 @@ public class OrderController {
 
     public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
 
-
         Order orderToPlace = ctx.sessionAttribute("order");
 
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
 
         User user = ctx.sessionAttribute("currentUser");
 
- 
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
-            System.out.println("placeOrder worked");
 
             ctx.render("/offerRequestConfirmed.html");
         }
