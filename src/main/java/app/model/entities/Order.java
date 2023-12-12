@@ -76,8 +76,6 @@ public class Order {
     }
 
 
-
-
     public int getCustomerId() {
         return customerId;
     }

@@ -155,4 +155,34 @@ public class OrderMapper {
         }
 
     }
+
+
+
+    public static List<Order> getCustomerOrders(int customerId, ConnectionPool connectionPool) throws SQLException {
+        String sql = "SELECT * FROM public.order WHERE customer_id = ?";
+        List<Order> orders = new ArrayList<>();
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setInt(1, customerId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String statusString = resultSet.getString("status");
+                    java.sql.Date date = resultSet.getDate("date");
+                    int salespersonId = resultSet.getInt("salesperson_id");
+                    double price = resultSet.getDouble("total_price");
+                    double carportLength = resultSet.getDouble("carport_length");
+                    double carportWidth = resultSet.getDouble("carport_width");
+                    double shedLength = resultSet.getDouble("shed_length");
+                    double shedWidth = resultSet.getDouble("shed_width");
+                    OrderStatus status = OrderStatus.valueOf(statusString);
+                    Order order = new Order(id, customerId, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+
+                    orders.add(order);
+                }
+            }
+        }
+        return orders;
+    }
 }

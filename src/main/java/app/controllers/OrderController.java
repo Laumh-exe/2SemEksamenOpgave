@@ -1,6 +1,7 @@
 package app.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -114,5 +115,17 @@ public class OrderController {
 
         ctx.render("updateOrder.html");
 
+    }
+
+    public static List<Order> getCustomerOrders(Context ctx, ConnectionPool connectionPool){
+        User currentUser = ctx.sessionAttribute("currentUser");
+        int customerId = currentUser.getId();
+        List<Order> orders = new ArrayList<>();
+        try {
+            orders = OrderMapper.getCustomerOrders(customerId ,connectionPool);
+        } catch (SQLException e) {
+            ctx.attribute("message", e.getMessage());
+        }
+        return orders;
     }
 }

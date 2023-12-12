@@ -7,6 +7,9 @@ import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 public class UserController {
 
@@ -57,6 +60,11 @@ public class UserController {
             System.out.println(e.getMessage());
             ctx.render("createUser.html");
         }
+    }
+
+    public static void customerSetup(Context ctx, ConnectionPool connectionPool) {
+        List<Order> orders = OrderController.getCustomerOrders(ctx, connectionPool);
+        ctx.sessionAttribute("order", orders.get(0));
     }
 
 
