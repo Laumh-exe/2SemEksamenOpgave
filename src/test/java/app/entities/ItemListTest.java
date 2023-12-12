@@ -10,9 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ItemListTest {
     Item dummyItem;
+
+
+
     @BeforeEach
     public void setup(){
-        dummyItem = new Item(75, 300, "Stk", "97x97 mm. trykimp. stolpe");
+        dummyItem = new Item(1, 75, 300, "Stk", "97x97 mm. trykimp. stolpe", 5);
     }
 
     @AfterEach
@@ -21,17 +24,19 @@ class ItemListTest {
     }
 
     @Test
-    public void addAmount3(){
+    public void addAmount5(){
         // Arrange
         ItemList itemList = new ItemList();
         // Act
-        itemList.add(dummyItem, 3);
+        itemList.add(dummyItem);
 
         // Assert
-        assertEquals(itemList.getItemList().size(),3);
+        assertEquals(itemList.getItemList().get(0).quantity(),5);
     }
 
     private static String testString(){
         return "test";
     }
+
+
 }
