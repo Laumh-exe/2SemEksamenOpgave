@@ -14,10 +14,7 @@ public class ItemList {
         itemList.add(item);
     }
 
-    public void add(Item item, int amount) {
-        for(int i = 0; i < amount; i++)
-        itemList.add(item);
-    }
+
 
     public void remove(Item item) {
         itemList.remove(item);

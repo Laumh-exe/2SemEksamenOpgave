@@ -1,12 +1,12 @@
 package app.persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import app.model.entities.*;
+
 import app.exceptions.DatabaseException;
 import app.exceptions.OrderNotFoundException;
 import app.model.entities.*;
@@ -18,8 +18,8 @@ public class OrderMapper {
         String sql = "SELECT * FROM public.order";
         List<Order> orders = new ArrayList<>();
 
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
@@ -44,25 +44,27 @@ public class OrderMapper {
     }
 
 
+    public static Boolean placeOrder(User currentUser, Order order,  ConnectionPool connectionPool)
+            throws DatabaseException {
 
-    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException{
+        Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
+
+        ItemMapper.placeItemListInDB(orderPlacedInDB, connectionPool);
+
+        return true;
+    }
+
+    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException {
 
         String sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                 "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-
         Date utilDate = order.getDate();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-        //Order orderWithId = order;
-
-        // TODO: Delete this and try to make it work with order.getDate()
-        //long millis = System.currentTimeMillis();
-        //java.sql.Date dateOfOrder = new java.sql.Date(millis);
-
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
                 ps.setString(1, order.getStatus().toString());
                 ps.setDate(2, sqlDate);
@@ -72,22 +74,22 @@ public class OrderMapper {
                 ps.setDouble(6, order.getCarport().getLength());
                 ps.setDouble(7, order.getCarport().getShed().getWidth());
                 ps.setDouble(8, order.getCarport().getShed().getLength());
+                // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?
                 ps.setInt(9, 1);
 
                 int rowsAffected = ps.executeUpdate();
 
                 if (rowsAffected == 1) {
+
                     ResultSet rs = ps.getGeneratedKeys();
                     rs.next();
                     int generatedOrderId = rs.getInt(1);
 
-                    /*
-                    orderWithId = new Order(generatedOrderId, order.getCustomerId(),
-                            order.getSalespersonId(),dateOfOrder, order.getStatus(),
+                    Order orderWithId = new Order(generatedOrderId, order.getCustomerId(),
+                            order.getSalespersonId(), sqlDate, order.getStatus(),
                             order.getPrice(), order.getCarport());
-                        return orderWithId;
 
-                     */
+                    return orderWithId;
 
                 } else {
                     throw new DatabaseException("Order not inserted");
@@ -96,12 +98,16 @@ public class OrderMapper {
         } catch (SQLException e) {
 
         }
-        return true;
-}
+        return order;
+    }
+
+
+
 
 
     /**
      * This method is for orders with out sheds
+     *
      * @param order
      * @param connectionPool
      * @throws SQLException
@@ -110,22 +116,22 @@ public class OrderMapper {
     public static void updateOrderWidthOutShed(Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Carport carport = order.getCarport();
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setDouble(2, order.getPrice());
                 preparedStatement.setDouble(3, carport.getLength());
                 preparedStatement.setDouble(4, carport.getWidth());
                 preparedStatement.setInt(5, order.getId());
-                
+
                 int numRowsAffected = preparedStatement.executeUpdate();
-                if (numRowsAffected > 1){
+                if (numRowsAffected > 1) {
                     // TODO: do something meaningfull when more than one order is affected
                 }
-                                if (numRowsAffected < 1) {
+                if (numRowsAffected < 1) {
                     throw new OrderNotFoundException("Order with id:" + order.getId() + " was not found");
                 }
-                
+
             }
         }
     }
@@ -133,8 +139,8 @@ public class OrderMapper {
     public static void updateOrderWidthShed(Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width, shed_length, shed_width) = (?, ?, ?, ?, ?, ?) WHERE id = ?";
         Carport carport = order.getCarport();
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setDouble(2, order.getPrice());
                 preparedStatement.setDouble(3, carport.getLength());
@@ -145,7 +151,7 @@ public class OrderMapper {
                 preparedStatement.setInt(7, order.getId());
 
                 int numRowsAffected = preparedStatement.executeUpdate();
-                if (numRowsAffected > 1){
+                if (numRowsAffected > 1) {
                     // TODO: do something meaningfull when more than one order is affected
                 }
                 if (numRowsAffected < 1) {

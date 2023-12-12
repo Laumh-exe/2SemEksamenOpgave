@@ -5,12 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import app.model.entities.Carport;
-import app.model.entities.Customer;
-import app.model.entities.Order;
-import app.model.entities.OrderStatus;
-import app.model.entities.Salesperson;
-import app.model.entities.User;
+import app.model.Calculator;
+import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
 
 import app.exceptions.DatabaseException;
@@ -38,9 +34,7 @@ public class OrderController {
 
     public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
 
-
         Order orderToPlace = ctx.sessionAttribute("order");
-
         
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
         
@@ -48,14 +42,13 @@ public class OrderController {
         if (orderToPlace.getCustomerId() == -1){
             orderToPlace.setCustomerId(user.getId());
         }
-        
- 
+
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+
             ctx.render("/offerRequestConfirmed.html");
         }
         catch (DatabaseException e){
-
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
@@ -68,7 +61,7 @@ public class OrderController {
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
-        
+
         //Create order
         Date date = new Date(System.currentTimeMillis());
         Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);
