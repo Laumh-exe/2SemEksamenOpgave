@@ -70,7 +70,9 @@ public class ItemMapper {
     }
 
     public static List<Item> getAllItems(ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT id, price_pr_unit, length, unit, description FROM public.item";
+
+        String sql = "SELECT * FROM public.item";
+
         ArrayList<Item> item = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -91,8 +93,20 @@ public class ItemMapper {
         return item;
     }
 
-    public static void removeItem(){
-        
+  
+    public static void removeItem(int id, ConnectionPool connectionPool) throws SQLException {
+        String sql = "DELETE FROM public.item WHERE id=?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected != 1) {
+                    throw new SQLException("Fejl");
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("FEJL!!");
+        }
     }
 }
 
