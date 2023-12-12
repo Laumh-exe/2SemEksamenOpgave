@@ -35,6 +35,7 @@ public class Order {
     }
 
     public Order(Date date, OrderStatus status, double price, Carport carport){
+        id = -1;
         this.date = date;
         this.status = status;
         this.carport = carport;
@@ -74,19 +75,7 @@ public class Order {
         return price;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", customerId=" + customerId +
-                ", salespersonId=" + salespersonId +
-                ", date=" + date +
-                ", status=" + status +
-                ", carport=" + carport +
-                ", receipt=" + receipt +
-                ", price=" + price +
-                '}';
-    }
+
 
 
     public int getCustomerId() {
@@ -108,6 +97,13 @@ public class Order {
         status = newStatus;
     }
     
+    public void setSalesPersonId(int salespersonId) {
+        this.salespersonId=salespersonId;
+    }
+
+    public void setCustomerId(int customerId){
+        this.customerId = customerId;
+    }
     @Override
     public boolean equals(Object arg0) {
         if (!(arg0 instanceof Order)) {
@@ -120,7 +116,17 @@ public class Order {
         return true;
     }
 
-    public void setSalesPersonId(int salespersonId) {
-        this.salespersonId=salespersonId;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customerId=" + customerId +
+                ", salespersonId=" + salespersonId +
+                ", date=" + date +
+                ", status=" + status +
+                ", carport=" + carport +
+                ", receipt=" + receipt +
+                ", price=" + price +
+                '}';
     }
 }

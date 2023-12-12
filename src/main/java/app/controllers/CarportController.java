@@ -15,7 +15,7 @@ public class CarportController {
 
         String isShed = ctx.formParam("skur");
 
-        if (isShed == null) {
+        if (isShed != null) {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
@@ -25,8 +25,6 @@ public class CarportController {
             Carport carportWithoutItemList = new Carport(length, width, shed);
 
             ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
-
-            System.out.println(itemlist.getItemList().size());
 
             Carport carportWithItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(),
                     carportWithoutItemList.getShed(), itemlist);

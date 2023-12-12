@@ -34,10 +34,13 @@ public class OrderController {
     public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
 
         Order orderToPlace = ctx.sessionAttribute("order");
-
+        
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
-
+        
         User user = ctx.sessionAttribute("currentUser");
+        if (orderToPlace.getCustomerId() == -1){
+            orderToPlace.setCustomerId(user.getId());
+        }
 
         try{
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
@@ -56,11 +59,6 @@ public class OrderController {
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
-        //TODO: Better solution to checking if someone is logged in
-        User testUser = new Customer(1, "customer", "customer",
-                "customer@email.com", "customer", "customer", 200);
-        ctx.sessionAttribute("currentUser", testUser);
-
         Customer currentUser = ctx.sessionAttribute("currentUser");
 
         //Create order
@@ -70,11 +68,9 @@ public class OrderController {
         
         // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
         if (currentUser != null) {
-
-           ctx.render("/confirmOfferRequest.html");
+            ctx.redirect("/confirmOffer");
      } else {
-            ctx.render("/login.html");
-
+            ctx.redirect("/login");
         }
     }
     public static void setupUpdatePage(Context ctx, ConnectionPool connectionPool){
@@ -85,7 +81,6 @@ public class OrderController {
             ctx.sessionAttribute("errorMessage", "Database not responding");
         }
         ctx.sessionAttribute("allSalespersonId", salespeople);
-        ctx.render("updateOrder.html");
     }
 
 
