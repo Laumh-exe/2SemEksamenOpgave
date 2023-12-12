@@ -1,8 +1,15 @@
 package app.controllers;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import app.model.Calculator;
 import app.model.entities.Carport;
+import app.model.entities.Item;
 import app.model.entities.ItemList;
+import app.model.entities.Order;
 import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
@@ -32,5 +39,14 @@ public class CarportController {
             return carportWithItemlist;
         }
         return new Carport(length,width);
+    }
+
+    public static void show2dDrawing(Context ctx){
+        Order order = ctx.sessionAttribute("order");
+        Carport carport = order.getCarport();
+        List<Item> spærList = carport.getItemList().getItemList().stream().filter(a -> a.description() == "spær").collect(Collectors.toList());
+
+        ctx.sessionAttribute("spær", spærList);
+        
     }
 }

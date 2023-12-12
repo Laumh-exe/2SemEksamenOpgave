@@ -13,6 +13,7 @@ public class Carport {
         this.shed = shed;
         bShed = true;
     }
+    
     public Carport(double length, double width, Shed shed, ItemList itemList) {
         this.length = length;
         this.width = width;
@@ -20,8 +21,8 @@ public class Carport {
         this.itemList = itemList;
         bShed = true;
     }
-    public Carport(double length, double width) {
 
+    public Carport(double length, double width) {
         this.length = length;
         this.width = width;
         bShed = false;

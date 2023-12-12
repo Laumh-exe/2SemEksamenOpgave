@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.model.entities.Item;
+import app.model.entities.ItemList;
 import app.model.entities.Order;
 import app.model.entities.User;
 import app.persistence.ConnectionPool;
@@ -64,7 +66,14 @@ public class UserController {
 
     public static void customerSetup(Context ctx, ConnectionPool connectionPool) {
         List<Order> orders = OrderController.getCustomerOrders(ctx, connectionPool);
+        ItemList il = new ItemList();
+        il.add(new Item(1, 100, 10, "yes", "spær", 20));
+        il.add(new Item(2, 100, 10, "yes", "stolpe", 10));
+        orders.get(0).getCarport().setItemList(il);
+
+        
         ctx.sessionAttribute("order", orders.get(0));
+        CarportController.show2dDrawing(ctx);
     }
 
 
