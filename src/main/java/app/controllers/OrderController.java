@@ -108,4 +108,21 @@ public class OrderController {
         ctx.render("updateOrder.html");
 
     }
+
+    public static void customerSeeAllOrders(Context ctx, ConnectionPool connectionPool) {
+
+        User customer = ctx.sessionAttribute("currentUser");
+
+        List<Order> allOrders = null;
+        try {
+            allOrders = OrderMapper.getAllCustomersOrders(customer.getId(), connectionPool);
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ctx.sessionAttribute("customersOrderlist", allOrders);
+        ctx.render("/customersAllOrdersPage.html");
+    }
+
 }
