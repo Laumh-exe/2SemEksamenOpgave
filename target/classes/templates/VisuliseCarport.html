@@ -15,8 +15,14 @@
                style="stroke: #000000; fill:none"/>
                <rect x="50" y="50" th:attr="width=${#ctx.session.order.carport.width * 100}, height=${#ctx.session.order.carport.length * 100}"
                style="stroke: #000000; fill: #ffffff"/>
-               <th:block th:each="spær, iStat:${#ctx.session.spær}">
-                    <rect y="0" th:attr="x=${iStat.index*100}, width=${10}, height=${10}"
+               <th:block th:each="i :${#numbers.sequence(0, #ctx.session.spær.get(0).quantity)}">
+                    <rect y="50" th:attr="x=${i*#ctx.session.spærSpasing+50}, width=${10}, height=${#ctx.session.order.carport.length * 100}"
+                         style="stroke: #000000; fill:none"/>
+               </th:block>
+               <th:block th:each="i :${#numbers.sequence(0, #ctx.session.stolber.get(0).quantity)}">
+                    <rect y="50" th:attr="x=${i*#ctx.session.spærSpasing+50}, width=${20}, height=${20}"
+                         style="stroke: #000000; fill:none"/>
+                    <rect th:attr="x=${i*#ctx.session.stolbeSpasing+50}, y=${#ctx.session.order.carport.length * 100 + 30}, width=${20}, height=${20}"
                          style="stroke: #000000; fill:none"/>
                </th:block>
           </svg>

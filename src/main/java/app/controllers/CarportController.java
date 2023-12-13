@@ -44,9 +44,22 @@ public class CarportController {
     public static void show2dDrawing(Context ctx){
         Order order = ctx.sessionAttribute("order");
         Carport carport = order.getCarport();
-        List<Item> spærList = carport.getItemList().getItemList().stream().filter(a -> a.description() == "spær").collect(Collectors.toList());
-
-        ctx.sessionAttribute("spær", spærList);
+        spærDrawing(ctx, carport);
+        stolbeDrawing(ctx, carport);
         
+        
+        
+    }
+
+    private static void stolbeDrawing(Context ctx, Carport carport) {
+        List<Item> stolbeList = carport.getItemList().getItemList().stream().filter(a -> a.description() == "stolbe").collect(Collectors.toList());
+        ctx.sessionAttribute("stolbeSpasing", 60); //TODO: get the actual spasing form Lauritz
+        ctx.sessionAttribute("stolber", stolbeList);
+    }
+
+    private static void spærDrawing(Context ctx, Carport carport) {
+        List<Item> spærList = carport.getItemList().getItemList().stream().filter(a -> a.description() == "spær").collect(Collectors.toList());
+        ctx.sessionAttribute("spærSpasing", 60); //TODO: get the actual spasing form Lauritz
+        ctx.sessionAttribute("spær", spærList);
     }
 }

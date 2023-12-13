@@ -36,8 +36,8 @@ public class Main {
         app.get("/createUser", ctx -> ctx.render("createUser.html"));
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
-        app.get("/adminpage", ctx -> ctx.render("/SellersPage.html")); //TODO: make the sellers home page
-        app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
+        app.get("/adminpage", ctx -> ctx.render("/SellersPage.html"));
+        app.get("/customerpage", ctx -> {UserController.customerSetup(ctx, connectionPool); ctx.render("VisuliseCarport.html");});// ctx.render("/customerPage.html");});
 
         app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));

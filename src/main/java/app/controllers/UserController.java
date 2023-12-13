@@ -68,7 +68,7 @@ public class UserController {
         List<Order> orders = OrderController.getCustomerOrders(ctx, connectionPool);
         ItemList il = new ItemList();
         il.add(new Item(1, 100, 10, "yes", "spær", 20));
-        il.add(new Item(2, 100, 10, "yes", "stolpe", 10));
+        il.add(new Item(2, 100, 10, "yes", "stolbe", 10));
         orders.get(0).getCarport().setItemList(il);
 
         
