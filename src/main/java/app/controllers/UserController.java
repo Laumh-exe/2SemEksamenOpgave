@@ -15,18 +15,21 @@ public class UserController {
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
 
+        String currentPage = ctx.sessionAttribute("currentpage");
+
+
         try {
             User user = UserMapper.login(email, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
 
             if (user.getRole().equals("salesperson")) {
-                ctx.redirect("/");
+                ctx.redirect(currentPage);
             } else {
                 Order order = ctx.sessionAttribute("order");
                 if(order != null){
                     ctx.redirect("/confirmOffer");
                 } else {
-                    ctx.redirect("/");
+                    ctx.redirect(currentPage);
                 }
             }
         } catch (SQLException e) {

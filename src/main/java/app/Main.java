@@ -4,6 +4,8 @@ import app.config.ThymeleafConfig;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
+import app.controllers.PageController;
+
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -33,6 +35,7 @@ public class Main {
 
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx, connectionPool));
+        app.post("/goToLoginPage", ctx -> PageController.goToLoginPage(ctx));
 
         app.get("/logout", ctx -> UserController.logout(ctx));
 

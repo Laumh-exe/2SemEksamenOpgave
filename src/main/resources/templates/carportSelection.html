@@ -11,6 +11,9 @@
 <body>
 <h1> Design din carport!</h1>
 <div id="CarportForm">
+
+    <div th:replace="~{fragments :: formField (currentpage='carportSelection')}"></div>
+
     <form method="post" class="selector-form">
         <h3>Længde i meter</h3>
         <select type="number" name="længde">

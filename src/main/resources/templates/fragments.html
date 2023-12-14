@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<header th:fragment="header">
+<div th:fragment="formField (currentpage)">
 
     <div class="header-div">
         <div class="logo-and-right-side-buttons">
@@ -23,7 +23,6 @@
                     <button>Bestil carport med specialmål</button>
                 </a>
             </div>
-
         </div>
 
         <div class="right-side-buttons">
@@ -31,18 +30,18 @@
             <div th:if="${#ctx.session.currentUser != null && #ctx.session.currentUser.getRole().equals('salesperson')}"
                  class="salesperson-buttons-div">
                 <form class="customer-and-salesperson-buttons-form" method="post">
-                    <button type="submit" formaction="/sellersAllOrders">Your orders</button>
-                    <button>Messages</button>
-                    <button>Your account</button>
+                    <button type="submit" formaction="/sellersAllOrders">Se alle ordrer</button>
+                    <button>Beskeder</button>
+                    <button>Din konto</button>
                 </form>
             </div>
 
             <div th:if="${#ctx.session.currentUser != null && #ctx.session.currentUser.getRole().equals('customer')}"
                  class="customer-buttons-div">
                 <form class="customer-and-salesperson-buttons-form" method="post">
-                    <button type="submit" formaction="/customersAllOrders">Your orders</button>
-                    <button>Messages</button>
-                    <button>Your account</button>
+                    <button type="submit" formaction="/customersAllOrders">Dine ordrer</button>
+                    <button>Beskeder</button>
+                    <button>Din konto</button>
                 </form>
             </div>
             <div th:if="${#ctx.session.currentUser != null}" class="user-p-firstname-div">
@@ -51,9 +50,9 @@
             <div id="logout-button" class="general-buttons-div">
 
                 <div th:if="${#ctx.session.currentUser == null}">
-                    <a href="/login">
-                        <button>Login</button>
-                    </a>
+                    <form method="post">
+                        <button name="currentpage" th:value="${currentpage}" formaction="/goToLoginPage">Login</button>
+                    </form>
                 </div>
                 <div th:if="${#ctx.session.currentUser != null}">
                     <a th:href="@{/logout}">
@@ -66,7 +65,7 @@
 
     </div>
 
-</header>
+</div>
 
 
 </body>

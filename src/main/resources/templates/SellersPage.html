@@ -9,15 +9,8 @@
 
 
 <body>
-    <div id="subheader-when-logged-in">
-        <a href="/sellers/AllOrders">
-            <button>All orders</button>
-        </a>
-        <button>Messages</button>
-        <a href="/logout">
-            <button>Logout</button>
-        </a>
-    </div>
+
+    <div th:replace="~{fragments :: formField (currentpage='/')}"></div>
 
     
 </body>

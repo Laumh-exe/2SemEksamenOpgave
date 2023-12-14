@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Frontpage</title>
     <link href="../public/css/loginStyle.css" th:href="@{/css/loginStyle.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:replace="~{fragments :: header}"></div>
+<div th:replace="~{fragments :: formField (currentpage='/')}"></div>
 </body>
