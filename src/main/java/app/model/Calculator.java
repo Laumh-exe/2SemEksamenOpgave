@@ -25,6 +25,7 @@ public class Calculator {
 
     private List<Item> items;
     private int spærQuantity;
+    private int stolpeQuantity;
     private static Calculator instance = null;
 
     /**
@@ -37,6 +38,7 @@ public class Calculator {
             instance = new Calculator();
         }
         instance.spærQuantity = 0;
+        instance.stolpeQuantity = 0;
         try {
             instance.items = ItemController.getAllItems(connectionPool);
         }
@@ -104,19 +106,20 @@ public class Calculator {
         }
         else {
             for(int i = spærLengths.size(); i >= 0; i--) {
-                
+                int remaingRemLength = carportLengthCM - spærLengths.get(i) * 2;
+                if(carportLengthCM - spærLengths.get(i) * 2 )
 
-                    if (spærLengths.get(i) > carportLengthCM) {
-                        continue;
-                    }
-                    if (spærLengths.get(i) < carportLengthCM) {
+                if (spærLengths.get(i) > carportLengthCM) {
+                    continue;
+                }
+                if (spærLengths.get(i) < carportLengthCM) {
 
-                    }
-                    if (carportLengthCM - spærLengths.get(i) == 0) {
-                        remLength = spærLengths.get(i);
-                        remQuantity += 2;
-                        break;
-                    }
+                }
+                if (carportLengthCM - spærLengths.get(i) == 0) {
+                    remLength = spærLengths.get(i);
+                    remQuantity += 2;
+                    break;
+                }
                 if (carportLengthCM - spærLengths.get(i) * 2 > spærLengths.get(i)) {
 
                 }
@@ -224,6 +227,10 @@ public class Calculator {
 
     public int getSpærQuantity() {
         return spærQuantity;
+    }
+
+    public int getStolpeQuantity() {
+        return stolpeQuantity;
     }
 
     private int findClosestHigherNumberInList(ArrayList<Integer> numbers, int n) {
