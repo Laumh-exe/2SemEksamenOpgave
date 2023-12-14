@@ -8,6 +8,8 @@ import app.model.entities.Item;
 import app.model.entities.ItemList;
 import app.persistence.ConnectionPool;
 import app.persistence.ItemMapper;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,7 +37,12 @@ public class Calculator {
             instance = new Calculator();
         }
         instance.spærQuantity = 0;
-        instance.items = ItemController.getAllItems(connectionPool);
+        try {
+            instance.items = ItemController.getAllItems(connectionPool);
+        }
+        catch (SQLException e){
+            e.getMessage();
+        }
         return instance;
     }
 
@@ -57,11 +64,11 @@ public class Calculator {
             e.getMessage();
         }
         Item stolper = calculateStolper(carport);
+        Item remme = calculateRem(carport);
         return null;
     }
 
-    public Item calculateStolper(Carport carport) {
-        int carportWidthCM = (int) carport.getWidth() * 100;
+    private Item calculateStolper(Carport carport) {
         int carportLengthCM = (int) carport.getLength() * 100;
         int shedWidthCM = (int) carport.getShed().getWidth() * 100;
         int stolpeQuantity = 0;
@@ -79,7 +86,45 @@ public class Calculator {
         //Stolpe each corner
         stolpeQuantity += 4 + (carportLengthCM/250);
 
-        return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),tmpStolpe.type,stolpeQuantity);
+        return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),stolpeQuantity,tmpStolpe.function());
+    }
+
+    private Item calculateRem(Carport carport) {
+        ArrayList<Integer> spærLengths = getSpærLengths(); //USE STREAMS!
+        int lowestSpærLength = spærLengths.get(0);
+        int highestSpærLength = spærLengths.get(spærLengths.size());
+        int carportLengthCM = (int) carport.getLength() * 100;
+        int remLength = 0;
+        int remQuantity = 0;
+
+        //If carport is smaller than the longest spær available - use spær closest to carportLength
+        if(carportLengthCM < highestSpærLength) {
+            remLength = findClosestHigherNumberInList(spærLengths, carportLengthCM);
+            remQuantity += 2;
+        }
+        else {
+            for(int i = spærLengths.size(); i >= 0; i--) {
+                
+
+                    if (spærLengths.get(i) > carportLengthCM) {
+                        continue;
+                    }
+                    if (spærLengths.get(i) < carportLengthCM) {
+
+                    }
+                    if (carportLengthCM - spærLengths.get(i) == 0) {
+                        remLength = spærLengths.get(i);
+                        remQuantity += 2;
+                        break;
+                    }
+                if (carportLengthCM - spærLengths.get(i) * 2 > spærLengths.get(i)) {
+
+                }
+            }
+        }
+
+        //carportwidth - highestespær
+        //
     }
 
     /**
@@ -160,7 +205,7 @@ public class Calculator {
             //check if amount is even and add a short piece for the remaining spær
             if (spærAmount % 2 != 0) {
                 Item tmpItem = getSpærByLength(findClosestHigherNumberInList(spærLengths, carportWidthCM));
-                Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),tmpItem.type,1);
+                Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),1,tmpItem.function());
                 spærToAdd.add(item);
                 spærQuantity++;
             }
@@ -168,7 +213,7 @@ public class Calculator {
 
         //add spær and return
         Item tmpItem = getSpærByLength(spærLength);
-        Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),tmpItem.type(),spærAmount);
+        Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),spærAmount,tmpItem.function());
         spærToAdd.add(item);
         return spærToAdd;
     }
