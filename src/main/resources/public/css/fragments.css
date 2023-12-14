@@ -1,0 +1,98 @@
+
+
+.header-div{
+    border: solid cadetblue;
+
+    padding: 1vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+#fog-logo{
+    width: 6vw;
+    height: 6vw;
+
+}
+
+.general-buttons-div{
+    border: solid darkred;
+    padding: 1vw;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo-and-right-side-buttons{
+    border: solid darkslategrey;
+
+    padding: .5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+
+
+}
+
+#left-side-buttons{
+    border: solid darkslateblue;
+
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
+
+
+.right-side-buttons{
+
+    border: solid yellowgreen;
+    padding: 1vw;
+    gap: 1vw;
+    display: flex;
+    align-content: center;
+}
+
+
+
+
+.customer-buttons-div{
+    border: solid black;
+    padding: 1vw;
+
+    display: flex;
+    align-content: center;
+    gap: 2vw;
+}
+
+
+.salesperson-buttons-div{
+    border: solid darkolivegreen;
+    padding: 1vw;
+
+    display: flex;
+    align-content: center;
+    gap: 2vw;
+}
+
+.customer-and-salesperson-buttons-form{
+
+    border: solid orchid;
+    padding: .2vw;
+
+    display: flex;
+    align-content: center;
+    gap: 2vw;
+
+
+}
+
+#logout-button{
+
+    padding: 1vw;
+
+    display: flex;
+    gap: 2vw;
+
+
+}

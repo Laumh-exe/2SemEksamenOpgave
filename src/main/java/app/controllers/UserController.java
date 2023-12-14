@@ -20,16 +20,15 @@ public class UserController {
             ctx.sessionAttribute("currentUser", user);
 
             if (user.getRole().equals("salesperson")) {
-                ctx.redirect("/adminpage");
+                ctx.redirect("/");
             } else {
                 Order order = ctx.sessionAttribute("order");
                 if(order != null){
                     ctx.redirect("/confirmOffer");
                 } else {
-                    ctx.redirect("/customerpage");
+                    ctx.redirect("/");
                 }
             }
-
         } catch (SQLException e) {
             ctx.attribute("message", e.getMessage());
             ctx.render("login.html");

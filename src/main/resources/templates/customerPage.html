@@ -11,16 +11,8 @@
 
 
 <body>
-    <div id="subheader-when-logged-in">
-        <form method="post">
-            <button type="submit" formaction="/customersAllOrders">Your orders</button>
-            <button>Messages</button>
-            <button>Your account</button>
-        </form>
-        <a href="/logout">
-            <button>Logout</button>
-        </a>
-    </div>
+
+<div th:replace="~{fragments :: header}"></div>
 
     
 </body>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template</title>
+    <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<header th:fragment="header">
+
+
+    <div class="header-div">
+
+        <div class="logo-and-right-side-buttons">
+            <div>
+                <img id="fog-logo" th:src="@{/images/fog_logo.png}"
+                     src="../public/images/fog_logo.png"/>
+            </div>
+            <div class="general-buttons-div" id="left-side-buttons">
+                <a>
+                    <button>Bestil carport</button>
+                </a>
+                <a href="carportSelection.html">
+                    <button>Bestil carport med specialmål</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="right-side-buttons">
+
+            <div th:if="${#ctx.session.currentUser != null && #ctx.session.currentUser.getRole().equals('salesperson')}"
+                 class="salesperson-buttons-div">
+                <form class="customer-and-salesperson-buttons-form" method="post">
+                    <button type="submit" formaction="/sellersAllOrders">Your orders</button>
+                    <button>Messages</button>
+                    <button>Your account</button>
+                </form>
+            </div>
+
+            <div th:if="${#ctx.session.currentUser != null && #ctx.session.currentUser.getRole().equals('customer')}"
+                 class="customer-buttons-div">
+                <form class="customer-and-salesperson-buttons-form" method="post">
+                    <button type="submit" formaction="/customersAllOrders">Your orders</button>
+                    <button>Messages</button>
+                    <button>Your account</button>
+                </form>
+            </div>
+
+            <div id="logout-button" class="general-buttons-div">
+
+                <div th:if="${#ctx.session.currentUser == null}">
+                    <a href="/login">
+                        <button>Login</button>
+                    </a>
+                </div>
+                <div th:if="${#ctx.session.currentUser != null}">
+                    <a th:href="@{/logout}">
+                        <button>Log out</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</header>
+
+
+</body>
+</html>

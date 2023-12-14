@@ -21,6 +21,7 @@ public class OrderController {
     
     public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool){
         List<Order> allOrders = null;
+
         try {
             allOrders = OrderMapper.getAllOrders(connectionPool);
         } catch (SQLException e) {
