@@ -48,9 +48,9 @@ public class ItemMapper {
     }
 
 
-    public static void addItem(double price_pr_unit, double length, String unit, String description, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO public.item (price_pr_unit, length, unit, description)" +
-                "VALUES (?, ?, ?, ?)";
+    public static void addItem(double price_pr_unit, double length, String unit, String description,String function, ConnectionPool connectionPool) throws SQLException {
+        String sql = "INSERT INTO public.item (price_pr_unit, length, unit, function description)" +
+                "VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -58,6 +58,8 @@ public class ItemMapper {
                 preparedStatement.setDouble(2, length);
                 preparedStatement.setString(3, unit);
                 preparedStatement.setString(4, description);
+                preparedStatement.setString(5, function);
+
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
@@ -85,8 +87,9 @@ public class ItemMapper {
                     double length = rs.getDouble("length");
                     String unit = rs.getString("unit");
                     String description = rs.getString("description");
+                    String function = rs.getString("function");
 
-                    item.add(new Item(id, price_pr_unit, length, unit, description));
+                    item.add(new Item(id, price_pr_unit, length, unit, description, function));
                 }
             }
         }

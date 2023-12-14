@@ -15,7 +15,7 @@ class ItemListTest {
 
     @BeforeEach
     public void setup(){
-        dummyItem = new Item(1, 75, 300, "Stk", "97x97 mm. trykimp. stolpe", 5);
+        dummyItem = new Item(1, 75, 300, "Stk", "97x97 mm. trykimp.", 5, "stolpe");
     }
 
     @AfterEach
