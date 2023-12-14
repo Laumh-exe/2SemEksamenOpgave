@@ -65,7 +65,7 @@ public class Calculator {
         int carportLengthCM = (int) carport.getLength() * 100;
         int shedWidthCM = (int) carport.getShed().getWidth() * 100;
         int stolpeQuantity = 0;
-        List<Item> stolper = items.stream().filter(a -> a.type() == "stolpe").collect(Collectors.toList());
+        List<Item> stolper = items.stream().filter(a -> a.function() == "stolpe").collect(Collectors.toList());
         Item tmpStolpe = stolper.get(0);
 
         //Stolpe in middle of shed
@@ -90,7 +90,7 @@ public class Calculator {
     private ArrayList<Integer> getSpærLengths() {
         ArrayList<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
-            if (item.type().equalsIgnoreCase("spær")) {
+            if (item.function().equalsIgnoreCase("spær")) {
                 lengths.add((int) item.length());
             }
         }
@@ -101,7 +101,7 @@ public class Calculator {
     private List<Item> getOnlySpær() {
         List<Item> items = new ArrayList<>();
         for (Item item : items) {
-            if (item.type().equalsIgnoreCase("spær")) {
+            if (item.function().equalsIgnoreCase("spær")) {
                 items.add(item);
             }
         }
