@@ -19,9 +19,10 @@ public class ItemController {
         double length = Double.parseDouble(ctx.formParam("length"));
         String unit = ctx.formParam("unit");
         String description = ctx.formParam("description");
+        String function = ctx.formParam("function");
 
         try {
-            ItemMapper.addItem(price_pr_unit, length, unit, description, connectionPool);
+            ItemMapper.addItem(price_pr_unit, length, unit, description, function, connectionPool);
             List<Item> itemlist = ItemMapper.getAllItems(connectionPool);
             ctx.sessionAttribute("itemlist", itemlist);
             ctx.render("item.html");
@@ -47,11 +48,16 @@ public class ItemController {
         }
     }
 
+    public static List<Item> getAllItems(ConnectionPool connectionPool) throws SQLException {
+        List<Item> allItems = null;
+        try {
+            allItems = ItemMapper.getAllItems(connectionPool);
+            //  ctx.sessionAttribute("allItem", allItem);
+            return allItems;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
 
-	public static List<Item> getAllItems() {
-        ArrayList<Item> il = new ArrayList<>();
-        il.add(new Item(1, 100, 10, "yes", "spær", 20));
-        il.add(new Item(2, 100, 10, "yes", "stolbe", 10));
-        return il;
-	}
+    }
 }
