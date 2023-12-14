@@ -9,11 +9,14 @@
 </head>
 
 
+
 <body>
     <div id="subheader-when-logged-in">
-        <button>Your orders</button>
-        <button>Messages</button>
-        <button>Your account</button>
+        <form method="post">
+            <button type="submit" formaction="/customersAllOrders">Your orders</button>
+            <button>Messages</button>
+            <button>Your account</button>
+        </form>
         <a href="/logout">
             <button>Logout</button>
         </a>

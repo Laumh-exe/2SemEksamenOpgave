@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<title>Customers All Orders</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+
+<body>
+<div class="subheader-when-logged-in">
+  <form method="post">
+  <button type="submit" formaction="/customersAllOrders">Your orders</button>
+  <button>Messages</button>
+  <button>Your account</button>
+  </form>
+  <a href="/logout">
+    <button>Logout</button>
+  </a>
+</div>
+
+<p>Your Orders</p>
+
+<table>
+  <tr>
+    <th>Date of order</th>
+    <th>Order status</th>
+    <th></th>
+  </tr>
+
+  <tr th:each="order: ${#ctx.session.customersOrderlist}">
+
+    <td th:text="${order.getDate()}"></td>
+    <td th:text="${order.getStatus()}"></td>
+    <form method="post">
+      <td><button id="see-order-details-button" type="submit" formaction="/customerSeeOrderDetails"
+                  name="customerSeeOrderDetails" th:value="${order.getId()}">
+        See order details</button></td>
+    </form>
+  </tr>
+
+</table>
+</body>
+</html>
