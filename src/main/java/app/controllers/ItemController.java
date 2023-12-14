@@ -1,12 +1,14 @@
 package app.controllers;
 
 import app.model.entities.Item;
+import app.model.entities.ItemList;
 import app.persistence.ConnectionPool;
 import app.persistence.ItemMapper;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemController {
@@ -44,4 +46,12 @@ public class ItemController {
             ctx.render("item.html");
         }
     }
+
+
+	public static List<Item> getAllItems() {
+        ArrayList<Item> il = new ArrayList<>();
+        il.add(new Item(1, 100, 10, "yes", "spær", 20));
+        il.add(new Item(2, 100, 10, "yes", "stolbe", 10));
+        return il;
+	}
 }

@@ -32,7 +32,7 @@ class CalculatorTest {
         expectedItemList.add(new Item(5, 75, 300, "Stk", "97x97 mm. trykimp. stolpe", 11));
 
         // Act
-        ItemList actualItemList = Calculator.calculateItemList(standardCarport);
+        ItemList actualItemList = Calculator.getInstance().calculateItemList(standardCarport);
 
         // Assert
         assertEquals(expectedItemList.getItemList(),actualItemList.getItemList());

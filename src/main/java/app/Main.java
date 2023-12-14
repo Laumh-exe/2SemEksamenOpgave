@@ -38,7 +38,7 @@ public class Main {
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
         app.get("/adminpage", ctx -> ctx.render("/SellersPage.html"));
-        app.get("/customerpage", ctx -> {UserController.customerSetup(ctx, connectionPool); ctx.render("VisuliseCarport.html");});// ctx.render("/customerPage.html");});
+        app.get("/customerpage", ctx -> UserController.customerSetup(ctx, connectionPool));// ctx.render("/customerPage.html");});
 
         app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));

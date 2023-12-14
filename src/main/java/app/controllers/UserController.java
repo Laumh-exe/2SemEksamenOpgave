@@ -73,7 +73,7 @@ public class UserController {
 
         
         ctx.sessionAttribute("order", orders.get(0));
-        CarportController.show2dDrawing(ctx);
+        CarportController.show2dDrawing(ctx, connectionPool);
     }
 
 

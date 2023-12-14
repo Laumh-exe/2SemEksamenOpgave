@@ -6,6 +6,7 @@ import app.exceptions.DimensionException;
 import app.model.entities.Carport;
 import app.model.entities.Item;
 import app.model.entities.ItemList;
+import app.persistence.ConnectionPool;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,14 +25,19 @@ public class Calculator {
 
     /**
      * Setup of Singleton
+     * @param connectionPool
      *
      * @return this will always return either a new or an existing instance of Calculator
      */
-    public static Calculator getInstance() {
+    public static Calculator getInstance(ConnectionPool connectionPool) {
         if (instance == null) {
             instance = new Calculator();
         }
         instance.items = ItemController.getAllItems();
+        return instance;
+    }
+
+    public static Calculator getInstance(){
         return instance;
     }
 
@@ -62,9 +68,9 @@ public class Calculator {
     private ArrayList<Integer> getSpærLengths() {
         ArrayList<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
-            if (item.type().equalsIgnoreCase("spær")) {
-                lengths.add((int) item.length());
-            }
+            // if (item.type().equalsIgnoreCase("spær")) {
+            //     lengths.add((int) item.length());
+            // }
         }
         Collections.sort(lengths);
         return lengths;
@@ -73,9 +79,9 @@ public class Calculator {
     private List<Item> getOnlySpær() {
         List<Item> items = new ArrayList<>();
         for (Item item : items) {
-            if (item.type().equalsIgnoreCase("spær")) {
-                items.add(item);
-            }
+            // if (item.type().equalsIgnoreCase("spær")) {
+            //     items.add(item);
+            // }
         }
         return items;
     }
@@ -120,7 +126,7 @@ public class Calculator {
         boolean IsDoubleWidthTooLong = carportWidthCM * 2 < highestSpærLength;
 
         //Set sets amount and length of spær. Length is set to the one the one thats closest in length(as longs as it's longer)
-        int spærAmount = calculateAmountSpær(carportLengthCM);
+        int spærAmount = getSpærQuantaty(carportLengthCM);
         int spærLength = findClosestHigherNumberInList(spærLengths, carportWidthCM);
 
         //Check if we should rather use half the amount of longer pieces
@@ -130,19 +136,19 @@ public class Calculator {
             //check if amount is even and add a short piece for the remaining spær
             if (spærAmount % 2 != 0) {
                 Item item = getSpærByLength(findClosestHigherNumberInList(spærLengths, carportWidthCM));
-                item.setQuantity(1); //????????????????????????????????????????????????????????
+                // item.setQuantity(1); //????????????????????????????????????????????????????????
                 spærToAdd.add(item);
             }
         }
 
         //add spær and return
         Item item = getSpærByLength(spærLength);
-        item.setQuantity(spærAmount);
+        // item.setQuantity(spærAmount);
         spærToAdd.add(item);
         return spærToAdd;
     }
 
-    public int calculateAmountSpær(double carportLengthCM) {
+    public int getSpærQuantaty(double carportLengthCM) {
         return (int) Math.ceil(carportLengthCM / 60 + 2);
     }
 
