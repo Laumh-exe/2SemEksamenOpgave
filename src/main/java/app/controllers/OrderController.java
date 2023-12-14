@@ -66,7 +66,7 @@ public class OrderController {
         Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);
         ctx.sessionAttribute("order", order);
         
-        // send til login side hvis bruger ikke er logget ind - ellers send til odrreside
+        // send til login side hvis bruger ikke er logget ind - ellers send til ordreside
         if (currentUser != null) {
             ctx.redirect("/confirmOffer");
      } else {
@@ -125,4 +125,20 @@ public class OrderController {
         ctx.render("/customersAllOrdersPage.html");
     }
 
+    public static void customerSeeOrderDetails(Context ctx) {
+
+        int orderID = Integer.parseInt(ctx.formParam("customerSeeOrderDetails"));
+
+        List<Order> customersOrderlist = ctx.sessionAttribute("customersOrderlist");
+
+        for (Order order : customersOrderlist){
+            if (order.getId() == orderID){
+                Order orderToShowWithDetails = order;
+                ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
+            }
+        }
+
+        ctx.render("/customersOrderDetails.html");
+
+    }
 }

@@ -37,9 +37,9 @@
 
     <td th:text="${order.getDate()}"></td>
     <td th:text="${order.getStatus()}"></td>
-    <form>
-      <td><button id="see-order-details-button" type="submit" formaction="/seeOrderDetails"
-                  name="delete-btn" th:value="${order.getId()}">
+    <form method="post">
+      <td><button id="see-order-details-button" type="submit" formaction="/customerSeeOrderDetails"
+                  name="customerSeeOrderDetails" th:value="${order.getId()}">
         See order details</button></td>
     </form>
 

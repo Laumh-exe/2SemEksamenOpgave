@@ -46,7 +46,9 @@ public class Main {
 
         app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
 
+        app.get("/customersAllOrdersPage", ctx -> ctx.render("/customersAllOrdersPage.html"));
         app.post("/customersAllOrders", ctx -> OrderController.customerSeeAllOrders(ctx, connectionPool));
+        app.post("/customerSeeOrderDetails", ctx -> OrderController.customerSeeOrderDetails(ctx));
 
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.get("/sellers/EditOrder", ctx -> {OrderController.setupUpdatePage(ctx, connectionPool); ctx.render("updateOrder.html");});
