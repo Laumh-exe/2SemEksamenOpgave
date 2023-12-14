@@ -50,7 +50,7 @@ public class Main {
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
         app.get("/confirmOffer", ctx -> ctx.render("/confirmOfferRequest.html"));
 
-        app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
+        app.post("/offerRequested", ctx -> OrderController.placeOfferRequest(ctx, connectionPool));
 
         app.get("/customersAllOrdersPage", ctx -> ctx.render("/customersAllOrdersPage.html"));
         app.post("/customersAllOrders", ctx -> OrderController.customerSeeAllOrders(ctx, connectionPool));
