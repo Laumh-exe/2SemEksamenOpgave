@@ -6,12 +6,13 @@ import app.exceptions.DimensionException;
 import app.model.entities.Carport;
 import app.model.entities.Item;
 import app.model.entities.ItemList;
+import app.persistence.ConnectionPool;
+import app.persistence.ItemMapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import static java.lang.Math.round;
 
 /**
@@ -20,6 +21,7 @@ import static java.lang.Math.round;
 public class Calculator {
 
     private List<Item> items;
+    private int spærQuantity;
     private static Calculator instance = null;
 
     /**
@@ -31,6 +33,7 @@ public class Calculator {
         if (instance == null) {
             instance = new Calculator();
         }
+        instance.spærQuantity = 0;
         instance.items = ItemController.getAllItems();
         return instance;
     }
@@ -50,7 +53,6 @@ public class Calculator {
         } catch (Exception e) {
             e.getMessage();
         }
-
         return null;
     }
 
@@ -127,23 +129,29 @@ public class Calculator {
         if (isWidthSmallerThatSpær && isLongPieceMoreEfficient && IsDoubleWidthTooLong) {
             spærLength = findClosestHigherNumberInList(spærLengths, carportWidthCM * 2);
             spærAmount = spærAmount / 2;
+            spærQuantity = spærAmount;
             //check if amount is even and add a short piece for the remaining spær
             if (spærAmount % 2 != 0) {
-                Item item = getSpærByLength(findClosestHigherNumberInList(spærLengths, carportWidthCM));
-                item.setQuantity(1); //????????????????????????????????????????????????????????
+                Item tmpItem = getSpærByLength(findClosestHigherNumberInList(spærLengths, carportWidthCM));
+                Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),tmpItem.type,1);
                 spærToAdd.add(item);
+                spærQuantity++;
             }
         }
 
         //add spær and return
-        Item item = getSpærByLength(spærLength);
-        item.setQuantity(spærAmount);
+        Item tmpItem = getSpærByLength(spærLength);
+        Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),tmpItem.type(),spærAmount);
         spærToAdd.add(item);
         return spærToAdd;
     }
 
     public int calculateAmountSpær(double carportLengthCM) {
         return (int) Math.ceil(carportLengthCM / 60 + 2);
+    }
+
+    public int getSpærQuantity() {
+        return spærQuantity;
     }
 
     private int findClosestHigherNumberInList(ArrayList<Integer> numbers, int n) {
@@ -164,4 +172,6 @@ public class Calculator {
         }
         return closestHigherNumber;
     }
+
+
 }
