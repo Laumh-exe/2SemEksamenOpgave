@@ -22,15 +22,11 @@
 
 <p>Your Orders</p>
 
-
 <table>
   <tr>
-
     <th>Date of order</th>
     <th>Order status</th>
     <th></th>
-
-
   </tr>
 
   <tr th:each="order: ${#ctx.session.customersOrderlist}">
@@ -42,14 +38,8 @@
                   name="customerSeeOrderDetails" th:value="${order.getId()}">
         See order details</button></td>
     </form>
-
-
-
   </tr>
 
-
 </table>
-
-
 </body>
 </html>
