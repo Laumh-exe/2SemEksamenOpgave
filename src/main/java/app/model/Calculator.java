@@ -26,6 +26,8 @@ public class Calculator {
     private List<Item> items;
     private int spærQuantity;
     private int stolpeQuantity;
+    private int remQuantity;
+
     private static Calculator instance = null;
 
     /**
@@ -39,6 +41,7 @@ public class Calculator {
         }
         instance.spærQuantity = 0;
         instance.stolpeQuantity = 0;
+        instance.remQuantity = 0;
         try {
             instance.items = ItemController.getAllItems(connectionPool);
         }
@@ -60,20 +63,23 @@ public class Calculator {
      */
     public ItemList calculateItemList(Carport carport) {
         ArrayList<Item> itemList = new ArrayList<>();
+        ArrayList<Item> spær = new ArrayList<>();
         try {
-            ArrayList<Item> spær = calculateSpær(carport);
+            spær = calculateSpær(carport);
         } catch (Exception e) {
             e.getMessage();
         }
         Item stolper = calculateStolper(carport);
-        Item remme = calculateRem(carport);
+        ArrayList rem = calculateRem(carport);
+        itemList.addAll(rem);
+        itemList.add(stolper);
+        itemList.addAll(spær);
         return null;
     }
 
     private Item calculateStolper(Carport carport) {
         int carportLengthCM = (int) carport.getLength() * 100;
         int shedWidthCM = (int) carport.getShed().getWidth() * 100;
-        int stolpeQuantity = 0;
         List<Item> stolper = items.stream().filter(a -> a.function() == "stolpe").collect(Collectors.toList());
         Item tmpStolpe = stolper.get(0);
 
@@ -91,82 +97,44 @@ public class Calculator {
         return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),stolpeQuantity,tmpStolpe.function());
     }
 
-    private Item calculateRem(Carport carport) {
-        ArrayList<Integer> spærLengths = getSpærLengths(); //USE STREAMS!
-        int lowestSpærLength = spærLengths.get(0);
-        int highestSpærLength = spærLengths.get(spærLengths.size());
-        int carportLengthCM = (int) carport.getLength() * 100;
-        int remLength = 0;
-        int remQuantity = 0;
+    private ArrayList<Item> calculateRem(Carport carport) {
+        //Hent rem istedet for spær
 
-        //If carport is smaller than the longest spær available - use spær closest to carportLength
-        if(carportLengthCM < highestSpærLength) {
-            remLength = findClosestHigherNumberInList(spærLengths, carportLengthCM);
+        ArrayList<Integer> remLengths = getRemLengths(); //USE STREAMS!
+        ArrayList<Item> rem = new ArrayList<>();
+        int lowestRemLength = remLengths.get(0);
+        int highestRemLength = remLengths.get(remLengths.size());
+        int carportLengthCM = (int) carport.getLength() * 100;
+
+        //If carport is smaller than the longest rem available - use rem closest to carportLength
+        if(carportLengthCM < highestRemLength) {
+            Item tmpItem = getRemByLength(findClosestHigherNumberInList(remLengths, carportLengthCM));
+            rem.add(new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),2,tmpItem.function()));
             remQuantity += 2;
         }
         else {
-            for(int i = spærLengths.size(); i >= 0; i--) {
-                int remaingRemLength = carportLengthCM - spærLengths.get(i) * 2;
-                if(carportLengthCM - spærLengths.get(i) * 2 )
+            //Check each length from longest, to shortest
+            for(int i = remLengths.size(); i >= 0; i--) {
+                int remainingRemLength = carportLengthCM - remLengths.get(i) * 2;
 
-                if (spærLengths.get(i) > carportLengthCM) {
-                    continue;
-                }
-                if (spærLengths.get(i) < carportLengthCM) {
-
-                }
-                if (carportLengthCM - spærLengths.get(i) == 0) {
-                    remLength = spærLengths.get(i);
+                //If length of rem is the same as length of carport
+                if (carportLengthCM == remLengths.get(i)) {
+                    Item tmpItem = getRemByLength(remLengths.get(i));
+                    rem.add(new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),2,tmpItem.function()));
                     remQuantity += 2;
                     break;
                 }
-                if (carportLengthCM - spærLengths.get(i) * 2 > spærLengths.get(i)) {
-
+                //If remaining length(each side combined) is between shortest and longest rem, add the rem longer...
+                else if (remainingRemLength > lowestRemLength && remainingRemLength < highestRemLength) {
+                    Item tmpItem = getRemByLength(findClosestHigherNumberInList(remLengths, remainingRemLength));
+                    rem.add(new Item(tmpItem.id(), tmpItem.price_pr_unit(), tmpItem.length(), tmpItem.unit(), tmpItem.description(), 1, tmpItem.function()));
+                    rem.add(new Item(tmpItem.id(), tmpItem.price_pr_unit(), remLengths.get(i), tmpItem.unit(), tmpItem.description(), 2, tmpItem.function()));
+                    remQuantity += 3;
+                    break;
                 }
             }
         }
-
-        //carportwidth - highestespær
-        //
-    }
-
-    /**
-     * Get "spær" lengths in a list and sort
-     *
-     * @return
-     */
-    private ArrayList<Integer> getSpærLengths() {
-        ArrayList<Integer> lengths = new ArrayList<>();
-        for (Item item : items) {
-            if (item.function().equalsIgnoreCase("spær")) {
-                lengths.add((int) item.length());
-            }
-        }
-        Collections.sort(lengths);
-        return lengths;
-    }
-
-    private List<Item> getOnlySpær() {
-        List<Item> items = new ArrayList<>();
-        for (Item item : items) {
-            if (item.function().equalsIgnoreCase("spær")) {
-                items.add(item);
-            }
-        }
-        return items;
-    }
-
-    /**
-     * @return Will return the first element matching the input length, otherwise returns null
-     */
-    private Item getSpærByLength(int length) {
-        List<Item> items = new ArrayList<>();
-        for (Item item : items) {
-            if (item.length() == length) {
-                return item;
-            }
-        }
-        return null;
+        return rem;
     }
 
     /**
@@ -181,7 +149,7 @@ public class Calculator {
         int carportWidthCM = (int) carport.getWidth() * 100;
         int carportLengthCM = (int) carport.getLength() * 100;
         ArrayList<Item> spærToAdd = new ArrayList<>();
-        List<Item> spærFromItems = getOnlySpær();
+        List<Item> spærFromItems = items.stream().filter(a -> a.description().equals("spær")).collect(Collectors.toList());
         ArrayList<Integer> spærLengths = getSpærLengths();
         int lowestSpærLength = spærLengths.get(0);
         int highestSpærLength = spærLengths.get(spærLengths.size());
@@ -233,6 +201,11 @@ public class Calculator {
         return stolpeQuantity;
     }
 
+    public int getRemQuantity() {
+        return remQuantity;
+    }
+
+
     private int findClosestHigherNumberInList(ArrayList<Integer> numbers, int n) {
         // Initialize variables to keep track of the minimum difference and the closest higher number
         int minDifference = Integer.MAX_VALUE;
@@ -253,4 +226,59 @@ public class Calculator {
     }
 
 
+    /**
+     * Get "spær" lengths in a list and sort
+     *
+     * @return
+     */
+    private ArrayList<Integer> getSpærLengths() {
+        ArrayList<Integer> lengths = new ArrayList<>();
+        for (Item item : items) {
+            if (item.function().equalsIgnoreCase("spær")) {
+                lengths.add((int) item.length());
+            }
+        }
+        Collections.sort(lengths);
+        return lengths;
+    }
+    /**
+     * Get "rem" lengths in a list and sort
+     *
+     * @return
+     */
+    private ArrayList<Integer> getRemLengths() {
+        ArrayList<Integer> lengths = new ArrayList<>();
+        for (Item item : items) {
+            if (item.function().equalsIgnoreCase("rem")) {
+                lengths.add((int) item.length());
+            }
+        }
+        Collections.sort(lengths);
+        return lengths;
+    }
+
+    /**
+     * @return Will return the first element matching the input length, otherwise returns null
+     */
+    private Item getSpærByLength(int length) {
+        List<Item> spærList = items.stream().filter(a -> a.description().equals("spær")).collect(Collectors.toList());
+        for (Item item : spærList) {
+            if (item.length() == length) {
+                return item;
+            }
+        }
+        return null;
+    }
+    /**
+     * @return Will return the first element matching the input length, otherwise returns null
+     */
+    private Item getRemByLength(int length) {
+        List<Item> remList = items.stream().filter(a -> a.description().equals("rem")).collect(Collectors.toList());
+        for (Item item : remList) {
+            if (item.length() == length) {
+                return item;
+            }
+        }
+        return null;
+    }
 }
