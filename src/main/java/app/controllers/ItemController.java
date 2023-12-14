@@ -44,4 +44,13 @@ public class ItemController {
             ctx.render("item.html");
         }
     }
+
+    public static List<Item> getAllItems(ConnectionPool connectionPool) throws SQLException {
+        List<Item> allItems = null;
+
+        allItems = ItemMapper.getAllItems(connectionPool);
+        //  ctx.sessionAttribute("allItem", allItem);
+        return allItems;
+    }
+
 }
