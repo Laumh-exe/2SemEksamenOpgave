@@ -54,6 +54,15 @@
 }
 
 
+.user-p-firstname-div{
+    border: solid saddlebrown;
+    padding: 1vw;
+
+    display: flex;
+    align-content: center;
+
+    margin-left: 4vw;
+}
 
 
 .customer-buttons-div{

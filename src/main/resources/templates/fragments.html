@@ -9,9 +9,7 @@
 
 <header th:fragment="header">
 
-
     <div class="header-div">
-
         <div class="logo-and-right-side-buttons">
             <div>
                 <img id="fog-logo" th:src="@{/images/fog_logo.png}"
@@ -25,6 +23,7 @@
                     <button>Bestil carport med specialmål</button>
                 </a>
             </div>
+
         </div>
 
         <div class="right-side-buttons">
@@ -46,7 +45,9 @@
                     <button>Your account</button>
                 </form>
             </div>
-
+            <div th:if="${#ctx.session.currentUser != null}" class="user-p-firstname-div">
+                <p th:text="${#ctx.session.currentUser.getFirstName()}"></p>
+            </div>
             <div id="logout-button" class="general-buttons-div">
 
                 <div th:if="${#ctx.session.currentUser == null}">
