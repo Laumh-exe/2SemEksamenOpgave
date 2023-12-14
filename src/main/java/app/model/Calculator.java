@@ -8,11 +8,12 @@ import app.model.entities.Item;
 import app.model.entities.ItemList;
 import app.persistence.ConnectionPool;
 import app.persistence.ItemMapper;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.lang.Math.round;
 
 /**
@@ -29,12 +30,16 @@ public class Calculator {
      *
      * @return this will always return either a new or an existing instance of Calculator
      */
-    public static Calculator getInstance() {
+    public static Calculator getInstance(ConnectionPool connectionPool) {
         if (instance == null) {
             instance = new Calculator();
         }
         instance.spærQuantity = 0;
-        instance.items = ItemController.getAllItems();
+        instance.items = ItemController.getAllItems(connectionPool);
+        return instance;
+    }
+
+    public static Calculator getInstance() {
         return instance;
     }
 
@@ -45,15 +50,36 @@ public class Calculator {
      * @return ItemList with all collected data
      */
     public ItemList calculateItemList(Carport carport) {
-        ArrayList<Integer> spærLengths = getSpærLengths();
-        int lowestSpærLength = spærLengths.get(0);
-        int highestSpærLength = spærLengths.get(spærLengths.size());
+        ArrayList<Item> itemList = new ArrayList<>();
         try {
-            List<Item> spær = calculateSpær(carport, lowestSpærLength, highestSpærLength, spærLengths);
+            ArrayList<Item> spær = calculateSpær(carport);
         } catch (Exception e) {
             e.getMessage();
         }
+        Item stolper = calculateStolper(carport);
         return null;
+    }
+
+    public Item calculateStolper(Carport carport) {
+        int carportWidthCM = (int) carport.getWidth() * 100;
+        int carportLengthCM = (int) carport.getLength() * 100;
+        int shedWidthCM = (int) carport.getShed().getWidth() * 100;
+        int stolpeQuantity = 0;
+        List<Item> stolper = items.stream().filter(a -> a.type() == "stolpe").collect(Collectors.toList());
+        Item tmpStolpe = stolper.get(0);
+
+        //Stolpe in middle of shed
+        if(carport.isShed()) {
+            if (shedWidthCM/250 > 1) {
+                stolpeQuantity += shedWidthCM/250*2;
+            }
+            // Stolpe in mid-corners of shed
+            stolpeQuantity += 2;
+        }
+        //Stolpe each corner
+        stolpeQuantity += 4 + (carportLengthCM/250);
+
+        return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),tmpStolpe.type,stolpeQuantity);
     }
 
     /**
@@ -100,21 +126,22 @@ public class Calculator {
      * Der skal ikke kunne eksistere spær der ikke kan deles med 60
      *
      * @param carport
-     * @param lowestSpærLength
-     * @param highestSpærLength
      * @return
      */
-    private List<Item> calculateSpær(Carport carport, int lowestSpærLength, int highestSpærLength, ArrayList<Integer> spærLengths) throws DimensionException {
+    private ArrayList<Item> calculateSpær(Carport carport) throws DimensionException {
+        //Setup
+        int carportWidthCM = (int) carport.getWidth() * 100;
+        int carportLengthCM = (int) carport.getLength() * 100;
+        ArrayList<Item> spærToAdd = new ArrayList<>();
+        List<Item> spærFromItems = getOnlySpær();
+        ArrayList<Integer> spærLengths = getSpærLengths();
+        int lowestSpærLength = spærLengths.get(0);
+        int highestSpærLength = spærLengths.get(spærLengths.size());
+
         //VERIFY CORRECT DIMENSIONS
         if (highestSpærLength < carport.getWidth()) {
             throw new DimensionException("Carport is too wide for available 'spær', please add new Item or remove options for carport-width");
         }
-
-        //Setup
-        int carportWidthCM = (int) carport.getWidth() * 100;
-        int carportLengthCM = (int) carport.getLength() * 100;
-        List<Item> spærToAdd = new ArrayList<>();
-        List<Item> spærFromItems = getOnlySpær();
 
         //Hjælpemetoder
         Boolean isWidthSmallerThatSpær = carportWidthCM < lowestSpærLength;
