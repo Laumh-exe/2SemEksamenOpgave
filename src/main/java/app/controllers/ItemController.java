@@ -17,9 +17,10 @@ public class ItemController {
         double length = Double.parseDouble(ctx.formParam("length"));
         String unit = ctx.formParam("unit");
         String description = ctx.formParam("description");
+        String function = ctx.formParam("function");
 
         try {
-            ItemMapper.addItem(price_pr_unit, length, unit, description, connectionPool);
+            ItemMapper.addItem(price_pr_unit, length, unit, description, function, connectionPool);
             List<Item> itemlist = ItemMapper.getAllItems(connectionPool);
             ctx.sessionAttribute("itemlist", itemlist);
             ctx.render("item.html");
