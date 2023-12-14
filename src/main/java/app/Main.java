@@ -42,6 +42,7 @@ public class Main {
         app.get("/createUser", ctx -> ctx.render("createUser.html"));
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
+        app.get("/carportSelection", ctx-> ctx.render("/carportSelection.html"));
         app.get("/adminpage", ctx -> ctx.render("/SellersPage.html")); //TODO: make the sellers home page
         app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
 

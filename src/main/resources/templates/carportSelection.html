@@ -6,13 +6,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 </head>
 
 <body>
+<div th:replace="~{fragments :: formField (currentpage='carportSelection')}"></div>
+
 <h1> Design din carport!</h1>
+
 <div id="CarportForm">
 
-    <div th:replace="~{fragments :: formField (currentpage='carportSelection')}"></div>
 
     <form method="post" class="selector-form">
         <h3>Længde i meter</h3>
