@@ -49,7 +49,7 @@ public class ItemMapper {
 
 
     public static void addItem(double price_pr_unit, double length, String unit, String description,String function, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO public.item (price_pr_unit, length, unit, function description)" +
+        String sql = "INSERT INTO public.item (price_pr_unit, length, unit, function, description)" +
                 "VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
