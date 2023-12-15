@@ -1,0 +1,147 @@
+.background{
+    position: relative;
+    border: solid darkred;
+    padding: 1vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.headline-and-order-status{
+    border: solid deeppink;
+    padding: 1vw;
+    margin-top: 2.2vw;
+
+    display: flex;
+    gap: 1vw;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+#headline{
+    border: solid #2980b9;
+    padding: .5vw;
+
+}
+
+
+.close-button-div{
+    position: absolute;
+    top: 3.2vw;
+    left: 84vw;
+
+    border: solid lawngreen;
+    padding: .5vw;
+
+}
+#close-button{
+    width: 4vw;
+    height: 4vw;
+}
+
+#order_status{
+    border: solid darkmagenta;
+    padding: .5vw;
+
+}
+
+.carport-length-and-width-div{
+    border: solid dimgray;
+    padding: 1vw;
+    margin-top: 1vw;
+
+    display: flex;
+}
+
+.length-and-width-text-div{
+    border: solid black;
+    padding: 1vw;
+}
+.length-and-width-div{
+    border: solid black;
+    padding: 1vw;
+    margin-left: 2vw;
+    width: 8vw;
+}
+
+.shed-no-shed-div{
+    border: solid rebeccapurple;
+    margin-top: 1vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
+
+    font-size: 2vw;
+
+}
+
+
+#carport-blueprint{
+    border: solid darkslateblue;
+    padding: 1vw;
+    margin-top: 2vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blueprint-div{
+    border: solid darkgoldenrod;
+    padding: 1vw;
+
+    display: flex;
+    align-items: center;
+
+}
+
+.price-and-pay-button-div{
+    border: solid violet;
+    padding: 1vw;
+    margin-top: 1vw;
+
+    display: flex;
+    gap: 2vw;
+
+}
+
+.price-div{
+    border: solid royalblue;
+    padding: 1vw;
+
+    font-size: 4vw;
+    display: flex;
+    align-items: center;
+
+}
+.price-text{
+    font-weight: bold;
+}
+.pay-button-form{
+    border: solid cornflowerblue;
+    padding: 1vw;
+
+    display: flex;
+    align-items: center;
+    font-size: 4vw;
+}
+
+.pay-button{
+    width: 20vw;
+    height: 6vw;
+    font-size: 4vw;
+
+    background-color: forestgreen;
+
+}
+.price{
+    margin-left: 1.5vw;
+}
+
