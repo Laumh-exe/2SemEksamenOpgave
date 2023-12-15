@@ -1,0 +1,35 @@
+
+.background{
+    background-color: white;
+}
+
+#frontpage{
+    border: solid black;
+    margin: 20vw;
+    display: flex;
+    justify-content: center;
+}
+
+#go-to-create-carport-page {
+    border: solid black;
+    margin: 5vw;
+    padding: 0.5vw;
+    height: 10vw;
+    width: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12vw;
+}
+
+#go-to-existing-carport-page {
+    border: solid black;
+    margin: 5vw;
+    padding: 0.5vw;
+    height: 10vw;
+    width: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12vw
+}

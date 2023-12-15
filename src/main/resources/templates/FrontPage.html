@@ -6,10 +6,22 @@
     <link href="../public/css/loginStyle.css" th:href="@{/css/loginStyle.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
+    <link href="../public/css/frontPage.css" th:href="@{/css/frontPage.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:replace="~{fragments :: formField (currentpage='/')}"></div>
+<div th:replace="~{fragments :: formField (currentpage='/')}">
+    <div id="frontpage">
+        <div id="Create-your-own-carport">
+            <a href="/carportSelection">
+                <button id="go-to-create-carport-page">Lav ny carport</button>
+            </a>
+        </div>
 
-<p>FRONTPAGE</p>
-
+        <div>
+            <a href="carportSelection">
+                <button id="go-to-existing-carport-page">Vælg en carport</button>
+            </a>
+        </div>
+    </div>
+</div>
 </body>

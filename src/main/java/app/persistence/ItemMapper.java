@@ -63,11 +63,11 @@ public class ItemMapper {
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected != 1) {
-                    throw new SQLException("Fejl");
+                    throw new SQLException("Fejl ved addItem");
                 }
             }
         } catch (SQLException e) {
-            throw new SQLException("FEJL!!");
+            throw new SQLException("FEJL!! ved addItem");
         }
     }
 
@@ -108,7 +108,7 @@ public class ItemMapper {
                 }
             }
         } catch (SQLException e) {
-            throw new SQLException("FEJL!!");
+            throw new SQLException("FEJL!! ved removeItem");
         }
     }
 }
