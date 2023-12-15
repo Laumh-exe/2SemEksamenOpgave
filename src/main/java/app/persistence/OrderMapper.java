@@ -59,10 +59,13 @@ public class OrderMapper {
         String sql = "";
 
         if (order.getCarport().isShed()) {
+            System.out.println("Sql with shed");
             sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                     "carport_width, carport_length, shed_width, shed_length) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         } else {
+            System.out.println("Sql without shed");
             sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                     "carport_width, carport_length) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
@@ -103,7 +106,8 @@ public class OrderMapper {
                 }
             }
         } catch (SQLException e) {
-            throw new SQLException("Order not placed in DB");
+
+            throw new SQLException("Something went wrong with placing order in DB");
 
         }
         return order;
