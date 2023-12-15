@@ -5,6 +5,7 @@
     <title>Confirm Offer Request</title>
 
     <link href="../public/css/confirmOfferRequest.css" th:href="@{/css/confirmOfferRequest.css}" rel="stylesheet"/>
+    <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -12,12 +13,7 @@
 <div class="background">
 
 
-    <div id="subheader-when-logged-in">
-        <button>Your orders</button>
-        <button>Messages</button>
-        <button>Your account</button>
-
-    </div>
+    <div th:replace="~{fragments :: formField (currentpage='/')}"></div>
 
     <div id="headline">
         <p>Your carport</p>

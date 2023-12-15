@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link href="../public/css/loginStyle.css" th:href="@{/css/loginStyle.css}" rel="stylesheet"/>
-  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Frontpage</title>
+    <link href="../public/css/loginStyle.css" th:href="@{/css/loginStyle.css}" rel="stylesheet"/>
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 </head>
 <body>
-    <a href="/login">
-        <button type="button">Login</button>
-    </a>
-    <a href="/createOrder">
-        <button type="button">Lav en odre</button>
-    </a>
+<div th:replace="~{fragments :: formField (currentpage='/')}"></div>
+
+
+<p>FRONTPAGE</p>
+
 </body>

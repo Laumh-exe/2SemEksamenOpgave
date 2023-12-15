@@ -20,7 +20,6 @@ public class UserMapper {
 
     public static User login(String email, String password, ConnectionPool connectionPool) throws SQLException {
 
-
         User customerExists = checkIfCustomerExists(email, password, connectionPool);
 
         if (customerExists != null) {
@@ -43,7 +42,7 @@ public class UserMapper {
         String sql1 = "SELECT * FROM public.customer WHERE email=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql1)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql1)) {
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -68,7 +67,8 @@ public class UserMapper {
         String sql1 = "SELECT * FROM public.salesperson WHERE email=? AND password=?";
 
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql1)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql1)) {
+
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -80,6 +80,7 @@ public class UserMapper {
                     return salesperson;
 
                 } else {
+
                     return null;
 
                 }
@@ -97,7 +98,7 @@ public class UserMapper {
         } else {
             String sql = "INSERT INTO \"customer\" (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = connectionPool.getConnection()) {
-                try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                     preparedStatement.setString(1, firstName);
                     preparedStatement.setString(2, lastName);
                     preparedStatement.setString(3, email);
@@ -136,7 +137,7 @@ public class UserMapper {
     public static boolean checkIfEmailExists(String email, ConnectionPool connectionPool) throws SQLException {
         String sql = "SELECT * FROM public.customer, public.salesperson WHERE email=?";
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, email);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
