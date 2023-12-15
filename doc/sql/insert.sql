@@ -12,36 +12,31 @@ INSERT INTO salesperson(email, firstname, lastname, phonenumber, password)
 VALUES ('salesperson@email.dk', 'salesperson', 'salesperson', 00000000, 'salesperson');
 
 INSERT INTO item(unit, description, length, price_pr_unit, function)
-VALUES ('Pakke', 'søm', 5, 100),
-       ('Stk', 'Stolpe', 100, 100),
-       ('Stk', '25x200 mm. trykimp. Bræt| understernbrædder til for & bag ende', 360, 100),
-       ('Stk', '25x200 mm. trykimp. Bræt| understernbrædder til siderne', 540, 100),
-       ('Stk', '97x97 mm. trykimp. stolpe', 300, 75),
-
+VALUES
        --SPÆR - BESKRIVELSE BLIVER TIL FUNCTION
-       ('Stk', '45x195 mm. spærtræ', 'spær', 240, 100),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 300, 120),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 360, 140),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 420, 160),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 480, 180),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 540, 200),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 600, 220),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 660, 240),
-       ('Stk', '45x195 mm. spærtræ', 'spær', 720, 260),
+       ('Stk', '45x195 mm. spærtræ', 240, 100,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 300, 120,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 360, 140,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 420, 160,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 480, 180,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 540, 200,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 600, 220,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 660, 240,'spær'),
+       ('Stk', '45x195 mm. spærtræ', 720, 260,'spær'),
 
         --REM
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 240, 100),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 300, 120),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 360, 140),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 420, 160),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 480, 180),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 540, 200),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 600, 220),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 660, 240),
-       ('Stk', '45x195 mm. spærtræ - til rem', 'rem' 720, 260),
+       ('Stk', '45x195 mm. spærtræ - til rem',240, 100,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',300, 120,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',360, 140,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',420, 160,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',480, 180,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',540, 200,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',600, 220,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',660, 240,'rem'),
+       ('Stk', '45x195 mm. spærtræ - til rem',720, 260,'rem'),
 
         --Stolper - kun en kan blive brugt i vores system(ingen mulighed for valg af højde)
-       ('Stk', '97x97 mm. trykimp. Stolpe', 'stolpe', 300, 340);
+       ('Stk', '97x97 mm. trykimp. Stolpe', 300, 340,'stolpe');
 
 INSERT INTO public.order(status, date, customer_id, salesperson_id, total_price, carport_width, carport_length,
                          shed_width, shed_length)

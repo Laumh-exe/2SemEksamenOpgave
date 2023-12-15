@@ -70,7 +70,7 @@ public class Calculator {
             e.getMessage();
         }
         Item stolper = calculateStolper(carport);
-        ArrayList rem = calculateRem(carport);
+        ArrayList<Item> rem = calculateRem(carport);
         itemList.addAll(rem);
         itemList.add(stolper);
         itemList.addAll(spær);
