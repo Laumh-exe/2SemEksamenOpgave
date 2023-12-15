@@ -41,6 +41,12 @@ public class CarportSVG {
         carportSvg.addRectangleWithDashedBorder(spasingFromSides/2 + height - sehdLength, spasingFromSides/2 + width - sehdWidth, sehdLength, sehdWidth);
     }
 
+    private void addRem() {
+        float remWidth = 15;
+        
+        carportSvg.addRectangle(spasingFromSides/2 + stolbeSpaseFromSides - remWidth/2, spasingFromSides/2, remWidth, height, remWidth/2, 0d);
+        carportSvg.addRectangle(width + spasingFromSides/2 - stolbeSpaseFromSides - remWidth/2, spasingFromSides/2, remWidth, height, -remWidth/2, 0d);
+    }
 
     private void addArrows() {
         carportSvg.addText(20, height/2, -90, "" + carport.getLength() + "m");
