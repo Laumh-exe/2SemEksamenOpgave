@@ -44,8 +44,8 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeOrder(User currentUser, Order order,  ConnectionPool connectionPool)
-            throws DatabaseException {
+    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
+            throws SQLException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
 
@@ -54,11 +54,23 @@ public class OrderMapper {
         return true;
     }
 
-    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException {
+    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws SQLException {
 
-        String sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
-                "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "";
+
+        if (order.getCarport().isShed()) {
+
+            System.out.println("Sql with shed");
+            sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
+                    "carport_width, carport_length, shed_width, shed_length) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        } else {
+            System.out.println("Sql without shed");
+            sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
+                    "carport_width, carport_length) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
+        }
 
         Date utilDate = order.getDate();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -72,10 +84,11 @@ public class OrderMapper {
                 ps.setDouble(4, 0);
                 ps.setDouble(5, order.getCarport().getWidth());
                 ps.setDouble(6, order.getCarport().getLength());
-                ps.setDouble(7, order.getCarport().getShed().getWidth());
-                ps.setDouble(8, order.getCarport().getShed().getLength());
-                // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?
-                ps.setInt(9, 1);
+
+                if (order.getCarport().isShed()) {
+                    ps.setDouble(7, order.getCarport().getShed().getWidth());
+                    ps.setDouble(8, order.getCarport().getShed().getLength());
+                }
 
                 int rowsAffected = ps.executeUpdate();
 
@@ -90,13 +103,10 @@ public class OrderMapper {
                             order.getPrice(), order.getCarport());
 
                     return orderWithId;
-
-                } else {
-                    throw new DatabaseException("Order not inserted");
                 }
             }
         } catch (SQLException e) {
-
+            throw new SQLException("Something went wrong with placing order in DB");
         }
         return order;
     }
@@ -159,7 +169,7 @@ public class OrderMapper {
 
     }
 
-    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException  {
+    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "SELECT * FROM public.order WHERE customer_id = ?";
         List<Order> orders = new ArrayList<>();

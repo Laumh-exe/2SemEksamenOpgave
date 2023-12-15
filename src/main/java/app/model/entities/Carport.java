@@ -27,6 +27,14 @@ public class Carport {
         bShed = false;
     }
 
+    public Carport(double length, double width, ItemList itemList) {
+
+        this.length = length;
+        this.width = width;
+        this.itemList = itemList;
+        bShed = false;
+    }
+
     public boolean isShed() {
         return bShed;
     }
