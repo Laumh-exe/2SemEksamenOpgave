@@ -45,7 +45,7 @@ public class OrderMapper {
 
 
     public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
-            throws DatabaseException {
+            throws SQLException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
 
@@ -54,11 +54,9 @@ public class OrderMapper {
         return true;
     }
 
-    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException {
+    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "";
-
-        System.out.println("Shed or no shed: " + order.getCarport().isShed());
 
         if (order.getCarport().isShed()) {
 
@@ -72,17 +70,14 @@ public class OrderMapper {
             sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                     "carport_width, carport_length) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
-
-
         }
-
 
         Date utilDate = order.getDate();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                System.out.println("Inserting order in DB");
+
                 ps.setString(1, order.getStatus().toString());
                 ps.setDate(2, sqlDate);
                 ps.setInt(3, currentUser.getId());
@@ -97,8 +92,6 @@ public class OrderMapper {
 
                 int rowsAffected = ps.executeUpdate();
 
-                System.out.println("Rows affected: " + rowsAffected);
-
                 if (rowsAffected == 1) {
 
                     ResultSet rs = ps.getGeneratedKeys();
@@ -110,15 +103,10 @@ public class OrderMapper {
                             order.getPrice(), order.getCarport());
 
                     return orderWithId;
-
-                } else {
-                    System.out.println("Order not inserted");
-                    throw new DatabaseException("Order not inserted");
                 }
             }
         } catch (SQLException e) {
-            System.out.println("SQL Exception in placeOrderInDB");
-
+            throw new SQLException("Something went wrong with placing order in DB");
         }
         return order;
     }

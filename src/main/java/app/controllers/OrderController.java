@@ -48,7 +48,7 @@ public class OrderController {
 
             ctx.render("/offerRequestConfirmed.html");
         }
-        catch (DatabaseException e){
+        catch (SQLException e){
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
