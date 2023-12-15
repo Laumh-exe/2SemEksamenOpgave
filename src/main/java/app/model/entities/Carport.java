@@ -1,42 +1,42 @@
 package app.model.entities;
 
 public class Carport {
-    private double length;
-    private double width;
-    private boolean bShed;
+    private double lengthMeter;
+    private double widthMeter;
+    private boolean hasShed;
     private Shed shed;
     private ItemList itemList;
     
-    public Carport(double length, double width, Shed shed) {
-        this.length = length;
-        this.width = width;
+    public Carport(double lengthMeter, double widthMeter, Shed shed) {
+        this.lengthMeter = lengthMeter;
+        this.widthMeter = widthMeter;
         this.shed = shed;
-        bShed = true;
+        hasShed = true;
     }
-    public Carport(double length, double width, Shed shed, ItemList itemList) {
-        this.length = length;
-        this.width = width;
+    public Carport(double lengthMeter, double widthMeter, Shed shed, ItemList itemList) {
+        this.lengthMeter = lengthMeter;
+        this.widthMeter = widthMeter;
         this.shed = shed;
         this.itemList = itemList;
-        bShed = true;
+        hasShed = true;
     }
-    public Carport(double length, double width) {
+    public Carport(double lengthMeter, double widthMeter) {
 
-        this.length = length;
-        this.width = width;
-        bShed = false;
-    }
-
-    public boolean isShed() {
-        return bShed;
+        this.lengthMeter = lengthMeter;
+        this.widthMeter = widthMeter;
+        hasShed = false;
     }
 
-    public double getLength() {
-        return length;
+    public boolean hasShed() {
+        return hasShed;
     }
 
-    public double getWidth() {
-        return width;
+    public double getLengthMeter() {
+        return lengthMeter;
+    }
+
+    public double getWidthMeter() {
+        return widthMeter;
     }
 
     public Shed getShed() {
@@ -47,12 +47,12 @@ public class Carport {
         return itemList;
     }
 
-    public void setLength(double length) {
-        this.length = length;
+    public void setLengthMeter(double lengthMeter) {
+        this.lengthMeter = lengthMeter;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
+    public void setWidthMeter(double widthMeter) {
+        this.widthMeter = widthMeter;
     }
 
     public void setShed(Shed shed) {

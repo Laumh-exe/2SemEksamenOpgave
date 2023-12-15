@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../public/css/item.css" th:href="@{/css/item.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<h2>Add Item</h2>
+<form action="/insert" method="post">
+    <input type="text" name="description" placeholder="description" required><br>
+    <input type="text" name="price_pr_unit" placeholder="price_pr_unit" required><br>
+    <input type="text" name="length" placeholder="length" required><br>
+    <input type="text" name="unit" placeholder="unit" required><br>
+    <input type="text" name="function" placeholder="function" required><br>
+
+    <button type="submit" value="Add Item" formaction="/addItem">Add Item</button>
+</form>
+
+<h2>Remove Item</h2>
+<form action="/remove" method="post">
+
+    <input type="text" name="item_id" placeholder="item_id" required><br>
+    <button type="submit" value="Remove Item" formaction="/removeItem">remove Item</button>
+</form>
+<table>
+    <tr>
+
+        <th>id</th>
+        <th>description</th>
+        <th>price_pr_unit</th>
+        <th>length</th>
+        <th>unit</th>
+        <th>function</th>
+    </tr>
+
+    <tr th:each="item: ${#ctx.session.itemlist}">
+
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.description}"></td>
+        <td th:text="${item.price_pr_unit}"></td>
+        <td th:text="${item.length}"></td>
+        <td th:text="${item.unit}"></td>
+        <td th:text="${item.function}"></td>
+
+    </tr>
+
+
+</table>
+
+
+</body>
+</html>

@@ -12,6 +12,7 @@ public class CarportController {
 
         double length = Double.parseDouble(ctx.formParam("længde"));
         double width = Double.parseDouble(ctx.formParam("bredde"));
+        Calculator calculator = Calculator.getInstance(connectionPool);
 
         String isShed = ctx.formParam("skur");
 
@@ -24,9 +25,9 @@ public class CarportController {
 
             Carport carportWithoutItemList = new Carport(length, width, shed);
 
-            ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
+            ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
-            Carport carportWithItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(),
+            Carport carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(),
                     carportWithoutItemList.getShed(), itemlist);
 
             return carportWithItemlist;

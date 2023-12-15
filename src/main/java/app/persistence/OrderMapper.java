@@ -9,7 +9,6 @@ import app.model.entities.*;
 
 import app.exceptions.DatabaseException;
 import app.exceptions.OrderNotFoundException;
-import app.model.entities.*;
 
 
 public class OrderMapper {
@@ -70,10 +69,10 @@ public class OrderMapper {
                 ps.setDate(2, sqlDate);
                 ps.setInt(3, currentUser.getId());
                 ps.setDouble(4, 0);
-                ps.setDouble(5, order.getCarport().getWidth());
-                ps.setDouble(6, order.getCarport().getLength());
-                ps.setDouble(7, order.getCarport().getShed().getWidth());
-                ps.setDouble(8, order.getCarport().getShed().getLength());
+                ps.setDouble(5, order.getCarport().getWidthMeter());
+                ps.setDouble(6, order.getCarport().getLengthMeter());
+                ps.setDouble(7, order.getCarport().getShed().getWidthMeter());
+                ps.setDouble(8, order.getCarport().getShed().getLengthMeter());
                 // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?
                 ps.setInt(9, 1);
 
@@ -120,8 +119,8 @@ public class OrderMapper {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setDouble(2, order.getPrice());
-                preparedStatement.setDouble(3, carport.getLength());
-                preparedStatement.setDouble(4, carport.getWidth());
+                preparedStatement.setDouble(3, carport.getLengthMeter());
+                preparedStatement.setDouble(4, carport.getWidthMeter());
                 preparedStatement.setInt(5, order.getId());
 
                 int numRowsAffected = preparedStatement.executeUpdate();
@@ -143,8 +142,8 @@ public class OrderMapper {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setDouble(2, order.getPrice());
-                preparedStatement.setDouble(3, carport.getLength());
-                preparedStatement.setDouble(4, carport.getWidth());
+                preparedStatement.setDouble(3, carport.getLengthMeter());
+                preparedStatement.setDouble(4, carport.getWidthMeter());
                 // TODO: When shed is implemented this needs to be updated to reflect the needed shed
                 // preparedStatement.setDouble(5, carport.getShed().getLength());
                 // preparedStatement.setDouble(6, carport.getShed().getWidth());
