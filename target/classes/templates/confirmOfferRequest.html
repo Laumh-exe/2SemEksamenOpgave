@@ -59,7 +59,7 @@
 
             <div th:if="${#ctx.session.order.getCarport().isShed()}" id="shed-length" class="measurements-boxes">
                 <p class="measurements measurements-parameters"> Shed length: </p>
-                <p th:text="${#ctx.session.order.getCarport().getLength()}" class="measurements chosen-measurements">
+                <p th:text="${#ctx.session.order.getCarport().getShed().getLength()}" class="measurements chosen-measurements">
                     h-generated shed length</p>
             </div>
 
@@ -67,7 +67,7 @@
                 <p class="measurements measurements-parameters">
                     Shed width: </p>
                 <p class="measurements measurements-parameters"> Shed length:
-                <p th:text="${#ctx.session.order.getCarport().getWidth()}" class="measurements chosen-measurements">
+                <p th:text="${#ctx.session.order.getCarport().getShed().getWidth()}" class="measurements chosen-measurements">
                     h-generated shed width</p>
             </div>
 

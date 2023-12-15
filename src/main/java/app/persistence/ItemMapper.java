@@ -22,8 +22,9 @@ public class ItemMapper {
 
         String sql = "INSERT INTO items_orders (order_id, item_id, quantity) VALUES ";
 
-        for (Item item : order.getCarport().getItemList().getItemList()) {
+        System.out.println("Carport itemlist: " + order.getCarport().getItemList().getItemList());
 
+        for (Item item : order.getCarport().getItemList().getItemList()) {
             if (order.getCarport().getItemList().getItemList().indexOf(item) != 0) {
                 sql += ",";
             }
@@ -35,9 +36,8 @@ public class ItemMapper {
 
                 int rowsAffected = ps.executeUpdate();
 
-                if (rowsAffected == order.getCarport().getItemList().getItemList().size()) {
-
-                } else {
+                if (rowsAffected != order.getCarport().getItemList().getItemList().size()) {
+                    System.out.println("Itemline not inserted in db");
                     throw new DatabaseException("Item line not inserted in DB");
                 }
             }

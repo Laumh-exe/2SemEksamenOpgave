@@ -44,7 +44,7 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeOrder(User currentUser, Order order,  ConnectionPool connectionPool)
+    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
             throws DatabaseException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
@@ -56,28 +56,48 @@ public class OrderMapper {
 
     public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws DatabaseException {
 
-        String sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
-                "carport_width, carport_length, shed_width, shed_length, salesperson_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "";
+
+        System.out.println("Shed or no shed: " + order.getCarport().isShed());
+
+        if (order.getCarport().isShed()) {
+
+            System.out.println("Sql with shed");
+            sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
+                    "carport_width, carport_length, shed_width, shed_length) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        } else {
+            System.out.println("Sql without shed");
+            sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
+                    "carport_width, carport_length) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
+
+
+        }
+
 
         Date utilDate = order.getDate();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+                System.out.println("Inserting order in DB");
                 ps.setString(1, order.getStatus().toString());
                 ps.setDate(2, sqlDate);
                 ps.setInt(3, currentUser.getId());
                 ps.setDouble(4, 0);
                 ps.setDouble(5, order.getCarport().getWidth());
                 ps.setDouble(6, order.getCarport().getLength());
-                ps.setDouble(7, order.getCarport().getShed().getWidth());
-                ps.setDouble(8, order.getCarport().getShed().getLength());
-                // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?
-                ps.setInt(9, 1);
+
+                if (order.getCarport().isShed()) {
+                    ps.setDouble(7, order.getCarport().getShed().getWidth());
+                    ps.setDouble(8, order.getCarport().getShed().getLength());
+                }
 
                 int rowsAffected = ps.executeUpdate();
+
+                System.out.println("Rows affected: " + rowsAffected);
 
                 if (rowsAffected == 1) {
 
@@ -92,10 +112,12 @@ public class OrderMapper {
                     return orderWithId;
 
                 } else {
+                    System.out.println("Order not inserted");
                     throw new DatabaseException("Order not inserted");
                 }
             }
         } catch (SQLException e) {
+            System.out.println("SQL Exception in placeOrderInDB");
 
         }
         return order;
@@ -159,7 +181,7 @@ public class OrderMapper {
 
     }
 
-    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException  {
+    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "SELECT * FROM public.order WHERE customer_id = ?";
         List<Order> orders = new ArrayList<>();
