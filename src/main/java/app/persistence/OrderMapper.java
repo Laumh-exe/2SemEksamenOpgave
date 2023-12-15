@@ -10,6 +10,7 @@ import app.model.entities.*;
 import app.exceptions.DatabaseException;
 import app.exceptions.OrderNotFoundException;
 import app.model.entities.*;
+import jdk.jshell.Snippet;
 
 
 public class OrderMapper {
@@ -44,7 +45,7 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeOrder(User currentUser, Order order,  ConnectionPool connectionPool)
+    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
             throws DatabaseException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
@@ -159,7 +160,7 @@ public class OrderMapper {
 
     }
 
-    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException  {
+    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "SELECT * FROM public.order WHERE customer_id = ?";
         List<Order> orders = new ArrayList<>();
@@ -191,5 +192,17 @@ public class OrderMapper {
             }
         }
         return orders;
+    }
+
+    public static void getOrder(Order order, ConnectionPool connectionPool) throws SQLException {
+        String sql = "UPDATE public.order SET (status) = (?) WHERE id= ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, order.getStatus().toString());
+                preparedStatement.setInt(2, order.getId());
+
+            }
+        }
     }
 }
