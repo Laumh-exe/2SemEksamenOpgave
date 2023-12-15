@@ -16,7 +16,7 @@ public class SVG
             "        </marker>\n" +
             "    </defs>";
 
-    private static final String SVG_RECT_TEMPLATE = "<rect x=\"%.2f\" y=\"%.2f\" height=\"%.1f\" width=\"%.1f\" style=\"%s\" />";
+    private static final String SVG_RECT_TEMPLATE = "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.1f\" height=\"%.1f\" style=\"%s\"  transform=\"translate(%f,%f)\" stroke-dasharray=\"%f %f\" />";
     
     private static final String SVG_LINE_TEMPLATE = "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.1f\" y2=\"%.1f\" style=\"%s\" />";
     
@@ -30,10 +30,23 @@ public class SVG
         svg.append(SVG_ARROW_DEFS);
     }
 
-    public void addRectangle(double x, double y, double height, double width, String style) {
-        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, style ));
+    public void addRectangle(double x, double y, double height, double width, String style, double translateX, double translateY) {
+        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, style, translateX, translateY, 0d, 0d));
     }
-
+    
+    public void addRectangle(double x, double y, double height, double width, String style) {
+        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, style, 0d, 0d, 0d, 0d));
+    }    
+    public void addRectangle(double x, double y, double height, double width, double translateX, double translateY) {
+        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, "stroke: #000000; fill:none;", translateX, translateY, 0d, 0d));
+    }
+    
+    public void addRectangle(double x, double y, double height, double width) {
+        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, "stroke: #000000; fill:none;", 0d, 0d, 0d, 0d));
+    }
+    public void addRectangleWithDashedBorder(double x, double y, double height, double width) {
+        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, "stroke: #000000; fill:none;", 0d, 0d, 5d, 10d));
+    }
 
     public void addLine(double x1, double y1, double x2, double y2, String style){
         svg.append(String.format(SVG_LINE_TEMPLATE, x1, y1, x2, y2, style));

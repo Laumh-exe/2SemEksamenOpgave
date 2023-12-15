@@ -45,7 +45,9 @@ public class CarportController {
         Locale.setDefault(new Locale("US"));
         Order order = ctx.sessionAttribute("order");
         Carport carport = order.getCarport();
-        Calculator.getInstance(connectionPool); // this is to make sure that calculator is insansed elsewhere
+        var tmp = Calculator.getInstance(connectionPool); // this is to make sure that calculator is insansed elsewhere
+        tmp.calculateItemList(carport);
+        
 
         CarportSVG svg = new CarportSVG(carport);
         

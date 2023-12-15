@@ -40,7 +40,7 @@ VALUES
 
 INSERT INTO public.order(status, date, customer_id, salesperson_id, total_price, carport_width, carport_length,
                          shed_width, shed_length)
-VALUES ('READY_FOR_REVIEW', '2023-12-20', 1, 1, 11500, 10, 10, -1, -1);
+VALUES ('READY_FOR_REVIEW', '2023-12-20', 1, 1, 11500, 6, 7.8, -1, -1);
 
 INSERT INTO items_orders(order_id, item_id, quantity)
 VALUES (1, 1, 100),

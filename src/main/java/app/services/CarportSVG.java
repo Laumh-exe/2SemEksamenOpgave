@@ -14,6 +14,8 @@ public class CarportSVG {
     private Carport carport;
     private Calculator calculator;
     private final float spasingFromSides = 100;
+    private final float stolbeSpaseFromSides = 35;
+
     
     public CarportSVG(Carport carport){
         
@@ -22,39 +24,62 @@ public class CarportSVG {
         calculator = Calculator.getInstance();
         this.carport = carport;
 
-        carportSvg = new SVG(0, 0, "0 0 " + (height + spasingFromSides) + " " + (width + spasingFromSides), "75%");
-        carportSvg.addRectangle(50, 50, width, height, "stroke: #000000; fill:none");
-
+        carportSvg = new SVG(0, 0, "0 0 " + (width + spasingFromSides) + " " + (height + spasingFromSides), "75%");
+        carportSvg.addRectangle(spasingFromSides/2, spasingFromSides/2, width, height, "stroke: #000000; fill:none");
+        if(carport.hasShed()){
+            addSkur();
+        }
         addStolber();
         addSpær();
+        addRem();
         addArrows();
     }
 
+    private void addSkur() {
+        double sehdLength = carport.getShed().getLength() * 100d;
+        double sehdWidth = carport.getShed().getWidth() * 100d;
+        carportSvg.addRectangleWithDashedBorder(spasingFromSides/2 + height - sehdLength, spasingFromSides/2 + width - sehdWidth, sehdLength, sehdWidth);
+    }
+
+
     private void addArrows() {
         carportSvg.addText(20, height/2, -90, "" + carport.getLength() + "m");
-        carportSvg.addArrow(40, 50, 40, width + 50, "stroke: #000000; fill:#000000;");
-        carportSvg.addText(width/2, height + 80, 0, "" + carport.getWidth() + "m");
-        carportSvg.addArrow(50, height + 60, width, height + 60, "stroke: #000000; fill:#000000;");
+        carportSvg.addArrow(40, spasingFromSides/2, 40, height + spasingFromSides/2, "stroke: #000000; fill:#000000;");
+        carportSvg.addText(width/2, height + spasingFromSides - 20, 0, "" + carport.getWidth() + "m");
+        carportSvg.addArrow(spasingFromSides/2, height + spasingFromSides - 40, width + spasingFromSides/2, height + spasingFromSides - 40  , "stroke: #000000; fill:#000000;");
     }
 
     private void addSpær(){
-        List<Item> spærList = carport.getItemList().getItemList().stream().filter(a -> a.description().equals("spær")).collect(Collectors.toList());
-        int numSpær = calculator.getSpærQuantaty(height);
+        int numSpær = calculator.getSpærQuantity();
         float spærDrawWidth = 10;
-        float spærSpasing = (height/numSpær) - (spærDrawWidth*2/numSpær);
-        for (int i = 0; i < spærList.get(0).quantity(); i++) {
-            carportSvg.addRectangle((i * spærSpasing) + spasingFromSides/2 + 5, 50, width, spærDrawWidth, "stroke: #000000; fill:none;");
+        float spærSpasing = (height-spærDrawWidth)/(numSpær-1);
+        for (int i = 0; i < numSpær; i++) {
+            carportSvg.addRectangle(spasingFromSides/2,i * spærSpasing + spasingFromSides/2, width, spærDrawWidth, "stroke: #000000; fill:none;");
         }
     }
     
     private void addStolber(){
-        Item stolbe = carport.getItemList().getItemList().stream().filter(a -> a.description().equals("stolbe")).collect(Collectors.toList()).get(0);
-        float stolbeSpasing = 60; //TODO: get spasing from calculator
-        for (int i = 0; i < stolbe.quantity(); i++) {
-            carportSvg.addRectangle(i * stolbeSpasing + 50, 50, 20, 20, "stroke: #000000; fill:none");
-            carportSvg.addRectangle(i * stolbeSpasing + 50, height, 20, 20, "stroke: #000000; fill:none;");
+        float stolbeSize = 20;
+
+        int numCarportStolber = calculator.getStolpeQuantity()/2; //TODO:get shed quntaty and remove it from total stople quantatiy
+        float stolbeSpasing = (height-stolbeSize)/(numCarportStolber-1);
+
+        //Hjørne stolber
+        carportSvg.addRectangle(spasingFromSides/2 + stolbeSpaseFromSides,          spasingFromSides/2 + 100,         stolbeSize, stolbeSize);
+        carportSvg.addRectangle(spasingFromSides/2 + width - stolbeSpaseFromSides,  spasingFromSides/2 + 100,         stolbeSize, stolbeSize, -stolbeSize, 0d);
+        carportSvg.addRectangle(spasingFromSides/2 + stolbeSpaseFromSides,          spasingFromSides/2 + height - 25, stolbeSize, stolbeSize, 0d, -stolbeSize);
+        carportSvg.addRectangle(spasingFromSides/2 + width - stolbeSpaseFromSides,  spasingFromSides/2 + height - 25, stolbeSize, stolbeSize, -stolbeSize, -stolbeSize);
+
+
+
+        for (int i = 1; i < numCarportStolber - 1; i++) {
+            carportSvg.addRectangle(spasingFromSides/2 + stolbeSpaseFromSides, i * stolbeSpasing + spasingFromSides/2 + 100, stolbeSize, stolbeSize);
+            carportSvg.addRectangle(width + spasingFromSides/2 - stolbeSpaseFromSides, i * stolbeSpasing + spasingFromSides/2 + 100, stolbeSize, stolbeSize, "stroke: #000000; fill:none;", -stolbeSize, 0d);
         }
     }
+
+
+
     
     @Override
     public String toString(){

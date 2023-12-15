@@ -66,10 +66,10 @@ public class UserController {
 
     public static void customerSetup(Context ctx, ConnectionPool connectionPool) {
         List<Order> orders = OrderController.getCustomerOrders(ctx, connectionPool);
-        ItemList il = new ItemList();
-        il.add(new Item(1, 100, 10, "yes", "spær", 20));
-        il.add(new Item(2, 100, 10, "yes", "stolbe", 10));
-        orders.get(0).getCarport().setItemList(il);
+        // ItemList il = new ItemList();
+        // il.add(new Item(1, 100, 10, "yes", "spær", 20));
+        // il.add(new Item(2, 100, 10, "yes", "stolbe", 10));
+        // orders.get(0).getCarport().setItemList(il);
 
         
         ctx.sessionAttribute("order", orders.get(0));

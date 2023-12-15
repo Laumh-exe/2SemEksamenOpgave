@@ -28,7 +28,7 @@ public class Carport {
         bShed = false;
     }
 
-    public boolean isShed() {
+    public boolean hasShed() {
         return bShed;
     }
 
