@@ -5,22 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+<link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 
 </head>
 
 
 
 <body>
-    <div id="subheader-when-logged-in">
-        <form method="post">
-            <button type="submit" formaction="/customersAllOrders">Your orders</button>
-            <button>Messages</button>
-            <button>Your account</button>
-        </form>
-        <a href="/logout">
-            <button>Logout</button>
-        </a>
-    </div>
+
+<div th:replace="~{fragments :: formField (currentpage='/')}"></div>
 
     
 </body>

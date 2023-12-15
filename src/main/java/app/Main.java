@@ -4,6 +4,8 @@ import app.config.ThymeleafConfig;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
+import app.controllers.PageController;
+
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -33,10 +35,14 @@ public class Main {
 
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx, connectionPool));
+        app.post("/goToLoginPage", ctx -> PageController.goToLoginPage(ctx));
+
         app.get("/logout", ctx -> UserController.logout(ctx));
+
         app.get("/createUser", ctx -> ctx.render("createUser.html"));
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
+        app.get("/carportSelection", ctx-> ctx.render("/carportSelection.html"));
         app.get("/adminpage", ctx -> ctx.render("/SellersPage.html")); //TODO: make the sellers home page
         app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
 
@@ -52,6 +58,7 @@ public class Main {
 
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.get("/sellers/EditOrder", ctx -> {OrderController.setupUpdatePage(ctx, connectionPool); ctx.render("updateOrder.html");});
+        app.post("/sellersAllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
         app.post("/removeItem", ctx -> ItemController.removeItem(ctx, connectionPool));
         app.post("/addItem", ctx -> ItemController.addItem(ctx, connectionPool));
