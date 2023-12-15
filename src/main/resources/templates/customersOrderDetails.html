@@ -22,9 +22,9 @@
         <span id="headline">Carport (with customized measurements)</span>
 
         <div id="order_status">
-            <span th:if="${#ctx.session.orderToShow.getStatus().equals('CUSTOMER_ACCEPTED') || #ctx.session.orderToShow.getStatus().equals('READY_FOR_REVIEW')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
-            <span th:if="${#ctx.session.orderToShow.getStatus().equals('PRICE_PRESENTED')}"> TILBUD </span>
-            <span th:if="${#ctx.session.orderToShow.getStatus().equals('ORDER_PAID')}"> CARPORT BESTILT OG BETALT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED') || #ctx.session.orderToShow.getStatus().equals('READY_FOR_REVIEW')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"> TILBUD </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> CARPORT BESTILT OG BETALT </span>
 
         </div>
 
@@ -89,7 +89,7 @@
         </div>
 
 
-        <div th:if="${#ctx.session.orderToShow.getStatus() == 'PRICE_PRESENTED'}" class="price-and-pay-button-div">
+        <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}" class="price-and-pay-button-div">
 
             <div class="price-div">
                 <span class="price-text">Pris: </span>
