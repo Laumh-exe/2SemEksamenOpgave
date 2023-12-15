@@ -45,7 +45,7 @@ public class OrderMapper {
 
 
     public static Boolean placeOrder(User currentUser, Order order,  ConnectionPool connectionPool)
-            throws DatabaseException {
+            throws SQLException {
 
         Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
 
@@ -72,6 +72,9 @@ public class OrderMapper {
                 ps.setDouble(4, 0);
                 ps.setDouble(5, order.getCarport().getWidth());
                 ps.setDouble(6, order.getCarport().getLength());
+
+
+
                 ps.setDouble(7, order.getCarport().getShed().getWidth());
                 ps.setDouble(8, order.getCarport().getShed().getLength());
                 // TODO: Decide what to do with this salesperson ID. Should it just be null in DB?

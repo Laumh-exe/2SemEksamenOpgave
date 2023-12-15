@@ -18,7 +18,7 @@ import java.util.List;
 public class ItemMapper {
 
 
-    public static Boolean placeItemListInDB(Order order, ConnectionPool connectionPool) throws DatabaseException {
+    public static Boolean placeItemListInDB(Order order, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "INSERT INTO items_orders (order_id, item_id, quantity) VALUES ";
 
@@ -38,11 +38,13 @@ public class ItemMapper {
                 if (rowsAffected == order.getCarport().getItemList().getItemList().size()) {
 
                 } else {
-                    throw new DatabaseException("Item line not inserted in DB");
+                    throw new SQLException("Item line not inserted in DB");
                 }
             }
         } catch (SQLException e) {
             System.out.println("sql EXCEPTION");
+            throw new SQLException("Itemlist not inserted");
+
         }
         return true;
     }
