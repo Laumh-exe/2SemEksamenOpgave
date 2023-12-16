@@ -16,26 +16,34 @@ public class CarportController {
         double length = Double.parseDouble(ctx.formParam("længde"));
         double width = Double.parseDouble(ctx.formParam("bredde"));
 
+        Carport carportWithoutItemList = new Carport(length, width);
+
         String isShed = ctx.formParam("skur");
 
         if (isShed != null) {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
-
             Shed shed = new Shed(shedLength, shedWidth);
 
-            Carport carportWithoutItemList = new Carport(length, width, shed);
 
-            ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
+            carportWithoutItemList = new Carport(length, width, shed);
 
-            Carport carportWithItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(),
-                    carportWithoutItemList.getShed(), itemlist);
+            ItemList itemlistWithShed = Calculator.calculateItemList(carportWithoutItemList);
 
-            return carportWithItemlist;
+            Carport carportWithShedAndItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(),
+                    carportWithoutItemList.getShed(), itemlistWithShed);
+
+            return carportWithShedAndItemlist;
         }
-        return new Carport(length, width);
+      
+        ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
+
+        Carport carportWithItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(), itemlist);
+
+        return carportWithItemlist;
     }
+  
 
     public static double getPrice(Carport carport, ConnectionPool connectionPool) {
         List<Item> itemList = carport.getItemList().getItemList();

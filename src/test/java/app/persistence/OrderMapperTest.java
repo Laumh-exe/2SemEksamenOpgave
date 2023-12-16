@@ -93,7 +93,7 @@ public class OrderMapperTest {
     @Test
     public void updateOrderWithoutShedTest() throws SQLException, OrderNotFoundException{
         //Arrange
-        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 100d, new Carport(110d, 50d,null));
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 100d, new Carport(110d, 50d));
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
@@ -116,7 +116,7 @@ public class OrderMapperTest {
 
     @Test
     public void updateOrderWidthoutShedNoOrdersUpdatedTest() throws SQLException{
-        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 100d, new Carport(110d, 50d,null));
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 100d, new Carport(110d, 50d));
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);

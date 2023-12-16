@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import app.model.Calculator;
 import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
 
@@ -32,13 +31,14 @@ public class OrderController {
         ctx.render("SellersAllOrders.html");
     }
 
-    public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
+    public static void placeOfferRequest(Context ctx, ConnectionPool connectionPool) {
 
         Order orderToPlace = ctx.sessionAttribute("order");
         
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
         
         User user = ctx.sessionAttribute("currentUser");
+
         if (orderToPlace.getCustomerId() == -1){
             orderToPlace.setCustomerId(user.getId());
         }
@@ -48,7 +48,7 @@ public class OrderController {
 
             ctx.render("/offerRequestConfirmed.html");
         }
-        catch (DatabaseException e){
+        catch (SQLException e){
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
