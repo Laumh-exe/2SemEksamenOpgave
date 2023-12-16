@@ -21,8 +21,6 @@ VALUES
        ('Stk', '45x195 mm. spærtræ', 480, 180,'spær'),
        ('Stk', '45x195 mm. spærtræ', 540, 200,'spær'),
        ('Stk', '45x195 mm. spærtræ', 600, 220,'spær'),
-       ('Stk', '45x195 mm. spærtræ', 660, 240,'spær'),
-       ('Stk', '45x195 mm. spærtræ', 720, 260,'spær'),
 
         --REM
        ('Stk', '45x195 mm. spærtræ - til rem',240, 100,'rem'),
@@ -32,8 +30,6 @@ VALUES
        ('Stk', '45x195 mm. spærtræ - til rem',480, 180,'rem'),
        ('Stk', '45x195 mm. spærtræ - til rem',540, 200,'rem'),
        ('Stk', '45x195 mm. spærtræ - til rem',600, 220,'rem'),
-       ('Stk', '45x195 mm. spærtræ - til rem',660, 240,'rem'),
-       ('Stk', '45x195 mm. spærtræ - til rem',720, 260,'rem'),
 
         --Stolper - kun en kan blive brugt i vores system(ingen mulighed for valg af højde)
        ('Stk', '97x97 mm. trykimp. Stolpe', 300, 340,'stolpe');

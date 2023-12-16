@@ -44,7 +44,7 @@ class CalculatorTest {
         carportWithShed = new Carport(7.8, 6, new Shed(2, 6));
         carportLengthCM = (int) (carportWithShed.getLengthMeter() * 100);
         carportWidthCM = (int) (carportWithShed.getWidthMeter() * 100);
-        int shedWidthCM = (int) (carportWithShed.getShed().getWidthMeter() * 100);
+        shedWidthCM = (int) (carportWithShed.getShed().getWidthMeter() * 100);
     }
 
     @AfterEach
@@ -58,13 +58,13 @@ class CalculatorTest {
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
 
-            Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-            Mockito.when(rs.getInt("id")).thenReturn(1, 2, 3,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
-            Mockito.when(rs.getString("unit")).thenReturn("Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk");
-            Mockito.when(rs.getString("description")).thenReturn( "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "97x97 mm. trykimp. Stolpe");
-            Mockito.when(rs.getDouble("length")).thenReturn(240d, 300d, 360d, 420d, 480d, 540d, 600d, 660d, 720d, 240d, 300d, 360d, 420d, 480d, 540d, 600d, 660d, 720d, 300d);
-            Mockito.when(rs.getDouble("price_pr_unit")).thenReturn(100d, 120d, 140d, 160d, 180d, 200d, 220d, 240d, 260d, 100d, 120d, 140d, 160d, 180d, 200d, 220d, 240d, 260d, 340d);
-            Mockito.when(rs.getString("function")).thenReturn("spær", "spær", "spær", "spær", "spær", "spær", "spær", "spær", "spær", "rem", "rem", "rem", "rem", "rem", "rem", "rem", "rem", "rem", "stolpe");
+            Mockito.when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
+            Mockito.when(rs.getInt("id")).thenReturn(1, 2, 3,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+            Mockito.when(rs.getString("unit")).thenReturn("Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk","Stk");
+            Mockito.when(rs.getString("description")).thenReturn( "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "45x195 mm. spærtræ - til rem", "97x97 mm. trykimp. Stolpe");
+            Mockito.when(rs.getDouble("length")).thenReturn(240d, 300d, 360d, 420d, 480d, 540d, 600d,  240d, 300d, 360d, 420d, 480d, 540d, 600d, 300d);
+            Mockito.when(rs.getDouble("price_pr_unit")).thenReturn(100d, 120d, 140d, 160d, 180d, 200d, 220d,100d, 120d, 140d, 160d, 180d, 200d, 220d, 340d);
+            Mockito.when(rs.getString("function")).thenReturn("spær", "spær", "spær", "spær", "spær", "spær", "spær",  "rem", "rem", "rem", "rem", "rem", "rem", "rem", "stolpe");
     }
 
 
@@ -87,7 +87,7 @@ class CalculatorTest {
      */
 
     @Test
-    void calculateSpærWithShed() {
+    void calculateSpær() {
         Calculator calculator = Calculator.getInstance(connectionPool);
         ArrayList<Item> actual = new ArrayList<>();
         // Arrange
@@ -103,17 +103,35 @@ class CalculatorTest {
     }
 
     @Test
-    void getStolpeQuantity() {
+    void calculateStolperWithShed() {
+        Calculator calculator = Calculator.getInstance(connectionPool);
+        Item actual = null;
+        // Arrange
+        Item expected = new Item(15, 340, 300, "Stk", "97x97 mm. trykimp. Stolpe", 11, "stolpe");
+        try {
+            actual = calculator.calculateStolper(carportWithShed, shedWidthCM,carportLengthCM);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        assertEquals(expected, actual);
     }
 
     @Test
-    void calculateRemWithShed() {
+    void calculateRem() {
         Calculator calculator = Calculator.getInstance(connectionPool);
         ArrayList<Item> actual = new ArrayList<>();
         // Arrange
         ArrayList<Item> expected = new ArrayList<>();
-        expected.add(new Item(6, 220, 600, "stk", "45x195 mm. spærtræ", 2, "spær"));
-        expected.add(new Item(3, 140, 360, "stk", "45x195 mm. spærtræ", 1, "spær"));
+        expected.add(new Item(10, 140, 360, "Stk", "45x195 mm. spærtræ - til rem", 1, "rem"));
+        expected.add(new Item(14, 220, 600, "Stk", "45x195 mm. spærtræ - til rem", 2, "rem"));
+        try {
+            actual = calculator.calculateRem(carportLengthCM);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        assertEquals(expected, actual);
 
     }
 }

@@ -82,33 +82,33 @@ public class Calculator {
         return null;
     }
 
-    private Item calculateStolper(Carport carport, int shedWidthCM, int carportLengthCM) {
+    public Item calculateStolper(Carport carport, int shedWidthCM, int carportLengthCM) {
         List<Item> stolper = items.stream().filter(a -> a.function().equalsIgnoreCase("stolpe")).collect(Collectors.toList());
         Item tmpStolpe = stolper.get(0);
 
         //Stolpe in middle of shed
         if(carport.hasShed()) {
             if (shedWidthCM/250 > 1) {
-                stolpeQuantity += shedWidthCM/250*2;
-                stolpeShedQuantity += shedWidthCM/250*2;
+                //Devide by 250(remove one for the cause we already have a corner further down)
+                stolpeQuantity += shedWidthCM/250*2-1;
+                stolpeShedQuantity += shedWidthCM/250*2-1;
             }
             // Stolpe in mid-corners of shed
             stolpeQuantity += 2;
             stolpeShedQuantity += 2;
         }
-        //Stolpe each corner
-        stolpeQuantity += 4 + (carportLengthCM/250);
+        //Stolpe each corner(remove one for the cause we already hae a corner)
+        stolpeQuantity += 4 + (carportLengthCM/250)-1;
 
         return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),stolpeQuantity,tmpStolpe.function());
     }
 
-    private ArrayList<Item> calculateRem(int carportLengthCM) {
-        //Hent rem istedet for spær
-
-        ArrayList<Integer> remLengths = getRemLengths(); //USE STREAMS!
+    public ArrayList<Item> calculateRem(int carportLengthCM) {
+        ArrayList<Integer> remLengths = getRemLengths();
         ArrayList<Item> rem = new ArrayList<>();
         int lowestRemLength = remLengths.get(0);
         int highestRemLength = remLengths.get(remLengths.size()-1);
+        int remLength = 0;
 
         //If carport is smaller than the longest rem available - use rem closest to carportLength
         if(carportLengthCM < highestRemLength) {
@@ -119,7 +119,8 @@ public class Calculator {
         else {
             //Check each length from longest, to shortest
             for(int i = remLengths.size()-1; i >= 0; i--) {
-                int remainingRemLength = carportLengthCM - remLengths.get(i) * 2;
+                int currentRem = remLengths.get(i);
+                int remainingRemLength = (carportLengthCM - currentRem) * 2;
 
                 //If length of rem is the same as length of carport
                 if (carportLengthCM == remLengths.get(i)) {
@@ -129,10 +130,17 @@ public class Calculator {
                     break;
                 }
                 //If remaining length(each side combined) is between shortest and longest rem, add the rem longer...
-                else if (remainingRemLength > lowestRemLength && remainingRemLength < highestRemLength) {
-                    Item tmpItem = getRemByLength(findClosestHigherNumberInList(remLengths, remainingRemLength));
+                else if (remainingRemLength >= lowestRemLength && remainingRemLength <= highestRemLength) {
+                    if (compareToLengths(remLengths, remainingRemLength)) {
+                        remLength = remainingRemLength;
+                    }
+                    else {
+                        remLength = findClosestHigherNumberInList(remLengths, remainingRemLength);
+                    }
+                    Item tmpItem = getRemByLength(remLength);
                     rem.add(new Item(tmpItem.id(), tmpItem.price_pr_unit(), tmpItem.length(), tmpItem.unit(), tmpItem.description(), 1, tmpItem.function()));
-                    rem.add(new Item(tmpItem.id(), tmpItem.price_pr_unit(), remLengths.get(i), tmpItem.unit(), tmpItem.description(), 2, tmpItem.function()));
+                    tmpItem = getRemByLength(currentRem);
+                    rem.add(new Item(tmpItem.id(), tmpItem.price_pr_unit(), tmpItem.length(), tmpItem.unit(), tmpItem.description(), 2, tmpItem.function()));
                     remQuantity += 3;
                     break;
                 }
@@ -189,7 +197,6 @@ public class Calculator {
                 spærQuantity++;
             }
         }
-
         //add spær and return
         Item tmpItem = getSpærByLength(spærLength);
         Item item = new Item(tmpItem.id(),tmpItem.price_pr_unit(),tmpItem.length(),tmpItem.unit(),tmpItem.description(),spærQuantity,tmpItem.function());
