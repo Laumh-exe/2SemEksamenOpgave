@@ -1,17 +1,21 @@
+
 .background{
     position: relative;
     border: solid darkred;
     padding: 1vw;
+    margin-top: 2vw;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: rgb(232, 232, 232, .6);
 
 }
 
 .headline-and-order-status{
-    border: solid deeppink;
+    /*border: solid deeppink;
+     */
     padding: 1vw;
     margin-top: 2.2vw;
 
@@ -22,65 +26,260 @@
 
 }
 
-
-#headline{
-    border: solid #2980b9;
+.headline-div{
+    /*border: solid yellow;
+     */
+    font-size: 3vw;
+    display: flex;
     padding: .5vw;
-
+    gap: 1vw;
 }
-
 
 .close-button-div{
     position: absolute;
     top: 3.2vw;
-    left: 84vw;
+    left: 10vw;
 
-    border: solid lawngreen;
+    /*border: solid lawngreen;
+     */
     padding: .5vw;
 
 }
 #close-button{
     width: 4vw;
     height: 4vw;
+    background-color: black;
+    color: white;
 }
 
 #order_status{
-    border: solid darkmagenta;
+    border: solid darkred;
     padding: .5vw;
+    font-size: 1.8vw;
+    color: darkred;
+    margin-bottom: 2vw;
 }
 
+.sub-body-div{
 
-.show-parts-list-button-form{
-    border: solid orange;
-    padding: 1vw;
-
-    margin-top: 1vw;
-    margin-bottom: 1vw;
-
+    width: 92vw;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+
+
+}
+.carport-measurements-div{
+    border-top: solid grey;
+    border-bottom: solid grey;
+    padding-bottom: 3vw;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-top: .2vw;
+    margin-bottom: 1vw;
+
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.show-parts-list-button{
+.carport-length-and-width-div{
+    /*border-top: solid dimgray;
+    border-bottom: solid dimgray;
+     */
+    background-color: white;
+    padding: .1vw;
+    margin-top: 0vw;
+    margin-bottom: .8vw;
+    display: flex;
+}
 
-    width: 12vw;
-    height: 4vw;
+.length-and-width-centralizing-div{
+    /*border: solid mediumvioletred;
+     */
+    padding: .2vw;
+    display: flex;
+    justify-content: center;
+
+}
+.length-and-width-text-div{
+    /*border: solid black;
+     */
+    padding: .1vw;
+    font-size: 1.6vw;
+    font-weight: bold;
+    margin-left: 12vw;
+}
+.length-and-width-div{
+    /*border: solid black;
+     */
+    padding: .1vw;
+    margin-left: 1vw;
+    margin-right: 2vw;
+    width: 14vw;
 
     font-size: 1.6vw;
 }
 
-.partslist-text{
+.shed-no-shed-div{
+    /*border: solid yellowgreen;*/
+    margin-top: 1.8vw;
+    margin-bottom: 1.2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    margin-top: 3vw;
+    font-size: 2vw;
+    font-weight: bold;
+}
+
+#carport-blueprint-div{
+    /*border: solid darkslateblue;
+
+     */
+    padding: .2vw;
+    margin-top: .1vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-size: 2vw;
+}
+
+.blueprint-div{
+    border: solid darkgoldenrod;
+    padding: .2vw;
+
+    display: flex;
+    align-items: center;
+}
+
+.blueprint-of-carport-text{
+    padding: .4vw;
+    margin-bottom: 1vw;
+}
+
+.price-and-pay-button-div{
+    border-top: solid gray;
+    border-bottom: solid gray;
+    width: 100%;
+    margin-left: 2vw;
+    margin-right: 2vw;
+
+    margin-top: 4vw;
+    margin-bottom: 2vw;
+    padding-top: 4vw;
+    padding-bottom: 4vw;
+    display: flex;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.price-div{
+    /*border: solid royalblue;
+
+     */
+    padding: 1vw;
+
+    font-size: 4vw;
+    display: flex;
+    align-items: center;
+
+}
+
+.price-text{
+    font-weight: bold;
+}
+
+.pay-button-form{
+    /*border: solid cornflowerblue;
+     */
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    font-size: 4vw;
+}
+
+.pay-button{
+    width: 20vw;
+    height: 6vw;
+    font-size: 4vw;
+    background-color: forestgreen;
+}
+
+.price{
+    margin-left: 1.5vw;
+}
+
+.order-paid-div{
+    border-top: solid grey;
+    border-bottom: solid grey;
+    width: 100%;
+    padding-bottom: 4vw;
+    margin-bottom: 2.8vw;
+}
+
+.order-paid-price-div{
+
+    border-bottom: solid black;
+    border-width: .2vw;
+    margin-top: 1vw;
+    margin-bottom: 8vw;
+
+    font-size: 4vw;
+
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.order-paid-price-text{
+    font-weight: bold;
+
+}
+
+.show-parts-list-button-form{
+
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: end;
+
+}
+
+.show-parts-list-button{
+    grid-column: 3/4;
+    grid-row: 1/2;
+    width: 7.8vw;
+    height: 2vw;
+    justify-self: end;
+    margin-right: 2vw;
+    font-size: 1vw;
+    background-color: darkgrey;
+}
+
+.partslist-text{
+    grid-row: 1/2;
+    grid-column: 2/3;
+    margin-top: .8vw;
 
     font-size: 2.8vw;
     font-weight: bold;
 }
 
 .table-showing-partslist{
-    border: solid midnightblue;
+    /*border: solid midnightblue;
+
+     */
+    background-color: white;
     padding: 1vw;
 
     width: 90vw
@@ -97,136 +296,11 @@
 }
 
 .table-showing-partslist tr{
-    background-color: rgb(8, 48, 5, .4);
+    background-color: rgb(200, 200, 200, .5);
 
 }
 .table-showing-partslist tr:nth-child(even){
-    background-color: rgb(8, 60, 5, .3);
+    background-color: rgb(150, 150, 150, .5);
 
-}
-
-.carport-measurements-div{
-    border: solid sandybrown;
-    padding: 1vw;
-    margin-top: 1vw;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.carport-length-and-width-div{
-    border: solid dimgray;
-    padding: 1vw;
-    margin-top: 1vw;
-
-    display: flex;
-}
-
-.length-and-width-text-div{
-    border: solid black;
-    padding: 1vw;
-}
-.length-and-width-div{
-    border: solid black;
-    padding: 1vw;
-    margin-left: 2vw;
-    width: 8vw;
-}
-
-.shed-no-shed-div{
-    border: solid rebeccapurple;
-    margin-top: 1vw;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1vw;
-
-    font-size: 2vw;
-}
-
-#carport-blueprint-div{
-    border: solid darkslateblue;
-    padding: 1vw;
-    margin-top: 2vw;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    font-size: 2vw;
-}
-
-.blueprint-div{
-    border: solid darkgoldenrod;
-    padding: 1vw;
-
-    display: flex;
-    align-items: center;
-
-}
-
-.price-and-pay-button-div{
-    border: solid violet;
-    padding: 1vw;
-    margin-top: 1vw;
-
-    display: flex;
-    justify-content: center;
-    gap: 2vw;
-}
-
-.price-div{
-    border: solid royalblue;
-    padding: 1vw;
-
-    font-size: 4vw;
-    display: flex;
-    align-items: center;
-
-}
-
-.price-text{
-    font-weight: bold;
-}
-
-.pay-button-form{
-    border: solid cornflowerblue;
-    padding: 1vw;
-
-    display: flex;
-    align-items: center;
-    font-size: 4vw;
-}
-
-.pay-button{
-    width: 20vw;
-    height: 6vw;
-    font-size: 4vw;
-
-    background-color: forestgreen;
-
-}
-
-.price{
-    margin-left: 1.5vw;
-}
-
-.order-paid-price-div{
-
-    border: solid cornflowerblue;
-    padding: 1vw;
-    margin-top: 1vw;
-
-    font-size: 4vw;
-
-    display: flex;
-    justify-content: center;
-    gap: 2vw;
-}
-
-.order-paid-price-text{
-    font-weight: bold;
 }
 

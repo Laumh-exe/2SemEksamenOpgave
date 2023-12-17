@@ -135,11 +135,23 @@ public class OrderController {
 
         for (Order order : customersOrderlist){
             if (order.getId() == orderID){
-                Order orderToShowWithDetails = order;
+
+                List<Item> itemList = order.getCarport().getItemList().getItemList();
+
+                HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+
+                for(Item item : itemList){
+                    double price = item.price_pr_unit() * item.quantity();
+                    pricePerQuantityOfItem.put(item, price);
+                }
+
+                Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
+
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
             }
         }
-        ctx.attribute("showPartsList", "dontShow");
+
+        ctx.attribute("showPartsList", "show");
 
         ctx.render("/customersOrderDetails.html");
 
@@ -149,30 +161,12 @@ public class OrderController {
 
         String showPartsList = ctx.formParam("showPartsList");
 
-        Order orderShowing = ctx.sessionAttribute("orderToShow");
-
         if (showPartsList.equals("dontShow")){
-
-
-            List<Item> itemList = orderShowing.getCarport().getItemList().getItemList();
-
-            HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
-
-            for(Item item : itemList){
-                double price = item.price_pr_unit() * item.quantity();
-                pricePerQuantityOfItem.put(item, price);
-            }
-
-            Order newOrderToShow = new Order(orderShowing.getId(), orderShowing.getCustomerId(), orderShowing.getSalespersonId(), orderShowing.getDate(), orderShowing.getStatus(), orderShowing.getPrice(), orderShowing.getCarport(), pricePerQuantityOfItem);
-
-            ctx.sessionAttribute("orderToShow", newOrderToShow);
             ctx.attribute("showPartsList", "show");
-
         }
         else{
             ctx.attribute("showPartsList", "dontShow");
         }
-
         ctx.render("/customersOrderDetails.html");
     }
 }

@@ -13,14 +13,16 @@
 <div class="background">
     <div class="close-button-div">
         <a href="/customersAllOrdersPage">
-            <button id="close-button">X</button>
+            <button id="close-button"><--</button>
         </a>
     </div>
 
     <div class="headline-and-order-status">
 
-        <span id="headline">Carport (with customized measurements)</span>
-
+        <div class="headline-div">
+            <span id="headline">Carport</span>
+            <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}" id="headline-with-shed">(med skur)</span>
+        </div>
         <div id="order_status">
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED') || #ctx.session.orderToShow.getStatus().equals('READY_FOR_REVIEW')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"> TILBUD </span>
@@ -31,7 +33,7 @@
     </div>
 
 
-    <div>
+    <div class="sub-body-div">
 
         <div class="carport-measurements-div">
             <div class="shed-no-shed-div">
@@ -40,18 +42,22 @@
             <div class="carport-length-and-width-div">
 
 
-                <div class="length-and-width-text-div">
-                    <span id="length-text">Længde:</span>
-                </div>
-                <div class="length-and-width-div">
-                    <span id="length" th:text="${#ctx.session.orderToShow.getCarport().getLength()}">tester</span>
-                </div>
+                <div class="length-and-width-centralizing-div">
+                    <div class="length-and-width-text-div">
+                        <span id="length-text">Længde:</span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span id="length" th:text="${#ctx.session.orderToShow.getCarport().getLength()}">tester</span>
+                        <span>m</span>
+                    </div>
 
-                <div class="length-and-width-text-div">
-                    <span id="width-text">Bredde:</span>
-                </div>
-                <div class="length-and-width-div">
-                    <span id="width" th:text="${#ctx.session.orderToShow.getCarport().getWidth()}">tester</span>
+                    <div class="length-and-width-text-div">
+                        <span id="width-text">Bredde:</span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span id="width" th:text="${#ctx.session.orderToShow.getCarport().getWidth()}">tester</span>
+                        <span>m</span>
+                    </div>
                 </div>
 
             </div>
@@ -62,18 +68,22 @@
 
             <div th:if="${#ctx.session.orderToShow.getCarport().isShed()}" class="carport-length-and-width-div">
 
-                <div class="length-and-width-text-div">
-                    <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Længde: </span>
-                </div>
-                <div class="length-and-width-div">
-                    <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getLength()}"></span>
-                </div>
+                <div class="length-and-width-centralizing-div">
+                    <div class="length-and-width-text-div">
+                        <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Længde: </span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getLength()}"></span>
+                        <span>m</span>
+                    </div>
 
-                <div class="length-and-width-text-div">
-                    <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Bredde: </span>
-                </div>
-                <div class="length-and-width-div">
-                    <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidth()}"></span>
+                    <div class="length-and-width-text-div">
+                        <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Bredde: </span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidth()}"></span>
+                        <span>m</span>
+                    </div>
                 </div>
             </div>
 
@@ -81,7 +91,7 @@
 
         <div id="carport-blueprint-div">
 
-            <p>Blueprint af din carport:</p>
+            <span class="blueprint-of-carport-text">Blueprint af din carport:</span>
 
             <div class="blueprint-div">
                 <p>[svg tegning]</p>
@@ -118,7 +128,7 @@
                         formaction="/showPartsList"> Skjul stykliste
                 </button>
 
-                <p class="partslist-text">Stykliste:</p>
+                <span class="partslist-text">Stykliste:</span>
 
             </form>
 
@@ -126,7 +136,7 @@
 
                 <tr>
                     <th style="width: 7%">Antal:</th>
-                    <th style="width: 5%"> - </th>
+                    <th style="width: 5%"> -</th>
                     <th style="width: 11%">Carportdel:</th>
                     <th style="width: 44%">Materiale:</th>
                     <th style="width: 10%">Længde:</th>
@@ -148,7 +158,8 @@
 
         </div>
 
-        <div class="order-paid-price-div" th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
+        <div class="order-paid-price-div"
+             th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
             <span class="order-paid-price-text">Pris: </span>
             <span class="order-paid-price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
         </div>
