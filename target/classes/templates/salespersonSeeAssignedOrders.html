@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<title>Customers All Orders</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+<div th:replace="~{fragments :: formField (currentpage='/')}"></div>
+
+<p>Dine ordrer</p>
+
+<table class="all-orders-table">
+  <tr>
+    <th>Dato for forespørgsel på tilbud</th>
+    <th>Ordrestatus</th>
+    <th></th>
+  </tr>
+
+  <tr th:each="order: ${#ctx.session.salespersonOrderlist}">
+
+    <td th:text="${order.getDate()}"></td>
+    <td th:text="${order.getStatus()}"></td>
+    <form method="post">
+      <td><button id="see-order-details-button" type="submit" formaction="/salespersonSeeOrderDetails"
+                  name="customerSeeOrderDetails" th:value="${order.getId()}">
+        Se ordredetaljer</button></td>
+    </form>
+  </tr>
+
+</table>
+</body>
+</html>
