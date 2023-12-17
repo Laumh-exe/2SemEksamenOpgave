@@ -140,7 +140,6 @@ public class OrderMapper {
                 if (numRowsAffected < 1) {
                     throw new OrderNotFoundException("Order with id:" + order.getId() + " was not found");
                 }
-
             }
         }
     }
@@ -233,19 +232,13 @@ public class OrderMapper {
 
     public static void setStatusOfOrderInDB(Order order, ConnectionPool connectionPool) throws SQLException {
 
-        System.out.println("Entered setStatus in OrderMapper");
-
         String sql = "UPDATE public.order SET status = ? WHERE id= ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                System.out.println("Entered try in setStatus in OrderMapper");
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setInt(2, order.getId());
-
                 int numRowsAffected = preparedStatement.executeUpdate();
-
-                System.out.println("Rows affected: " + numRowsAffected);
             }
         }
 
