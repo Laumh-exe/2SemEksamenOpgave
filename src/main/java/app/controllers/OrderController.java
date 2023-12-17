@@ -8,8 +8,6 @@ import java.util.List;
 import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
 
-import app.exceptions.DatabaseException;
-
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
@@ -179,7 +177,6 @@ public class OrderController {
         try{
             OrderMapper.setStatusOfOrderInDB(order, connectionPool);
             ctx.attribute("showPartsList", "show");
-            ctx.sessionAttribute("orderToShow", order);
             ctx.render("/customersOrderDetails.html");
         }
         catch (SQLException e){
@@ -188,4 +185,51 @@ public class OrderController {
             ctx.render("/customersOrderDetails.html");
         }
     }
+
+    public static void salespersonTakeOrder(Context ctx, ConnectionPool connectionPool) {
+
+        int orderId = Integer.parseInt(ctx.formParam("salespersonTakeOrder"));
+        User salesperson = ctx.sessionAttribute("currentUser");
+
+        try{
+            OrderMapper.salespersonTakeOrder(orderId, salesperson, connectionPool);
+            sellerSeeAllOrders(ctx, connectionPool);
+        }
+
+        catch (SQLException e){
+            System.out.println("Something went wrong when asssigning salesperson to order");
+        }
+    }
+
+    public static void salespersonUntakeOrder(Context ctx, ConnectionPool connectionPool) {
+
+        int orderId = Integer.parseInt(ctx.formParam("salespersonUntakeOrder"));
+        User salesperson = ctx.sessionAttribute("currentUser");
+
+        try{
+            OrderMapper.salespersonUntakeOrder(orderId, salesperson, connectionPool);
+            sellerSeeAllOrders(ctx, connectionPool);
+        }
+
+        catch (SQLException e){
+            System.out.println("Something went wrong when removing salesperson from order");
+        }
+    }
+
+    public static void salespersonSeeAssignedOrders(Context ctx, ConnectionPool connectionPool) throws SQLException {
+
+        User salesperson = ctx.sessionAttribute("currentUser");
+
+        List<Order> allOrders = null;
+        try {
+            allOrders = OrderMapper.getAllSalespersonsOrders(salesperson.getId(), connectionPool);
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ctx.sessionAttribute("salespersonOrderlist", allOrders);
+        ctx.render("/salespersonSeeAssignedOrders.html");
+    }
 }
+

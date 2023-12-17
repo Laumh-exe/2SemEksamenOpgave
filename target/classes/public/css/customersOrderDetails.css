@@ -1,7 +1,8 @@
 
-.background{
+.background {
     position: relative;
-    border: solid darkred;
+    /*border: solid darkred;
+     */
     padding: 1vw;
     margin-top: 2vw;
 
@@ -12,7 +13,7 @@
     background-color: rgb(232, 232, 232, .6);
 }
 
-.headline-and-order-status{
+.headline-and-order-status {
     /*border: solid deeppink;
      */
     padding: 1vw;
@@ -24,7 +25,7 @@
     align-items: center;
 }
 
-.headline-div{
+.headline-div {
     /*border: solid yellow;
      */
     font-size: 3vw;
@@ -33,7 +34,7 @@
     gap: 1vw;
 }
 
-.close-button-div{
+.close-button-div {
     position: absolute;
     top: 3.2vw;
     left: 10vw;
@@ -42,7 +43,8 @@
     padding: .5vw;
 
 }
-#close-button{
+
+#close-button {
     width: 4vw;
     height: 4vw;
     background-color: black;
@@ -53,7 +55,7 @@
     align-items: center;
 }
 
-#order_status{
+#order_status {
     border: solid darkred;
     padding: .5vw;
     font-size: 1.8vw;
@@ -61,7 +63,7 @@
     margin-bottom: 2vw;
 }
 
-.sub-body-div{
+.sub-body-div {
 
     width: 92vw;
     display: flex;
@@ -69,7 +71,7 @@
     align-items: center;
 }
 
-.carport-measurements-div{
+.carport-measurements-div {
     border-top: solid grey;
     border-bottom: solid grey;
     padding-bottom: 3vw;
@@ -84,7 +86,7 @@
     align-items: center;
 }
 
-.carport-length-and-width-div{
+.carport-length-and-width-div {
     /*border-top: solid dimgray;
     border-bottom: solid dimgray;
      */
@@ -95,7 +97,7 @@
     display: flex;
 }
 
-.length-and-width-centralizing-div{
+.length-and-width-centralizing-div {
     /*border: solid mediumvioletred;
      */
     padding: .2vw;
@@ -103,7 +105,8 @@
     justify-content: center;
 
 }
-.length-and-width-text-div{
+
+.length-and-width-text-div {
     /*border: solid black;
      */
     padding: .1vw;
@@ -111,7 +114,8 @@
     font-weight: bold;
     margin-left: 12vw;
 }
-.length-and-width-div{
+
+.length-and-width-div {
     /*border: solid black;
      */
     padding: .1vw;
@@ -122,7 +126,7 @@
     font-size: 1.6vw;
 }
 
-.shed-no-shed-div{
+.shed-no-shed-div {
     /*border: solid yellowgreen;*/
     margin-top: 1.8vw;
     margin-bottom: 1.2vw;
@@ -134,7 +138,7 @@
     font-weight: bold;
 }
 
-#carport-blueprint-div{
+#carport-blueprint-div {
     /*border: solid darkslateblue;
      */
     padding: .2vw;
@@ -147,7 +151,7 @@
     font-size: 2vw;
 }
 
-.blueprint-div{
+.blueprint-div {
     border: solid darkgoldenrod;
     padding: .2vw;
 
@@ -155,12 +159,12 @@
     align-items: center;
 }
 
-.blueprint-of-carport-text{
+.blueprint-of-carport-text {
     padding: .4vw;
     margin-bottom: 1vw;
 }
 
-.price-and-pay-button-div{
+.price-and-pay-button-div {
     border-top: solid gray;
     border-bottom: solid gray;
     width: 100%;
@@ -176,7 +180,7 @@
     gap: 2vw;
 }
 
-.price-div{
+.price-div {
     /*border: solid royalblue;
      */
     padding: 1vw;
@@ -186,12 +190,12 @@
     align-items: center;
 }
 
-.price-text{
+.price-text {
     font-weight: bold;
 
 }
 
-.pay-button-form{
+.pay-button-form {
     /*border: solid cornflowerblue;
      */
     padding: 1vw;
@@ -200,27 +204,33 @@
     font-size: 4vw;
 }
 
-.pay-button{
+.pay-button {
     width: 20vw;
     height: 6vw;
     font-size: 4vw;
     background-color: forestgreen;
 }
 
-.price{
+.price {
     margin-left: 1.5vw;
 }
 
-.order-paid-div{
-    border-top: solid grey;
+.order-paid-div {
     /*border-bottom: solid grey;
      */
     width: 100%;
     padding-bottom: 4vw;
+    margin-top: 2.8vw;
     margin-bottom: 2.8vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.8vw;
 }
 
-.order-paid-price-div{
+.order-paid-price-div {
     border-bottom: solid black;
     border-width: .2vw;
     margin-top: 1vw;
@@ -233,12 +243,12 @@
     justify-content: center;
 }
 
-.order-paid-price-text{
+.order-paid-price-text {
     font-weight: bold;
     margin-right: 2vw;
 }
 
-.show-parts-list-button-form{
+.show-parts-list-button-form {
     margin-top: 1vw;
     margin-bottom: 1vw;
 
@@ -249,7 +259,7 @@
 
 }
 
-.show-parts-list-button{
+.show-parts-list-button {
     grid-column: 3/4;
     grid-row: 1/2;
     width: 7.8vw;
@@ -260,7 +270,7 @@
     background-color: darkgrey;
 }
 
-.partslist-text{
+.partslist-text {
     grid-row: 1/2;
     grid-column: 2/3;
     margin-top: .8vw;
@@ -269,7 +279,7 @@
     font-weight: bold;
 }
 
-.table-showing-partslist{
+.table-showing-partslist {
     /*border: solid midnightblue;
      */
     background-color: white;
@@ -278,7 +288,7 @@
     width: 90vw
 }
 
-.table-showing-partslist th{
+.table-showing-partslist th {
     height: 2.2vw;
     border: none;
     border-bottom: solid black;
@@ -288,17 +298,88 @@
     color: #f2f2f2;
 }
 
-.table-showing-partslist tr{
+.table-showing-partslist tr {
     background-color: rgb(200, 200, 200, .5);
 }
 
-.table-showing-partslist tr:nth-child(even){
+.table-showing-partslist tr:nth-child(even) {
     background-color: rgb(150, 150, 150, .5);
 }
 
 
-.sql-exception{
-
+.sql-exception {
     font-size: 5vw;
     color: red;
+}
+
+
+/* salespersonOrderDetails.html */
+
+.selector {
+    width: 8vw;
+}
+
+.calculate-new-offer-and-price-and-send-offer-div {
+    border-top: solid grey;
+    border-bottom: solid grey;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    margin-top: 3vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+}
+
+.price-and-send-offer-div {
+
+}
+
+
+
+/* SellersAllOrders.html */
+
+
+.all-order-sub-body-div{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.all-orders-table{
+
+    border: solid black;
+    border-collapse: collapse;
+
+}
+.all-orders-table th{
+
+    background-color: darkgrey;
+    border: solid black;
+
+    width: 18vw;
+    text-align: center;
+}
+
+.all-orders-table td{
+
+    border: solid black;
+    width: 18vw;
+    text-align: center;
+}
+
+#take-button{
+    background-color: forestgreen;
+    color: white;
+}
+
+.untake-button{
+    background-color: midnightblue;
+    color: white;
+}
+
+.taken-button{
+    background-color: firebrick;
+    color: white;
 }

@@ -152,9 +152,9 @@
                     <td th:text="${item.unit}"></td>
                     <td th:text="${item.carport_part}"></td>
                     <td th:text="${item.description}"></td>
-                    <td th:text="${item.length}"></td>
-                    <td th:text="${item.price_pr_unit}"></td>
-                    <td th:text="${#ctx.session.orderToShow.getPricePerQuantityOfItem().get(item)}"></td>
+                    <td th:text="${item.length + ' m'}"></td>
+                    <td th:text="${item.price_pr_unit + ' ,-'}"></td>
+                    <td th:text="${#ctx.session.orderToShow.getPricePerQuantityOfItem().get(item) + ' ,-'}"></td>
 
                 </tr>
             </table>
