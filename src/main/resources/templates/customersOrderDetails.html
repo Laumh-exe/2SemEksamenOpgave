@@ -12,9 +12,9 @@
 
 <div class="background">
     <div class="close-button-div">
-        <a href="/customersAllOrdersPage">
-            <button id="close-button"><--</button>
-        </a>
+        <form method="post">
+            <button type="submit" formaction="/customersAllOrders" id="close-button"><</button>
+        </form>
     </div>
 
     <div class="headline-and-order-status">
@@ -106,6 +106,7 @@
             <div class="price-div">
                 <span class="price-text">Pris: </span>
                 <span class="price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
+                <span>,-</span>
             </div>
 
             <form class="pay-button-form" method="post">
@@ -115,6 +116,8 @@
             </form>
 
         </div>
+
+        <span class="sql-exception" th:text="${#ctx.sqlException}"></span>
 
         <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}" class="order-paid-div">
 
@@ -162,6 +165,7 @@
              th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
             <span class="order-paid-price-text">Pris: </span>
             <span class="order-paid-price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
+            <span>,-</span>
         </div>
 
 

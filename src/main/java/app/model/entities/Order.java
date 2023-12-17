@@ -1,5 +1,6 @@
 package app.model.entities;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -29,8 +30,6 @@ public class Order {
         id = -1;
         this.date = date;
         this.status = status;
-        this.carport = carport;
-
         this.price = price;
         this.carport = carport;
 

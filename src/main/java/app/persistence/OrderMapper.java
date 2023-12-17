@@ -172,26 +172,25 @@ public class OrderMapper {
     }
 
 
-    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException{
+    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException {
 
         List<Order> allOrderWithoutItemlist = getAllCustomersOrdersWithoutItemList(id, connectionPool);
 
         List<Order> allOrdersWithItemlist = new ArrayList<>();
 
-        for(Order order : allOrderWithoutItemlist){
+        for (Order order : allOrderWithoutItemlist) {
 
             Carport carportWithItemlist = null;
 
             ItemList itemlistForOrder = ItemMapper.getItemlistsForOrders(order.getId(), connectionPool);
 
-            if(order.getCarport().isShed()){
+            if (order.getCarport().isShed()) {
                 carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), order.getCarport().getShed(), itemlistForOrder);
-            }
-            else{
+            } else {
                 carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), itemlistForOrder);
             }
 
-            Order orderWithItemlist = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(),carportWithItemlist);
+            Order orderWithItemlist = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), carportWithItemlist);
             allOrdersWithItemlist.add(orderWithItemlist);
         }
 
@@ -230,5 +229,25 @@ public class OrderMapper {
             }
         }
         return orders;
+    }
+
+    public static void setStatusOfOrderInDB(Order order, ConnectionPool connectionPool) throws SQLException {
+
+        System.out.println("Entered setStatus in OrderMapper");
+
+        String sql = "UPDATE public.order SET status = ? WHERE id= ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                System.out.println("Entered try in setStatus in OrderMapper");
+                preparedStatement.setString(1, order.getStatus().toString());
+                preparedStatement.setInt(2, order.getId());
+
+                int numRowsAffected = preparedStatement.executeUpdate();
+
+                System.out.println("Rows affected: " + numRowsAffected);
+            }
+        }
+
     }
 }

@@ -169,4 +169,27 @@ public class OrderController {
         }
         ctx.render("/customersOrderDetails.html");
     }
+
+    public static void customerPaysForOrder(Context ctx, ConnectionPool connectionPool) {
+
+        Order order = ctx.sessionAttribute("orderToShow");
+
+        order.setStatus(OrderStatus.ORDER_PAID);
+
+        try{
+
+            OrderMapper.setStatusOfOrderInDB(order, connectionPool);
+
+
+            ctx.attribute("showPartsList", "show");
+            ctx.sessionAttribute("orderToShow", order);
+            ctx.render("/customersOrderDetails.html");
+        }
+        catch (SQLException e){
+
+            System.out.println();
+            ctx.attribute("sqlException", "Noget gik galt med betalingen");
+            ctx.render("/customersOrderDetails.html");
+        }
+    }
 }

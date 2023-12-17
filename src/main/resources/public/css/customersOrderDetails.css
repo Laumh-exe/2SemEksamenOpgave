@@ -1,7 +1,8 @@
 
 .background{
     position: relative;
-    border: solid darkred;
+    /*border: solid darkred;
+     */
     padding: 1vw;
     margin-top: 2vw;
 
@@ -10,7 +11,6 @@
     align-items: center;
     justify-content: center;
     background-color: rgb(232, 232, 232, .6);
-
 }
 
 .headline-and-order-status{
@@ -23,7 +23,6 @@
     gap: 1vw;
     flex-direction: column;
     align-items: center;
-
 }
 
 .headline-div{
@@ -39,7 +38,6 @@
     position: absolute;
     top: 3.2vw;
     left: 10vw;
-
     /*border: solid lawngreen;
      */
     padding: .5vw;
@@ -50,6 +48,10 @@
     height: 4vw;
     background-color: black;
     color: white;
+    font-size: 4vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
 }
 
 #order_status{
@@ -66,9 +68,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-
 }
+
 .carport-measurements-div{
     border-top: solid grey;
     border-bottom: solid grey;
@@ -77,7 +78,6 @@
     margin-right: 2vw;
     margin-top: .2vw;
     margin-bottom: 1vw;
-
 
     width: 100%;
     display: flex;
@@ -137,7 +137,6 @@
 
 #carport-blueprint-div{
     /*border: solid darkslateblue;
-
      */
     padding: .2vw;
     margin-top: .1vw;
@@ -180,18 +179,17 @@
 
 .price-div{
     /*border: solid royalblue;
-
      */
     padding: 1vw;
 
     font-size: 4vw;
     display: flex;
     align-items: center;
-
 }
 
 .price-text{
     font-weight: bold;
+
 }
 
 .pay-button-form{
@@ -216,14 +214,14 @@
 
 .order-paid-div{
     border-top: solid grey;
-    border-bottom: solid grey;
+    /*border-bottom: solid grey;
+     */
     width: 100%;
     padding-bottom: 4vw;
     margin-bottom: 2.8vw;
 }
 
 .order-paid-price-div{
-
     border-bottom: solid black;
     border-width: .2vw;
     margin-top: 1vw;
@@ -234,19 +232,16 @@
     width: fit-content;
     display: flex;
     justify-content: center;
-    gap: 2vw;
 }
 
 .order-paid-price-text{
     font-weight: bold;
-
+    margin-right: 2vw;
 }
 
 .show-parts-list-button-form{
-
     margin-top: 1vw;
     margin-bottom: 1vw;
-
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -277,7 +272,6 @@
 
 .table-showing-partslist{
     /*border: solid midnightblue;
-
      */
     background-color: white;
     padding: 1vw;
@@ -297,10 +291,14 @@
 
 .table-showing-partslist tr{
     background-color: rgb(200, 200, 200, .5);
-
 }
+
 .table-showing-partslist tr:nth-child(even){
     background-color: rgb(150, 150, 150, .5);
-
 }
 
+
+.sql-exception{
+    font-size: 5vw;
+    color: red;
+}

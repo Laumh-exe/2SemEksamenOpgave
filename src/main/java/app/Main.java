@@ -6,6 +6,7 @@ import app.controllers.OrderController;
 import app.controllers.UserController;
 import app.controllers.PageController;
 
+import app.model.entities.Order;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -53,6 +54,8 @@ public class Main {
 
         app.get("/customersAllOrdersPage", ctx -> ctx.render("/customersAllOrdersPage.html"));
         app.post("/customersAllOrders", ctx -> OrderController.customerSeeAllOrders(ctx, connectionPool));
+        app.post("customerPaysForOrder", ctx -> OrderController.customerPaysForOrder(ctx, connectionPool));
+
         app.post("/customerSeeOrderDetails", ctx -> OrderController.customerSeeOrderDetails(ctx));
         app.post("/showPartsList", ctx -> OrderController.showPartsList(ctx));
 
