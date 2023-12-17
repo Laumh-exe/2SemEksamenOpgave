@@ -111,5 +111,40 @@ public class ItemMapper {
             throw new SQLException("FEJL!!");
         }
     }
+
+
+    public static ItemList getItemlistsForOrders(int orderId, ConnectionPool connectionPool) throws SQLException {
+
+        String sql = "SELECT item.id, item.unit, item.carport_part, \n" +
+                "item.description, item.length, item.price_pr_unit, items_orders.quantity\n" +
+                "FROM items_orders \n" +
+                "JOIN item ON items_orders.item_id = item.id\n" +
+                "WHERE order_id = ?; ";
+
+        ItemList itemList = new ItemList();
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, orderId);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    int item_id = resultSet.getInt("id");
+                    int quantity = resultSet.getInt("quantity");
+                    String unit = resultSet.getString("unit");
+                    String carport_part = resultSet.getString("carport_part");
+                    int length = resultSet.getInt("length");
+                    double price_pr_unit = resultSet.getInt("price_pr_unit");
+                    String description = resultSet.getString("description");
+
+                    Item item = new Item(item_id, price_pr_unit, length, unit, description, quantity, carport_part);
+                    itemList.add(item);
+                }
+            }
+        }
+        return itemList;
+    }
 }
 

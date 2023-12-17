@@ -2,6 +2,7 @@ package app.controllers;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import app.model.entities.*;
@@ -138,8 +139,40 @@ public class OrderController {
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
             }
         }
+        ctx.attribute("showPartsList", "dontShow");
 
         ctx.render("/customersOrderDetails.html");
 
+    }
+
+    public static void showPartsList(Context ctx) {
+
+        String showPartsList = ctx.formParam("showPartsList");
+
+        Order orderShowing = ctx.sessionAttribute("orderToShow");
+
+        if (showPartsList.equals("dontShow")){
+
+
+            List<Item> itemList = orderShowing.getCarport().getItemList().getItemList();
+
+            HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+
+            for(Item item : itemList){
+                double price = item.price_pr_unit() * item.quantity();
+                pricePerQuantityOfItem.put(item, price);
+            }
+
+            Order newOrderToShow = new Order(orderShowing.getId(), orderShowing.getCustomerId(), orderShowing.getSalespersonId(), orderShowing.getDate(), orderShowing.getStatus(), orderShowing.getPrice(), orderShowing.getCarport(), pricePerQuantityOfItem);
+
+            ctx.sessionAttribute("orderToShow", newOrderToShow);
+            ctx.attribute("showPartsList", "show");
+
+        }
+        else{
+            ctx.attribute("showPartsList", "dontShow");
+        }
+
+        ctx.render("/customersOrderDetails.html");
     }
 }

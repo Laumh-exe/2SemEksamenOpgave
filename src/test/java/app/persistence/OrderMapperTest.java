@@ -15,10 +15,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
-import app.model.entities.Carport;
-import app.model.entities.Shed;
+import app.model.entities.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,8 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import app.model.entities.Order;
-import app.model.entities.OrderStatus;
 import app.exceptions.OrderNotFoundException;
 
 public class OrderMapperTest {

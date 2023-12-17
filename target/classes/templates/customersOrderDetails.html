@@ -24,15 +24,16 @@
         <div id="order_status">
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED') || #ctx.session.orderToShow.getStatus().equals('READY_FOR_REVIEW')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"> TILBUD </span>
-            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> CARPORT BESTILT OG BETALT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> BESTILT OG BETALT </span>
 
         </div>
 
     </div>
 
+
     <div>
 
-        <div>
+        <div class="carport-measurements-div">
             <div class="shed-no-shed-div">
                 <span>Carport:</span>
             </div>
@@ -78,18 +79,19 @@
 
         </div>
 
-        <div id="carport-blueprint">
+        <div id="carport-blueprint-div">
 
-            <p>Here is a blueprint of the carport you have requested an offer for:</p>
+            <p>Blueprint af din carport:</p>
 
             <div class="blueprint-div">
-                <p>[drawing with measurements and other choices]</p>
+                <p>[svg tegning]</p>
             </div>
 
         </div>
 
 
-        <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}" class="price-and-pay-button-div">
+        <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"
+             class="price-and-pay-button-div">
 
             <div class="price-div">
                 <span class="price-text">Pris: </span>
@@ -102,7 +104,53 @@
                 </button>
             </form>
 
+        </div>
 
+        <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}" class="order-paid-div">
+
+            <form class="show-parts-list-button-form" method="post">
+                <button th:if="${#ctx.showPartsList.equals('dontShow')}" class="show-parts-list-button" type="submit"
+                        name="showPartsList" th:value="${#ctx.showPartsList}"
+                        formaction="/showPartsList"> Vis stykliste
+                </button>
+                <button th:if="${#ctx.showPartsList.equals('show')}" class="show-parts-list-button" type="submit"
+                        name="showPartsList" th:value="${#ctx.showPartsList}"
+                        formaction="/showPartsList"> Skjul stykliste
+                </button>
+
+                <p class="partslist-text">Stykliste:</p>
+
+            </form>
+
+            <table th:if="${#ctx.showPartsList.equals('show')}" class="table-showing-partslist">
+
+                <tr>
+                    <th style="width: 7%">Antal:</th>
+                    <th style="width: 5%"> - </th>
+                    <th style="width: 11%">Carportdel:</th>
+                    <th style="width: 44%">Materiale:</th>
+                    <th style="width: 10%">Længde:</th>
+                    <th style="width: 12%">Pris pr. styk:</th>
+                    <th style="width: 16%">Samlet pris:</th>
+
+                </tr>
+                <tr th:each="item: ${#ctx.session.orderToShow.getCarport().getItemList().getItemList()}">
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.unit}"></td>
+                    <td th:text="${item.carport_part}"></td>
+                    <td th:text="${item.description}"></td>
+                    <td th:text="${item.length}"></td>
+                    <td th:text="${item.price_pr_unit}"></td>
+                    <td th:text="${#ctx.session.orderToShow.getPricePerQuantityOfItem().get(item)}"></td>
+
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="order-paid-price-div" th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
+            <span class="order-paid-price-text">Pris: </span>
+            <span class="order-paid-price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
         </div>
 
 

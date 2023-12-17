@@ -171,7 +171,34 @@ public class OrderMapper {
 
     }
 
-    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException {
+
+    public static List<Order> getAllCustomersOrders(int id, ConnectionPool connectionPool) throws SQLException{
+
+        List<Order> allOrderWithoutItemlist = getAllCustomersOrdersWithoutItemList(id, connectionPool);
+
+        List<Order> allOrdersWithItemlist = new ArrayList<>();
+
+        for(Order order : allOrderWithoutItemlist){
+
+            Carport carportWithItemlist = null;
+
+            ItemList itemlistForOrder = ItemMapper.getItemlistsForOrders(order.getId(), connectionPool);
+
+            if(order.getCarport().isShed()){
+                carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), order.getCarport().getShed(), itemlistForOrder);
+            }
+            else{
+                carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), itemlistForOrder);
+            }
+
+            Order orderWithItemlist = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(),carportWithItemlist);
+            allOrdersWithItemlist.add(orderWithItemlist);
+        }
+
+        return allOrdersWithItemlist;
+    }
+
+    public static List<Order> getAllCustomersOrdersWithoutItemList(int id, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "SELECT * FROM public.order WHERE customer_id = ?";
         List<Order> orders = new ArrayList<>();
