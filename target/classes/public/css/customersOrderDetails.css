@@ -47,7 +47,72 @@
 #order_status{
     border: solid darkmagenta;
     padding: .5vw;
+}
 
+
+.show-parts-list-button-form{
+    border: solid orange;
+    padding: 1vw;
+
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.show-parts-list-button{
+
+    width: 12vw;
+    height: 4vw;
+
+    font-size: 1.6vw;
+}
+
+.partslist-text{
+
+    margin-top: 3vw;
+
+    font-size: 2.8vw;
+    font-weight: bold;
+}
+
+.table-showing-partslist{
+    border: solid midnightblue;
+    padding: 1vw;
+
+    width: 90vw
+}
+
+.table-showing-partslist th{
+    height: 2.2vw;
+    border: none;
+    border-bottom: solid black;
+    font-size: 1.2vw;
+    text-align: center;
+    background-color: midnightblue;
+    color: #f2f2f2;
+}
+
+.table-showing-partslist tr{
+    background-color: rgb(8, 48, 5, .4);
+
+}
+.table-showing-partslist tr:nth-child(even){
+    background-color: rgb(8, 60, 5, .3);
+
+}
+
+.carport-measurements-div{
+    border: solid sandybrown;
+    padding: 1vw;
+    margin-top: 1vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .carport-length-and-width-div{
@@ -79,11 +144,9 @@
     gap: 1vw;
 
     font-size: 2vw;
-
 }
 
-
-#carport-blueprint{
+#carport-blueprint-div{
     border: solid darkslateblue;
     padding: 1vw;
     margin-top: 2vw;
@@ -91,6 +154,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    font-size: 2vw;
 }
 
 .blueprint-div{
@@ -108,8 +173,8 @@
     margin-top: 1vw;
 
     display: flex;
+    justify-content: center;
     gap: 2vw;
-
 }
 
 .price-div{
@@ -121,9 +186,11 @@
     align-items: center;
 
 }
+
 .price-text{
     font-weight: bold;
 }
+
 .pay-button-form{
     border: solid cornflowerblue;
     padding: 1vw;
@@ -141,7 +208,25 @@
     background-color: forestgreen;
 
 }
+
 .price{
     margin-left: 1.5vw;
+}
+
+.order-paid-price-div{
+
+    border: solid cornflowerblue;
+    padding: 1vw;
+    margin-top: 1vw;
+
+    font-size: 4vw;
+
+    display: flex;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.order-paid-price-text{
+    font-weight: bold;
 }
 
