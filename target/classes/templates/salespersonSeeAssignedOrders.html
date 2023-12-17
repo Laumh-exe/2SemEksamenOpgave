@@ -26,7 +26,7 @@
     <td th:text="${order.getStatus()}"></td>
     <form method="post">
       <td><button id="see-order-details-button" type="submit" formaction="/salespersonSeeOrderDetails"
-                  name="customerSeeOrderDetails" th:value="${order.getId()}">
+                  name="salespersonSeeOrderDetails" th:value="${order.getId()}">
         Se ordredetaljer</button></td>
     </form>
   </tr>

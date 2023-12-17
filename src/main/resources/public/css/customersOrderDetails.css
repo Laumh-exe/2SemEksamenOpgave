@@ -340,6 +340,12 @@
 
 /* SellersAllOrders.html */
 
+.carport-measurements-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
 
 .all-order-sub-body-div{
 

@@ -24,7 +24,8 @@
             <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}" id="headline-with-shed">(med skur)</span>
         </div>
         <div id="order_status">
-            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED') || #ctx.session.orderToShow.getStatus().equals('READY_FOR_REVIEW')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_ASSIGNED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"> TILBUD </span>
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> BESTILT OG BETALT </span>
 
