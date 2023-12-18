@@ -2,10 +2,12 @@
 .background{
     background-image: url("../images/Build-a-carport-3.png");
     background-size: cover;
+    margin: 0 auto;
+    height: 100vh;
+    min-width: 100%;
 }
 
 #frontpage{
-    margin: 10vw;
     display: flex;
     justify-content: center;
 }

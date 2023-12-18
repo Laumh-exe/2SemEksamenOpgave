@@ -9,8 +9,10 @@
     <link href="../public/css/frontPage.css" th:href="@{/css/frontPage.css}" rel="stylesheet"/>
 </head>
 <body>
+<div class = "background">
 <div th:replace="~{fragments :: formField (currentpage='/')}"></div>
-    <div id="frontpage">
+
+<div id="frontpage">
         <!-- <div>
             <a href="/">
                 <input type="image" id="Carport-image" th:src="@{/images/Build-a-carport-3.png}"
@@ -29,4 +31,5 @@
             </a>
         </div>
     </div>
+</div>
 </body>
