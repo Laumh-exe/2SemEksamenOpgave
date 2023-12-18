@@ -45,7 +45,7 @@ public class CarportController {
     }
   
 
-    public static double getPrice(Carport carport, ConnectionPool connectionPool) {
+    public static double getPrice(Carport carport) {
         List<Item> itemList = carport.getItemList().getItemList();
         double total = 0;
 

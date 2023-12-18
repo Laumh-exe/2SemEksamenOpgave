@@ -61,7 +61,7 @@ public class OrderController {
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
-        double price = CarportController.getPrice(carport, connectionPool);
+        double price = CarportController.getPrice(carport);
         //Create order
         Date date = new Date(System.currentTimeMillis());
         Order order = new Order(date, ORDER_NOT_ACCEPTED, price ,carport);
