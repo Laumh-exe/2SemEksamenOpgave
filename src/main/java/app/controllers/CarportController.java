@@ -46,7 +46,7 @@ public class CarportController {
             return carportWithItemlist;
         }
       
-        ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
+        ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
 
         carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(), itemlist);

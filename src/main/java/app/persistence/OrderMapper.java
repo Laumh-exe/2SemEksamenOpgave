@@ -248,6 +248,7 @@ public class OrderMapper {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setInt(2, order.getId());
+
                 int numRowsAffected = preparedStatement.executeUpdate();
             }
         }
