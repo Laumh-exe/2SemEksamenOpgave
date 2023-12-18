@@ -300,8 +300,6 @@ public class OrderController {
             pricePerQuantityOfItem.put(item, priceOfItemQuantity);
         }
 
-        for()
-
         orderEdited.setCarport(carport);
         orderEdited.setPrice(price);
         orderEdited.setPricePerQuantityOfItem(pricePerQuantityOfItem);
