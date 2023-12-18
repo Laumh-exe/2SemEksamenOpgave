@@ -194,14 +194,14 @@ public class OrderMapper {
         return orders;
     }
 
-    public static void getOrder(Order order, ConnectionPool connectionPool) throws SQLException {
-        String sql = "UPDATE public.order SET (status) = (?) WHERE id= ?";
+    public static void setStatusInDB(Order order, ConnectionPool connectionPool) throws SQLException {
+        String sql = "UPDATE public.order SET status = ? WHERE id= ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setInt(2, order.getId());
-
+                int numRowsAffected = preparedStatement.executeUpdate();
             }
         }
     }
