@@ -106,8 +106,8 @@ public class OrderMapperTest {
         InOrder inOrder = Mockito.inOrder(ps);
         inOrder.verify(ps).setString(1, order.getStatus().toString());
         inOrder.verify(ps).setDouble(2, order.getPrice());
-        inOrder.verify(ps).setDouble(3, order.getCarport().getLength());
-        inOrder.verify(ps).setDouble(4, order.getCarport().getWidth());
+        inOrder.verify(ps).setDouble(3, order.getCarport().getLengthMeter());
+        inOrder.verify(ps).setDouble(4, order.getCarport().getWidthMeter());
         inOrder.verify(ps).setInt(5, order.getId());
 
     }
