@@ -57,7 +57,7 @@ public class OrderController {
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
 
         // hent carport og lav ordre!
-        Carport carport = CarportController.createCarport(ctx, connectionPool);
+        Carport carport = CarportController.4createCarport(ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
         double price = CarportController.getPrice(carport);
