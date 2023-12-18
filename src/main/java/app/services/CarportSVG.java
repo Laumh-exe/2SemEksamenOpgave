@@ -19,9 +19,10 @@ public class CarportSVG {
     
     public CarportSVG(Carport carport){
         
-        this.height = (float)carport.getLength() * 100;
-        this.width = (float)carport.getWidth() * 100;
+        this.height = (float)carport.getLengthMeter() * 100;
+        this.width = (float)carport.getWidthMeter() * 100;
         calculator = Calculator.getInstance();
+        calculator.calculateItemList(carport);
         this.carport = carport;
 
         carportSvg = new SVG(0, 0, "0 0 " + (width + spasingFromSides) + " " + (height + spasingFromSides), "75%");
@@ -36,9 +37,9 @@ public class CarportSVG {
     }
 
     private void addSkur() {
-        double sehdLength = carport.getShed().getLength() * 100d;
-        double sehdWidth = carport.getShed().getWidth() * 100d;
-        carportSvg.addRectangleWithDashedBorder(spasingFromSides/2 + height - sehdLength, spasingFromSides/2 + width - sehdWidth, sehdLength, sehdWidth);
+        double shedLength = carport.getShed().getLengthMeter() * 100d;
+        double shedWidth = carport.getShed().getWidthMeter() * 100d;
+        carportSvg.addRectangleWithDashedBorder(spasingFromSides/2 + width - (shedWidth + stolbeSpaseFromSides), spasingFromSides/2 + height - shedLength, shedWidth, shedLength);
     }
 
     private void addRem() {
@@ -49,9 +50,9 @@ public class CarportSVG {
     }
 
     private void addArrows() {
-        carportSvg.addText(20, height/2, -90, "" + carport.getLength() + "m");
+        carportSvg.addText(20, height/2, -90, "" + carport.getLengthMeter() + "m");
         carportSvg.addArrow(40, spasingFromSides/2, 40, height + spasingFromSides/2, "stroke: #000000; fill:#000000;");
-        carportSvg.addText(width/2, height + spasingFromSides - 20, 0, "" + carport.getWidth() + "m");
+        carportSvg.addText(width/2, height + spasingFromSides - 20, 0, "" + carport.getWidthMeter() + "m");
         carportSvg.addArrow(spasingFromSides/2, height + spasingFromSides - 40, width + spasingFromSides/2, height + spasingFromSides - 40  , "stroke: #000000; fill:#000000;");
     }
 

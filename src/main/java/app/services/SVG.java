@@ -45,7 +45,7 @@ public class SVG
         svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, "stroke: #000000; fill:none;", 0d, 0d, 0d, 0d));
     }
     public void addRectangleWithDashedBorder(double x, double y, double height, double width) {
-        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, "stroke: #000000; fill:none;", 0d, 0d, 5d, 10d));
+        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, "stroke: #000000; fill:none; stroke-width:5;", 0d, 0d, 5d, 10d));
     }
 
     public void addLine(double x1, double y1, double x2, double y2, String style){
