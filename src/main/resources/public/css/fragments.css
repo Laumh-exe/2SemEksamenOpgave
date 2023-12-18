@@ -1,11 +1,12 @@
 
 
 .header-div{
-    border: solid cadetblue;
-
+    /*border: solid cadetblue;
+     */
     padding: 1vw;
     display: flex;
     justify-content: space-between;
+    background-color: rgb(240, 240, 240, .7);
 }
 
 #button-with-fog-logo{
@@ -19,28 +20,27 @@
 }
 
 .general-buttons-div{
-    border: solid darkred;
+    /*border: solid darkred;
+     */
     padding: 1vw;
-
     display: flex;
     align-items: center;
 }
 
 .logo-and-right-side-buttons{
-    border: solid darkslategrey;
+    /*border: solid darkslategrey;
+     */
 
     padding: .5vw;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2vw;
-
-
 }
 
 #left-side-buttons{
-    border: solid darkslateblue;
-
+   /* border: solid darkslateblue;
+    */
     padding: 1vw;
     display: flex;
     align-items: center;
@@ -49,17 +49,17 @@
 
 
 .right-side-buttons{
-
-    border: solid yellowgreen;
+    /*border: solid yellowgreen;
+     */
     padding: 1vw;
     gap: 1vw;
     display: flex;
     align-content: center;
 }
 
-
 .user-p-firstname-div{
-    border: solid saddlebrown;
+    /*border: solid saddlebrown;
+     */
     padding: 1vw;
 
     display: flex;
@@ -68,9 +68,9 @@
     margin-left: 4vw;
 }
 
-
 .customer-buttons-div{
-    border: solid black;
+    /*border: solid black;
+     */
     padding: 1vw;
 
     display: flex;
@@ -78,9 +78,9 @@
     gap: 2vw;
 }
 
-
 .salesperson-buttons-div{
-    border: solid darkolivegreen;
+    /*border: solid darkolivegreen;
+     */
     padding: 1vw;
 
     display: flex;
@@ -89,23 +89,16 @@
 }
 
 .customer-and-salesperson-buttons-form{
-
-    border: solid orchid;
+    /*border: solid orchid;
+     */
     padding: .2vw;
-
     display: flex;
     align-content: center;
     gap: 2vw;
-
-
 }
 
 #logout-button{
-
     padding: 1vw;
-
     display: flex;
     gap: 2vw;
-
-
 }

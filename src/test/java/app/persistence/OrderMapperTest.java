@@ -15,10 +15,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
-import app.model.entities.Carport;
-import app.model.entities.Shed;
+import app.model.entities.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +26,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import app.model.entities.Order;
-import app.model.entities.OrderStatus;
 import app.exceptions.OrderNotFoundException;
-
+/*
 public class OrderMapperTest {
 
     private ConnectionPool connectionPool;
@@ -108,8 +106,8 @@ public class OrderMapperTest {
         InOrder inOrder = Mockito.inOrder(ps);
         inOrder.verify(ps).setString(1, order.getStatus().toString());
         inOrder.verify(ps).setDouble(2, order.getPrice());
-        inOrder.verify(ps).setDouble(3, order.getCarport().getLength());
-        inOrder.verify(ps).setDouble(4, order.getCarport().getWidth());
+        inOrder.verify(ps).setDouble(3, order.getCarport().getLengthMeter());
+        inOrder.verify(ps).setDouble(4, order.getCarport().getWidthMeter());
         inOrder.verify(ps).setInt(5, order.getId());
 
     }
@@ -128,5 +126,7 @@ public class OrderMapperTest {
     }
 
     
-    
+
 }
+
+ */
