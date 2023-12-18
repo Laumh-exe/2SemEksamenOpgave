@@ -18,12 +18,12 @@ import java.util.List;
 public class ItemMapper {
 
 
-    public static Boolean placeItemListInDB(Order order, ConnectionPool connectionPool) throws DatabaseException {
+    public static Boolean placeItemListInDB(Order order, ConnectionPool connectionPool) throws SQLException{
+
 
         String sql = "INSERT INTO items_orders (order_id, item_id, quantity) VALUES ";
 
         for (Item item : order.getCarport().getItemList().getItemList()) {
-
             if (order.getCarport().getItemList().getItemList().indexOf(item) != 0) {
                 sql += ",";
             }
@@ -35,30 +35,31 @@ public class ItemMapper {
 
                 int rowsAffected = ps.executeUpdate();
 
-                if (rowsAffected == order.getCarport().getItemList().getItemList().size()) {
 
-                } else {
-                    throw new DatabaseException("Item line not inserted in DB");
+                if (rowsAffected != order.getCarport().getItemList().getItemList().size()) {
+                    throw new SQLException("Item line not inserted in DB");
                 }
             }
         } catch (SQLException e) {
-            System.out.println("sql EXCEPTION");
+            throw new SQLException("Something went wrong with placing ItemList in DB");
+
         }
         return true;
     }
 
 
     public static void addItem(double price_pr_unit, double length, String unit, String description,String function, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO public.item (price_pr_unit, length, unit, function description)" +
+        String sql = "INSERT INTO public.item (price_pr_unit, length, unit, function, description)" +
                 "VALUES (?, ?, ?, ?, ?)";
+
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.setDouble(1, price_pr_unit);
                 preparedStatement.setDouble(2, length);
                 preparedStatement.setString(3, unit);
-                preparedStatement.setString(4, description);
-                preparedStatement.setString(5, function);
+                preparedStatement.setString(4, function);
+                preparedStatement.setString(5, description);
 
 
                 int rowsAffected = preparedStatement.executeUpdate();
@@ -110,6 +111,41 @@ public class ItemMapper {
         } catch (SQLException e) {
             throw new SQLException("FEJL!! ved removeItem");
         }
+    }
+
+
+    public static ItemList getItemlistsForOrders(int orderId, ConnectionPool connectionPool) throws SQLException {
+
+        String sql = "SELECT item.id, item.unit, item.function, \n" +
+                "item.description, item.length, item.price_pr_unit, items_orders.quantity\n" +
+                "FROM items_orders \n" +
+                "JOIN item ON items_orders.item_id = item.id\n" +
+                "WHERE order_id = ?; ";
+
+        ItemList itemList = new ItemList();
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, orderId);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    int item_id = resultSet.getInt("id");
+                    int quantity = resultSet.getInt("quantity");
+                    String unit = resultSet.getString("unit");
+                    String carport_part = resultSet.getString("function");
+                    int length = resultSet.getInt("length");
+                    double price_pr_unit = resultSet.getInt("price_pr_unit");
+                    String description = resultSet.getString("description");
+
+                    Item item = new Item(item_id, price_pr_unit, length, unit, description, quantity, carport_part);
+                    itemList.add(item);
+                }
+            }
+        }
+        return itemList;
     }
 }
 

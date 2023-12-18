@@ -1,6 +1,7 @@
 BEGIN;
 
 DROP TABLE IF EXISTS item_itemlist;
+DROP TABLE IF EXISTS items_orders;
 DROP TABLE IF EXISTS itemlist;
 DROP TABLE IF EXISTS public.order;
 DROP TABLE IF EXISTS salesperson;
@@ -20,7 +21,6 @@ CREATE TABLE IF NOT EXISTS customer
 
 CREATE TABLE IF NOT EXISTS items_orders
 (
-
     order_id integer NOT NULL,
     item_id integer NOT NULL,
     quantity integer NOT NULL
@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS item
 (
     id serial NOT NULL,
     unit character varying (70) NOT NULL,
+    carport_part character varying(10),
     description character varying(200) NOT NULL,
     length double precision NOT NULL,
     price_pr_unit double precision NOT NULL,
-    type function character varying(10)
     PRIMARY KEY (id)
     );
 
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS public.order
     total_price double precision NOT NULL,
     carport_width double precision NOT NULL,
     carport_length double precision NOT NULL,
-    shed_width double precision NOT NULL,
-    shed_length double precision NOT NULL,
+    shed_width double precision,
+    shed_length double precision,
     salesperson_id integer,
     PRIMARY KEY (id)
     );

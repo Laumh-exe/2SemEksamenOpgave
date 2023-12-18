@@ -1,14 +1,14 @@
 package app.controllers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-import app.model.Calculator;
 import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
-
-import app.exceptions.DatabaseException;
 
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
@@ -18,8 +18,8 @@ import io.javalin.http.Context;
 import static app.model.entities.OrderStatus.ORDER_NOT_ACCEPTED;
 
 public class OrderController {
-    
-    public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool){
+
+    public static void sellerSeeAllOrders(Context ctx, ConnectionPool connectionPool) {
         List<Order> allOrders = null;
 
         try {
@@ -32,51 +32,53 @@ public class OrderController {
         ctx.render("SellersAllOrders.html");
     }
 
-    public static void placeOrder(Context ctx, ConnectionPool connectionPool) {
+    public static void placeOfferRequest(Context ctx, ConnectionPool connectionPool) {
 
         Order orderToPlace = ctx.sessionAttribute("order");
-        
+
         orderToPlace.setStatus(OrderStatus.CUSTOMER_ACCEPTED);
-        
+
         User user = ctx.sessionAttribute("currentUser");
-        if (orderToPlace.getCustomerId() == -1){
+
+        if (orderToPlace.getCustomerId() == -1) {
             orderToPlace.setCustomerId(user.getId());
         }
 
-        try{
+        try {
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
-
             ctx.render("/offerRequestConfirmed.html");
-        }
-        catch (DatabaseException e){
+        } catch (SQLException e) {
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
     }
 
-    
+
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
-        
+
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
-
+        double price = CarportController.getPrice(carport);
         //Create order
         Date date = new Date(System.currentTimeMillis());
-        Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);
+
+        Order order = new Order(date, ORDER_NOT_ACCEPTED, price ,carport);
+
         ctx.sessionAttribute("order", order);
-        
+
         // send til login side hvis bruger ikke er logget ind - ellers send til ordreside
         if (currentUser != null) {
             ctx.redirect("/confirmOffer");
-     } else {
+        } else {
             ctx.redirect("/login");
         }
     }
-    public static void setupUpdatePage(Context ctx, ConnectionPool connectionPool){
+
+    public static void setupUpdatePage(Context ctx, ConnectionPool connectionPool) {
         List<Salesperson> salespeople = null;
-        try {   
+        try {
             salespeople = UserMapper.getAllSellerID(connectionPool);
         } catch (SQLException e) {
             ctx.sessionAttribute("errorMessage", "Database not responding");
@@ -85,7 +87,7 @@ public class OrderController {
     }
 
 
-    public static void updateOrderWidthOutShed(Context ctx, ConnectionPool connectionPool){
+    public static void updateOrderWidthOutShed(Context ctx, ConnectionPool connectionPool) {
         int salespersonId = Integer.parseInt(ctx.formParam("salespersonId"));
         double newCarportLength = Double.parseDouble(ctx.formParam("newCarprotLength"));
         double newCarportWidth = Double.parseDouble(ctx.formParam("newCarprotWidth"));
@@ -96,7 +98,7 @@ public class OrderController {
         order.setCarportLength(newCarportLength);
         order.setCarportWidth(newCarportWidth);
         order.setStatus(newStatus);
-        
+
         try {
             OrderMapper.updateOrderWidthOutShed(order, connectionPool);
         } catch (SQLException e) {
@@ -132,14 +134,150 @@ public class OrderController {
 
         List<Order> customersOrderlist = ctx.sessionAttribute("customersOrderlist");
 
-        for (Order order : customersOrderlist){
-            if (order.getId() == orderID){
-                Order orderToShowWithDetails = order;
+        for (Order order : customersOrderlist) {
+            if (order.getId() == orderID) {
+
+                List<Item> itemList = order.getCarport().getItemList().getItemList();
+
+                HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+
+                for (Item item : itemList) {
+                    double price = item.price_pr_unit() * item.quantity();
+                    pricePerQuantityOfItem.put(item, price);
+                }
+
+                Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
+
+                double num = order.getPrice();
+                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+                ctx.sessionAttribute("price", priceWithTwoDecimals);
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
             }
         }
 
+        ctx.attribute("showPartsList", "show");
+
         ctx.render("/customersOrderDetails.html");
 
     }
+
+    public static void showPartsList(Context ctx) {
+
+        String showPartsList = ctx.formParam("showPartsList");
+
+        if (showPartsList.equals("dontShow")) {
+            ctx.attribute("showPartsList", "show");
+        } else {
+            ctx.attribute("showPartsList", "dontShow");
+        }
+        ctx.render("/customersOrderDetails.html");
+    }
+
+    public static void customerPaysForOrder(Context ctx, ConnectionPool connectionPool) {
+
+        Order order = ctx.sessionAttribute("orderToShow");
+
+        order.setStatus(OrderStatus.ORDER_PAID);
+
+        try {
+            OrderMapper.setStatusOfOrderInDB(order, connectionPool);
+            ctx.attribute("showPartsList", "show");
+            ctx.render("/customersOrderDetails.html");
+        } catch (SQLException e) {
+
+            ctx.attribute("sqlException", "Noget gik galt med betalingen");
+            ctx.render("/customersOrderDetails.html");
+        }
+    }
+
+    public static void salespersonTakeOrder(Context ctx, ConnectionPool connectionPool) {
+
+        int orderId = Integer.parseInt(ctx.formParam("salespersonTakeOrder"));
+        User salesperson = ctx.sessionAttribute("currentUser");
+
+        try {
+            OrderMapper.salespersonTakeOrder(orderId, salesperson, connectionPool);
+            sellerSeeAllOrders(ctx, connectionPool);
+        } catch (SQLException e) {
+            System.out.println("Something went wrong when asssigning salesperson to order");
+        }
+    }
+
+    public static void salespersonUntakeOrder(Context ctx, ConnectionPool connectionPool) {
+
+        int orderId = Integer.parseInt(ctx.formParam("salespersonUntakeOrder"));
+        User salesperson = ctx.sessionAttribute("currentUser");
+
+        try {
+            OrderMapper.salespersonUntakeOrder(orderId, salesperson, connectionPool);
+            sellerSeeAllOrders(ctx, connectionPool);
+        } catch (SQLException e) {
+            System.out.println("Something went wrong when removing salesperson from order");
+        }
+    }
+
+    public static void salespersonSeeAssignedOrders(Context ctx, ConnectionPool connectionPool) throws SQLException {
+
+        User salesperson = ctx.sessionAttribute("currentUser");
+
+        List<Order> allOrders = null;
+        try {
+            allOrders = OrderMapper.getAllSalespersonsOrders(salesperson.getId(), connectionPool);
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ctx.sessionAttribute("salespersonOrderlist", allOrders);
+        ctx.render("/salespersonSeeAssignedOrders.html");
+    }
+
+    public static void salespersonSeeOrderDetails(Context ctx, ConnectionPool connectionPool) {
+
+        int orderID = Integer.parseInt(ctx.formParam("salespersonSeeOrderDetails"));
+
+        List<Order> salespersonOrderlist = ctx.sessionAttribute("salespersonOrderlist");
+
+        for (Order order : salespersonOrderlist) {
+            if (order.getId() == orderID) {
+
+                List<Item> itemList = order.getCarport().getItemList().getItemList();
+
+                HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+
+                for (Item item : itemList) {
+                    double price = item.price_pr_unit() * item.quantity();
+                    pricePerQuantityOfItem.put(item, price);
+                }
+
+                Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
+
+                double num = order.getPrice();
+                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+                ctx.sessionAttribute("price", priceWithTwoDecimals);
+
+                ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
+            }
+        }
+
+        ctx.render("/salespersonOrderDetails.html");
+    }
+
+    public static void sendOffer(Context ctx, ConnectionPool connectionPool) throws SQLException{
+
+        Order order = ctx.sessionAttribute("orderToShow");
+        order.setStatus(OrderStatus.PRICE_PRESENTED);
+
+        try {
+            OrderMapper.setStatusOfOrderInDB(order, connectionPool);
+            ctx.render("/salespersonOrderDetails.html");
+        }
+        catch (SQLException e){
+            System.out.println("Something went wrong with sending offer");
+        }
+
+
+    }
 }
+
+
