@@ -27,7 +27,7 @@
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_ASSIGNED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"> TILBUD </span>
-            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> BESTILT OG BETALT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> BETALT </span>
 
         </div>
 
@@ -106,7 +106,7 @@
 
             <div class="price-div">
                 <span class="price-text">Pris: </span>
-                <span class="price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
+                <span class="price" th:text="${#ctx.session.price}"> 35.475,-</span>
                 <span>,-</span>
             </div>
 
@@ -153,7 +153,7 @@
                     <td th:text="${item.unit}"></td>
                     <td th:text="${item.function}"></td>
                     <td th:text="${item.description}"></td>
-                    <td th:text="${item.length + ' m'}"></td>
+                    <td th:text="${item.length + ' cm'}"></td>
                     <td th:text="${item.price_pr_unit + ' ,-'}"></td>
                     <td th:text="${#ctx.session.orderToShow.getPricePerQuantityOfItem().get(item) + ' ,-'}"></td>
 
@@ -165,7 +165,7 @@
         <div class="order-paid-price-div"
              th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
             <span class="order-paid-price-text">Pris: </span>
-            <span class="order-paid-price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
+            <span class="order-paid-price" th:text="${#ctx.session.price}"> 35.475,-</span>
             <span>,-</span>
         </div>
 

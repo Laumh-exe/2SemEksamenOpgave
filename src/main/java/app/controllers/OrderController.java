@@ -1,5 +1,7 @@
 package app.controllers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
@@ -146,6 +148,9 @@ public class OrderController {
 
                 Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
 
+                double num = order.getPrice();
+                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+                ctx.sessionAttribute("price", priceWithTwoDecimals);
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
             }
         }
@@ -246,6 +251,10 @@ public class OrderController {
                 }
 
                 Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
+
+                double num = order.getPrice();
+                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+                ctx.sessionAttribute("price", priceWithTwoDecimals);
 
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
             }

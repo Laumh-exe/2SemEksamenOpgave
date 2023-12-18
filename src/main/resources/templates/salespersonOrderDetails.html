@@ -189,7 +189,6 @@
 
             </div>
 
-
             <div class="calculate-new-offer-and-price-and-send-offer-div">
 
                 <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED')
@@ -221,7 +220,6 @@
                     </button>
                 </div>
 
-
             </div>
 
             <span class="sql-exception" th:text="${#ctx.sqlException}"></span>
@@ -247,13 +245,12 @@
                         <td th:text="${item.unit}"></td>
                         <td th:text="${item.function}"></td>
                         <td th:text="${item.description}"></td>
-                        <td th:text="${item.length + ' m'}"></td>
+                        <td th:text="${item.length + ' cm'}"></td>
                         <td th:text="${item.price_pr_unit + ' ,-'}"></td>
                         <td th:text="${#ctx.session.orderToShow.getPricePerQuantityOfItem().get(item) + ' ,-'}"></td>
 
                     </tr>
                 </table>
-
 
                 <div class="order-paid-price-div"
                      th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
