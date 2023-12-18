@@ -9,6 +9,10 @@ import app.model.entities.*;
 
 import app.exceptions.OrderNotFoundException;
 
+import app.model.entities.*;
+import jdk.jshell.Snippet;
+
+
 
 public class OrderMapper {
 
@@ -347,6 +351,19 @@ public class OrderMapper {
             }
         }
         return orders;
+    }
+
+
+    public static void setStatusInDB(Order order, ConnectionPool connectionPool) throws SQLException {
+        String sql = "UPDATE public.order SET status = ? WHERE id= ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, order.getStatus().toString());
+                preparedStatement.setInt(2, order.getId());
+                int numRowsAffected = preparedStatement.executeUpdate();
+            }
+        }
     }
 }
 
