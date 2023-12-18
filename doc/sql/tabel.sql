@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS item
 (
     id serial NOT NULL,
     unit character varying (70) NOT NULL,
-    carport_part character varying(10),
+    function character varying(10),
     description character varying(200) NOT NULL,
     length double precision NOT NULL,
     price_pr_unit double precision NOT NULL,
