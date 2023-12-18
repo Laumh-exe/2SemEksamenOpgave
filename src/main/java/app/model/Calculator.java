@@ -57,6 +57,10 @@ public class Calculator {
         return instance;
     }
 
+    public int getStolpeShedQuantity() {
+        return stolpeShedQuantity;
+    }
+
     /**
      * Collects itemList data from several methods
      *
@@ -64,7 +68,7 @@ public class Calculator {
      * @return ItemList with all collected data
      */
     public ItemList calculateItemList(Carport carport) {
-        ArrayList<Item> itemList = new ArrayList<>();
+        ItemList itemList = new ItemList();
         ArrayList<Item> spær = new ArrayList<>();
         int carportLengthCM = (int) (carport.getLengthMeter() * 100);
         int carportWidthCM = (int) (carport.getWidthMeter() * 100);
@@ -79,7 +83,7 @@ public class Calculator {
         itemList.addAll(rem);
         itemList.add(stolper);
         itemList.addAll(spær);
-        return null;
+        return itemList;
     }
 
     public Item calculateStolper(Carport carport, int shedWidthCM, int carportLengthCM) {
@@ -230,7 +234,7 @@ public class Calculator {
     }
 
 
-    private int findClosestHigherNumberInList(ArrayList<Integer> numbers, int n) {
+    private int findClosestHigherNumberInList(List<Integer> numbers, int n) {
         // Initialize variables to keep track of the minimum difference and the closest higher number
         int minDifference = Integer.MAX_VALUE;
         int closestHigherNumber = Integer.MAX_VALUE;

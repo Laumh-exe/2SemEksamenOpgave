@@ -67,25 +67,6 @@ class CalculatorTest {
             Mockito.when(rs.getString("function")).thenReturn("spær", "spær", "spær", "spær", "spær", "spær", "spær",  "rem", "rem", "rem", "rem", "rem", "rem", "rem", "stolpe");
     }
 
-
-    /*
-    @Test
-    void calculateItemList() {
-        Calculator calculator = Calculator.getInstance(connectionPool);
-        // Arrange
-        Item item = new Item(6,220,600,"stk","45x195 mm. spærtræ",2,"spær");
-        String expected =
-        String actual = null;
-
-        // Act
-        actual = TestTemplate.testString();
-
-        // Assert
-        assertEquals(expected,actual);
-    }
-
-     */
-
     @Test
     void calculateSpær() {
         Calculator calculator = Calculator.getInstance(connectionPool);
