@@ -87,7 +87,7 @@ public class OrderContorllerTest {
 
     @Test
     public void testUpdateOrderWithoutShed() throws SQLException{
-        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d, null));
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d));
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
@@ -117,7 +117,7 @@ public class OrderContorllerTest {
 
     @Test
     public void testUpdateOrderWithoutErrorHandelingShed() throws SQLException{
-        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d, null));
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d));
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
