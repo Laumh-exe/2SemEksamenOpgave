@@ -45,26 +45,7 @@ public class OrderController {
         }
 
         try {
-            Order orderToPlaceWithCorrectShedWidth = null;
-
-            if(orderToPlace.getCarport().hasShed()){
-
-                System.out.println("Shed: " + orderToPlace.getCarport().getShed().getWidthMeter());
-
-                Shed shedWithCorrectWidth = new Shed(orderToPlace.getCarport().getShed().getLengthMeter(),
-                        orderToPlace.getCarport().getShed().getWidthMeter(), false);
-
-                Carport carportWithCorrectShedWidth = new Carport(orderToPlace.getCarport().getLengthMeter(),
-                        orderToPlace.getCarport().getWidthMeter(), shedWithCorrectWidth,
-                        orderToPlace.getCarport().getItemList());
-
-                orderToPlaceWithCorrectShedWidth = new Order(orderToPlace.getId(), orderToPlace.getCustomerId(),
-                        orderToPlace.getSalespersonId(), orderToPlace.getDate(), orderToPlace.getStatus(),
-                        orderToPlace.getPrice(), carportWithCorrectShedWidth);
-            }
-
-
-            OrderMapper.placeOrder(user, orderToPlaceWithCorrectShedWidth, connectionPool);
+            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
             ctx.render("/offerRequestConfirmed.html");
 
         } catch (SQLException e) {
@@ -73,19 +54,10 @@ public class OrderController {
         }
     }
 
-
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
 
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
-
-        if(carport.hasShed()){
-            System.out.println("Shed width before editing: " + carport.getShed().getWidthMeter());
-
-            double correctShedWidth = carport.getShed().getWidthMeter() + 0.70;
-            System.out.println("Shed width after editing: " + correctShedWidth);
-            carport.getShed().setWidthMeter(correctShedWidth);
-        }
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
         double price = CarportController.getPrice(carport);

@@ -70,7 +70,7 @@ public class Calculator {
         int carportWidthCM = (int) (carport.getWidthMeter() * 100);
         int shedWidthCM = 0;
         if(carport.hasShed()){
-            shedWidthCM = (int) (carport.getShed().getWidthMeter() * 100);
+            shedWidthCM = (int) ((carport.getShed().getWidthMeter()-0.70) * 100);
         }
         try {
             spær = calculateSpær(carport, carportLengthCM, carportWidthCM);
