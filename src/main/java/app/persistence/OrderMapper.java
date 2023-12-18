@@ -33,9 +33,13 @@ public class OrderMapper {
                     double shedWidth = resultSet.getDouble("shed_width");
 
                     OrderStatus status = OrderStatus.valueOf(statusString);
-                    System.out.println("Salesperson ID: " + salespersonId);
-                    Order order = new Order(id, customerId, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+                    Order order = null;
 
+                    if (shedLength == 0) {
+                        order = new Order(id, customerId, salespersonId, date, status, price, new Carport(carportLength, carportWidth));
+                    } else {
+                        order = new Order(id, customerId, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+                    }
                     orders.add(order);
                 }
             }
@@ -58,7 +62,7 @@ public class OrderMapper {
 
         String sql = "";
 
-        if (order.getCarport().isShed()) {
+        if (order.getCarport().hasShed()) {
             System.out.println("Sql with shed");
             sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
                     "carport_width, carport_length, shed_width, shed_length) " +
@@ -81,13 +85,13 @@ public class OrderMapper {
                 ps.setString(1, order.getStatus().toString());
                 ps.setDate(2, sqlDate);
                 ps.setInt(3, currentUser.getId());
-                ps.setDouble(4, 0);
-                ps.setDouble(5, order.getCarport().getWidth());
-                ps.setDouble(6, order.getCarport().getLength());
+                ps.setDouble(4, order.getPrice());
+                ps.setDouble(5, order.getCarport().getWidthMeter());
+                ps.setDouble(6, order.getCarport().getLengthMeter());
 
-                if (order.getCarport().isShed()) {
-                    ps.setDouble(7, order.getCarport().getShed().getWidth());
-                    ps.setDouble(8, order.getCarport().getShed().getLength());
+                if (order.getCarport().hasShed()) {
+                    ps.setDouble(7, order.getCarport().getShed().getWidthMeter());
+                    ps.setDouble(8, order.getCarport().getShed().getLengthMeter());
                 }
 
                 int rowsAffected = ps.executeUpdate();
@@ -129,8 +133,8 @@ public class OrderMapper {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setDouble(2, order.getPrice());
-                preparedStatement.setDouble(3, carport.getLength());
-                preparedStatement.setDouble(4, carport.getWidth());
+                preparedStatement.setDouble(3, carport.getLengthMeter());
+                preparedStatement.setDouble(4, carport.getWidthMeter());
                 preparedStatement.setInt(5, order.getId());
 
                 int numRowsAffected = preparedStatement.executeUpdate();
@@ -151,8 +155,8 @@ public class OrderMapper {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, order.getStatus().toString());
                 preparedStatement.setDouble(2, order.getPrice());
-                preparedStatement.setDouble(3, carport.getLength());
-                preparedStatement.setDouble(4, carport.getWidth());
+                preparedStatement.setDouble(3, carport.getLengthMeter());
+                preparedStatement.setDouble(4, carport.getWidthMeter());
                 // TODO: When shed is implemented this needs to be updated to reflect the needed shed
                 // preparedStatement.setDouble(5, carport.getShed().getLength());
                 // preparedStatement.setDouble(6, carport.getShed().getWidth());
@@ -183,10 +187,10 @@ public class OrderMapper {
 
             ItemList itemlistForOrder = ItemMapper.getItemlistsForOrders(order.getId(), connectionPool);
 
-            if (order.getCarport().isShed()) {
-                carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), order.getCarport().getShed(), itemlistForOrder);
+            if (order.getCarport().hasShed()) {
+                carportWithItemlist = new Carport(order.getCarport().getLengthMeter(), order.getCarport().getWidthMeter(), order.getCarport().getShed(), itemlistForOrder);
             } else {
-                carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), itemlistForOrder);
+                carportWithItemlist = new Carport(order.getCarport().getLengthMeter(), order.getCarport().getWidthMeter(), itemlistForOrder);
             }
 
             Order orderWithItemlist = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), carportWithItemlist);
@@ -221,8 +225,14 @@ public class OrderMapper {
                     double shedWidth = resultSet.getDouble("shed_width");
 
                     OrderStatus status = OrderStatus.valueOf(statusString);
-                    Order order = new Order(order_id, id, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
 
+                    Order order = null;
+
+                    if (shedLength == 0) {
+                        order = new Order(order_id, id, salespersonId, date, status, price, new Carport(carportLength, carportWidth));
+                    } else {
+                        order = new Order(order_id, id, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+                    }
                     orders.add(order);
                 }
             }
@@ -273,7 +283,7 @@ public class OrderMapper {
         }
     }
 
-    public static List<Order> getAllSalespersonsOrders(int id, ConnectionPool connectionPool) throws SQLException{
+    public static List<Order> getAllSalespersonsOrders(int id, ConnectionPool connectionPool) throws SQLException {
 
         List<Order> allOrderWithoutItemlist = getAllSalespersonsOrdersWithoutItemList(id, connectionPool);
 
@@ -285,10 +295,10 @@ public class OrderMapper {
 
             ItemList itemlistForOrder = ItemMapper.getItemlistsForOrders(order.getId(), connectionPool);
 
-            if (order.getCarport().isShed()) {
-                carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), order.getCarport().getShed(), itemlistForOrder);
+            if (order.getCarport().hasShed()) {
+                carportWithItemlist = new Carport(order.getCarport().getLengthMeter(), order.getCarport().getWidthMeter(), order.getCarport().getShed(), itemlistForOrder);
             } else {
-                carportWithItemlist = new Carport(order.getCarport().getLength(), order.getCarport().getWidth(), itemlistForOrder);
+                carportWithItemlist = new Carport(order.getCarport().getLengthMeter(), order.getCarport().getWidthMeter(), itemlistForOrder);
             }
 
             Order orderWithItemlist = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), carportWithItemlist);
@@ -298,7 +308,7 @@ public class OrderMapper {
         return allOrdersWithItemlist;
     }
 
-    private static List<Order> getAllSalespersonsOrdersWithoutItemList(int id, ConnectionPool connectionPool) throws SQLException{
+    private static List<Order> getAllSalespersonsOrdersWithoutItemList(int id, ConnectionPool connectionPool) throws SQLException {
         String sql = "SELECT * FROM public.order WHERE salesperson_id = ?";
         List<Order> orders = new ArrayList<>();
 
@@ -322,7 +332,14 @@ public class OrderMapper {
                     double shedWidth = resultSet.getDouble("shed_width");
 
                     OrderStatus status = OrderStatus.valueOf(statusString);
-                    Order order = new Order(order_id, id, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+
+                    Order order = null;
+
+                    if (shedLength == 0) {
+                        order = new Order(order_id, id, salespersonId, date, status, price, new Carport(carportLength, carportWidth));
+                    } else {
+                        order = new Order(order_id, id, salespersonId, date, status, price, new Carport(carportLength, carportWidth, new Shed(shedLength, shedWidth)));
+                    }
 
                     orders.add(order);
                 }

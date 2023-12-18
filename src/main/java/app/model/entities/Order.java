@@ -97,8 +97,6 @@ public class Order {
     }
 
 
-
-
     public int getCustomerId() {
         return customerId;
     }
@@ -108,10 +106,10 @@ public class Order {
     }
 
     public void setCarportLength(double newCarportLength) {
-        carport.setLength(newCarportLength);
+        carport.setLengthMeter(newCarportLength);
     }
     public void setCarportWidth(double newCarportWidth) {
-        carport.setWidth(newCarportWidth);
+        carport.setWidthMeter(newCarportWidth);
     }
 
     public void setStatus(OrderStatus newStatus) {

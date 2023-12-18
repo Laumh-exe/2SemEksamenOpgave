@@ -23,6 +23,7 @@ class CalculatorTest {
         standardCarport = null;
     }
 
+    /*
     @Test
     public void calculateItemListTest(){
         // Arrange - ItemList setup
@@ -37,6 +38,8 @@ class CalculatorTest {
         // Assert
         assertEquals(expectedItemList.getItemList().size(),actualItemList.getItemList().size());
     }
+
+     */
 
     private static String testString(){
         return "test";

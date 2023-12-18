@@ -44,7 +44,6 @@ public class OrderController {
 
         try {
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
-
             ctx.render("/offerRequestConfirmed.html");
         } catch (SQLException e) {
             ctx.attribute("dbConnectionError", e);
@@ -58,11 +57,13 @@ public class OrderController {
         // hent carport og lav ordre!
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
+        double totalPriceOfCarport = CarportController.getPrice(carport);
+
         Customer currentUser = ctx.sessionAttribute("currentUser");
 
         //Create order
         Date date = new Date(System.currentTimeMillis());
-        Order order = new Order(date, ORDER_NOT_ACCEPTED, carport);
+        Order order = new Order(date, ORDER_NOT_ACCEPTED, totalPriceOfCarport, carport);
         ctx.sessionAttribute("order", order);
 
         // send til login side hvis bruger ikke er logget ind - ellers send til ordreside

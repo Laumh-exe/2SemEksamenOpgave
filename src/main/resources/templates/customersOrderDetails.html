@@ -21,7 +21,7 @@
 
         <div class="headline-div">
             <span id="headline">Carport</span>
-            <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}" id="headline-with-shed">(med skur)</span>
+            <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}" id="headline-with-shed">(med skur)</span>
         </div>
         <div id="order_status">
             <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
@@ -48,7 +48,7 @@
                         <span id="length-text">Længde:</span>
                     </div>
                     <div class="length-and-width-div">
-                        <span id="length" th:text="${#ctx.session.orderToShow.getCarport().getLength()}">tester</span>
+                        <span id="length" th:text="${#ctx.session.orderToShow.getCarport().getLengthMeter()}">tester</span>
                         <span>m</span>
                     </div>
 
@@ -56,7 +56,7 @@
                         <span id="width-text">Bredde:</span>
                     </div>
                     <div class="length-and-width-div">
-                        <span id="width" th:text="${#ctx.session.orderToShow.getCarport().getWidth()}">tester</span>
+                        <span id="width" th:text="${#ctx.session.orderToShow.getCarport().getWidthMeter()}">tester</span>
                         <span>m</span>
                     </div>
                 </div>
@@ -64,25 +64,25 @@
             </div>
 
             <div class="shed-no-shed-div">
-                <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}">Skur:</span>
+                <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}">Skur:</span>
             </div>
 
-            <div th:if="${#ctx.session.orderToShow.getCarport().isShed()}" class="carport-length-and-width-div">
+            <div th:if="${#ctx.session.orderToShow.getCarport().hasShed()}" class="carport-length-and-width-div">
 
                 <div class="length-and-width-centralizing-div">
                     <div class="length-and-width-text-div">
-                        <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Længde: </span>
+                        <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}"> Længde: </span>
                     </div>
                     <div class="length-and-width-div">
-                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getLength()}"></span>
+                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getLengthMeter()}"></span>
                         <span>m</span>
                     </div>
 
                     <div class="length-and-width-text-div">
-                        <span th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Bredde: </span>
+                        <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}"> Bredde: </span>
                     </div>
                     <div class="length-and-width-div">
-                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidth()}"></span>
+                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidthMeter()}"></span>
                         <span>m</span>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                 <tr th:each="item: ${#ctx.session.orderToShow.getCarport().getItemList().getItemList()}">
                     <td th:text="${item.quantity}"></td>
                     <td th:text="${item.unit}"></td>
-                    <td th:text="${item.carport_part}"></td>
+                    <td th:text="${item.function}"></td>
                     <td th:text="${item.description}"></td>
                     <td th:text="${item.length + ' m'}"></td>
                     <td th:text="${item.price_pr_unit + ' ,-'}"></td>
