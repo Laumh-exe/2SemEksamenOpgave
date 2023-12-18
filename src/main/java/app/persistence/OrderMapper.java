@@ -13,7 +13,6 @@ import app.model.entities.*;
 import jdk.jshell.Snippet;
 
 
-
 public class OrderMapper {
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws SQLException {
@@ -52,17 +51,17 @@ public class OrderMapper {
     }
 
 
-    public static Boolean placeOrder(User currentUser, Order order, ConnectionPool connectionPool)
+    public static Boolean placeOrder(int userId, Order order, ConnectionPool connectionPool)
             throws SQLException {
 
-        Order orderPlacedInDB = placeOrderInDB(currentUser, order, connectionPool);
+        Order orderPlacedInDB = placeOrderInDB(userId, order, connectionPool);
 
         ItemMapper.placeItemListInDB(orderPlacedInDB, connectionPool);
 
         return true;
     }
 
-    public static Order placeOrderInDB(User currentUser, Order order, ConnectionPool connectionPool) throws SQLException {
+    public static Order placeOrderInDB(int userId, Order order, ConnectionPool connectionPool) throws SQLException {
 
         String sql = "";
 
@@ -75,9 +74,8 @@ public class OrderMapper {
         } else {
             System.out.println("Sql without shed");
             sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
-                    "carport_width, carport_length) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
-
+                    "carport_width, carport_length)" +
+                    " VALUES (?, ?, ?, ?, ?, ?)";
         }
 
         Date utilDate = order.getDate();
@@ -88,7 +86,7 @@ public class OrderMapper {
 
                 ps.setString(1, order.getStatus().toString());
                 ps.setDate(2, sqlDate);
-                ps.setInt(3, currentUser.getId());
+                ps.setInt(3, userId);
                 ps.setDouble(4, order.getPrice());
                 ps.setDouble(5, order.getCarport().getWidthMeter());
                 ps.setDouble(6, order.getCarport().getLengthMeter());
@@ -96,10 +94,9 @@ public class OrderMapper {
                 if (order.getCarport().hasShed()) {
                     ps.setDouble(7, order.getCarport().getShed().getWidthMeter());
                     ps.setDouble(8, order.getCarport().getShed().getLengthMeter());
+
                 }
-
                 int rowsAffected = ps.executeUpdate();
-
                 if (rowsAffected == 1) {
 
                     ResultSet rs = ps.getGeneratedKeys();
@@ -109,14 +106,12 @@ public class OrderMapper {
                     Order orderWithId = new Order(generatedOrderId, order.getCustomerId(),
                             order.getSalespersonId(), sqlDate, order.getStatus(),
                             order.getPrice(), order.getCarport());
-
                     return orderWithId;
                 }
             }
         } catch (SQLException e) {
-
+            System.out.println("SOMETHING WENT WRONG");
             throw new SQLException("Something went wrong with placing order in DB");
-
         }
         return order;
     }
@@ -152,22 +147,39 @@ public class OrderMapper {
         }
     }
 
-    public static void updateOrderWidthShed(Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
-        String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width, shed_length, shed_width) = (?, ?, ?, ?, ?, ?) WHERE id = ?";
+    public static void updateOrderInDB (Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
+        String sql = "";
+
+        if (order.getCarport().hasShed()) {
+            sql = "UPDATE public.order SET total_price = ?, carport_width = ?, carport_length = ?, " +
+                    "shed_width = ?, shed_length = ? WHERE id = ?";
+
+        } else {
+
+            sql = "UPDATE public.order SET total_price = ?, carport_width = ?, carport_length = ? WHERE id = ?";
+        }
+
         Carport carport = order.getCarport();
+
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, order.getStatus().toString());
-                preparedStatement.setDouble(2, order.getPrice());
-                preparedStatement.setDouble(3, carport.getLengthMeter());
-                preparedStatement.setDouble(4, carport.getWidthMeter());
-                // TODO: When shed is implemented this needs to be updated to reflect the needed shed
-                // preparedStatement.setDouble(5, carport.getShed().getLength());
-                // preparedStatement.setDouble(6, carport.getShed().getWidth());
-                preparedStatement.setInt(7, order.getId());
+
+                preparedStatement.setDouble(1, order.getPrice());
+                preparedStatement.setDouble(2, carport.getLengthMeter());
+                preparedStatement.setDouble(3, carport.getWidthMeter());
+
+                if(order.getCarport().hasShed()){
+                    preparedStatement.setDouble(5, carport.getShed().getLengthMeter());
+                    preparedStatement.setDouble(6, carport.getShed().getWidthMeter());
+                    preparedStatement.setInt(7, order.getId());
+                }
+                else{
+                    preparedStatement.setInt(4, order.getId());
+                }
 
                 int numRowsAffected = preparedStatement.executeUpdate();
                 if (numRowsAffected > 1) {
+
                     // TODO: do something meaningfull when more than one order is affected
                 }
                 if (numRowsAffected < 1) {
@@ -354,16 +366,18 @@ public class OrderMapper {
     }
 
 
-    public static void setStatusInDB(Order order, ConnectionPool connectionPool) throws SQLException {
-        String sql = "UPDATE public.order SET status = ? WHERE id= ?";
+    public static Boolean updateOrder(Order order, ConnectionPool connectionPool)
+            throws SQLException, OrderNotFoundException {
 
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, order.getStatus().toString());
-                preparedStatement.setInt(2, order.getId());
-                int numRowsAffected = preparedStatement.executeUpdate();
-            }
-        }
+        updateOrderInDB(order, connectionPool);
+
+        ItemMapper.removeItemListInDB(order, connectionPool);
+
+        ItemMapper.placeItemListInDB(order, connectionPool);
+
+        return true;
     }
+
+
 }
 

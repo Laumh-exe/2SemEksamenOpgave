@@ -3,6 +3,7 @@ package app.controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class OrderController {
         }
 
         try {
-            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+            OrderMapper.placeOrder(user.getId(), orderToPlace, connectionPool);
             ctx.render("/offerRequestConfirmed.html");
         } catch (SQLException e) {
             ctx.attribute("dbConnectionError", e);
@@ -60,11 +61,14 @@ public class OrderController {
         Carport carport = CarportController.createCarport(ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
+
         double price = CarportController.getPrice(carport);
         //Create order
         Date date = new Date(System.currentTimeMillis());
 
-        Order order = new Order(date, ORDER_NOT_ACCEPTED, price ,carport);
+        Order order = new Order(date, ORDER_NOT_ACCEPTED, price, carport);
+
+        System.out.println("Salesperson Id: " + order.getSalespersonId());
 
         ctx.sessionAttribute("order", order);
 
@@ -252,8 +256,8 @@ public class OrderController {
 
                 Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
 
-                double num = order.getPrice();
-                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+                DecimalFormat df = new DecimalFormat("0.00");
+                String priceWithTwoDecimals = df.format(order.getPrice());
                 ctx.sessionAttribute("price", priceWithTwoDecimals);
 
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
@@ -263,7 +267,7 @@ public class OrderController {
         ctx.render("/salespersonOrderDetails.html");
     }
 
-    public static void sendOffer(Context ctx, ConnectionPool connectionPool) throws SQLException{
+    public static void sendOffer(Context ctx, ConnectionPool connectionPool) {
 
         Order order = ctx.sessionAttribute("orderToShow");
         order.setStatus(OrderStatus.PRICE_PRESENTED);
@@ -271,13 +275,57 @@ public class OrderController {
         try {
             OrderMapper.setStatusOfOrderInDB(order, connectionPool);
             ctx.render("/salespersonOrderDetails.html");
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Something went wrong with sending offer");
         }
 
 
     }
+
+    public static void calculateNewOffer(Context ctx, ConnectionPool connectionPool) {
+
+        Carport carport = CarportController.createCarport(ctx, connectionPool);
+
+        Order orderEdited = ctx.sessionAttribute("orderToShow");
+
+        double price = CarportController.getPrice(carport);
+
+        HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+        List<Item> itemList = orderEdited.getCarport().getItemList().getItemList();
+
+        for (Item item : itemList) {
+            System.out.println("ITEM: " + item.id() + " " + item.quantity());
+            double priceOfItemQuantity = item.price_pr_unit() * item.quantity();
+            System.out.println("Price of quantity: " + priceOfItemQuantity);
+            pricePerQuantityOfItem.put(item, priceOfItemQuantity);
+        }
+
+        for()
+
+        orderEdited.setCarport(carport);
+        orderEdited.setPrice(price);
+        orderEdited.setPricePerQuantityOfItem(pricePerQuantityOfItem);
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String priceWithTwoDecimals = df.format(orderEdited.getPrice());
+        ctx.sessionAttribute("price", priceWithTwoDecimals);
+
+        try{
+            OrderMapper.updateOrder(orderEdited, connectionPool);
+
+            ctx.sessionAttribute("orderToShow", orderEdited);
+            ctx.render("/salespersonOrderDetails.html");
+        }
+        catch (SQLException e){
+            System.out.println("SQL EXCEPTION when calculating offer: " + e);
+        }
+        catch (OrderNotFoundException e){
+            ctx.attribute("orderNotFound", e);
+            System.out.println("ORDER NOT FOUND");
+        }
+
+    }
 }
+
 
 

@@ -41,6 +41,9 @@ public class Order {
         this.carport = carport;
     }
 
+    public void setCarport(Carport carport) {
+        this.carport = carport;
+    }
 
     public HashMap<Item, Double> getPricePerQuantityOfItem() {
         return pricePerQuantityOfItem;
@@ -147,5 +150,13 @@ public class Order {
                 ", receipt=" + receipt +
                 ", price=" + price +
                 '}';
+    }
+
+    public void setPricePerQuantityOfItem(HashMap<Item, Double> pricePerQuantityOfItem) {
+        this.pricePerQuantityOfItem = pricePerQuantityOfItem;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

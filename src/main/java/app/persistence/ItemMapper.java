@@ -147,5 +147,24 @@ public class ItemMapper {
         }
         return itemList;
     }
+
+    public static void removeItemListInDB(Order order, ConnectionPool connectionPool) throws SQLException{
+
+        String sql = "DELETE FROM items_orders WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, order.getId());
+
+                preparedStatement.executeUpdate();
+
+            }
+        } catch (SQLException e) {
+            throw new SQLException("FEJL!!");
+        }
+
+
+    }
 }
 
