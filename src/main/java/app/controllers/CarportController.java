@@ -2,10 +2,13 @@ package app.controllers;
 
 import app.model.Calculator;
 import app.model.entities.Carport;
+import app.model.entities.Item;
 import app.model.entities.ItemList;
 import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
+
+import java.util.List;
 
 public class CarportController {
     public static Carport createCarport(Context ctx, ConnectionPool connectionPool) {
@@ -33,11 +36,25 @@ public class CarportController {
 
             return carportWithShedAndItemlist;
         }
-
+      
         ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
 
         Carport carportWithItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(), itemlist);
 
         return carportWithItemlist;
     }
+  
+
+    public static double getPrice(Carport carport) {
+        List<Item> itemList = carport.getItemList().getItemList();
+        double total = 0;
+
+        for (Item item : itemList) {
+            total += item.price_pr_unit() * item.quantity();
+        }
+
+        return total;
+    }
+
 }
+
