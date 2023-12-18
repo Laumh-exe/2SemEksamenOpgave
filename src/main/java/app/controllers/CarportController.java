@@ -2,11 +2,14 @@ package app.controllers;
 
 import app.model.Calculator;
 import app.model.entities.Carport;
+import app.model.entities.Item;
 import app.model.entities.ItemList;
 import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
 import app.model.entities.Item;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -42,8 +45,9 @@ public class CarportController {
 
             return carportWithItemlist;
         }
+      
+        ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
 
-        ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
         carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(), itemlist);
 
@@ -59,7 +63,7 @@ public class CarportController {
             total += item.price_pr_unit() * item.quantity();
         }
 
-        System.out.println("Price calculator result: " + total);
         return total;
     }
 }
+
