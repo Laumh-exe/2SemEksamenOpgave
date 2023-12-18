@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS itemlist
 CREATE TABLE IF NOT EXISTS item
 (
     id serial NOT NULL,
-    prise_pr_unit double precision NOT NULL,
+    price_pr_unit double precision NOT NULL,
     length double precision NOT NULL,
     unit character varying(50) NOT NULL,
     description character varying(60) NOT NULL,

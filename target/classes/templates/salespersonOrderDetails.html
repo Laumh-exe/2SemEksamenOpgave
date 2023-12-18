@@ -255,7 +255,7 @@
                 <div class="order-paid-price-div"
                      th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
                     <span class="order-paid-price-text">Pris: </span>
-                    <span class="order-paid-price" th:text="${#ctx.session.price}"> 35.475,-</span>
+                    <span class="order-paid-price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
                     <span>,-</span>
                 </div>
 
