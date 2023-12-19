@@ -18,7 +18,6 @@ public class CarportController {
 
         double length = Double.parseDouble(ctx.formParam("længde"));
         double width = Double.parseDouble(ctx.formParam("bredde"));
-        Calculator calculator = Calculator.getInstance(connectionPool);
 
         Carport carportWithoutItemList = new Carport(length, width);
         Carport carportWithItemlist = null;
@@ -32,16 +31,19 @@ public class CarportController {
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
             Shed shed = new Shed(shedLength, shedWidth);
-d
+
+
             carportWithoutItemList = new Carport(length, width, shed);
+
             ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
+
             carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(),
                     carportWithoutItemList.getShed(), itemlist);
 
 
             return carportWithItemlist;
         }
-      
+
         ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
 

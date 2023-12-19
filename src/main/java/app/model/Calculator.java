@@ -94,8 +94,8 @@ public class Calculator {
         if(carport.hasShed()) {
             if (shedWidthCM/250 > 1) {
                 //Devide by 250(remove one for the cause we already have a corner further down)
-                stolpeQuantity += shedWidthCM/250*2-1;
-                stolpeShedQuantity += shedWidthCM/250*2-1;
+                stolpeQuantity += (shedWidthCM/250-1)*2;
+                stolpeShedQuantity += (shedWidthCM/250-1)*2;
             }
             // Stolpe in mid-corners of shed
             stolpeQuantity += 2;

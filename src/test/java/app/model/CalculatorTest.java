@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -43,7 +44,7 @@ class CalculatorTest {
         Carport carportWithoutShed = new Carport(7.8, 6);
         carportWithShed = new Carport(7.8, 6, new Shed(2, 6));
         carportLengthCM = (int) (carportWithShed.getLengthMeter() * 100);
-        carportWidthCM = (int) (carportWithShed.getWidthMeter() * 100);
+        carportWidthCM = (int) (carportWithShed.getWidthMeter() * 100) - 70;
         shedWidthCM = (int) (carportWithShed.getShed().getWidthMeter() * 100);
     }
 
@@ -70,9 +71,9 @@ class CalculatorTest {
     @Test
     void calculateSpær() {
         Calculator calculator = Calculator.getInstance(connectionPool);
-        ArrayList<Item> actual = new ArrayList<>();
+        List<Item> actual = new ArrayList<>();
         // Arrange
-        ArrayList<Item> expected = new ArrayList<>();
+        List<Item> expected = new ArrayList<>();
         expected.add(new Item(7, 220, 600, "Stk", "45x195 mm. spærtræ", 15, "spær"));
         try {
             actual = calculator.calculateSpær(carportWithShed, carportLengthCM, carportWidthCM);
@@ -88,7 +89,7 @@ class CalculatorTest {
         Calculator calculator = Calculator.getInstance(connectionPool);
         Item actual = null;
         // Arrange
-        Item expected = new Item(15, 340, 300, "Stk", "97x97 mm. trykimp. Stolpe", 11, "stolpe");
+        Item expected = new Item(15, 340, 300, "Stk", "97x97 mm. trykimp. Stolpe", 10, "stolpe");
         try {
             actual = calculator.calculateStolper(carportWithShed, shedWidthCM,carportLengthCM);
         } catch (Exception e) {
@@ -101,9 +102,9 @@ class CalculatorTest {
     @Test
     void calculateRem() {
         Calculator calculator = Calculator.getInstance(connectionPool);
-        ArrayList<Item> actual = new ArrayList<>();
+        List<Item> actual = new ArrayList<>();
         // Arrange
-        ArrayList<Item> expected = new ArrayList<>();
+        List<Item> expected = new ArrayList<>();
         expected.add(new Item(10, 140, 360, "Stk", "45x195 mm. spærtræ - til rem", 1, "rem"));
         expected.add(new Item(14, 220, 600, "Stk", "45x195 mm. spærtræ - til rem", 2, "rem"));
         try {

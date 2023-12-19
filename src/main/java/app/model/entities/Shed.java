@@ -8,7 +8,7 @@ public class Shed {
 
     public Shed(double lengthMeter, double widthMeter) {
         this.lengthMeter = lengthMeter;
-        this.widthMeter = widthMeter-0.70;
+        this.widthMeter = widthMeter;
     }
 
     public double getLengthMeter() {
