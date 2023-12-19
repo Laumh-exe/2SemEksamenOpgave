@@ -46,7 +46,8 @@ public class OrderControllerTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM public.order";
+        String sql = "SELECT * FROM public.order\n" +
+                "ORDER BY public.order.id DESC;";
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
@@ -87,7 +88,7 @@ public class OrderControllerTest {
 
     @Test
     public void testUpdateOrderWithoutShed() throws SQLException{
-        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d, null));
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d));
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
@@ -117,7 +118,7 @@ public class OrderControllerTest {
 
     @Test
     public void testUpdateOrderWithoutErrorHandelingShed() throws SQLException{
-        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d, null));
+        Order order = new Order(1, 1, 1, Date.from(Instant.now()), OrderStatus.ORDER_ASSIGNED, 0, new Carport(100d,100d));
         String sql = "UPDATE public.order SET (status, total_price, carport_length, carport_width) = (?, ?, ?, ?) WHERE id = ?";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);

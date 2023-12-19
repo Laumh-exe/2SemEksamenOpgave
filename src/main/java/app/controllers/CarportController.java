@@ -48,7 +48,7 @@ public class CarportController {
 
             return carportWithItemlist;
         }
-      
+
         ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
 
