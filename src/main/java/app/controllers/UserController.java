@@ -56,7 +56,7 @@ public class UserController {
             ctx.render("login.html");
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            ctx.attribute("message", e.getMessage());
             ctx.render("createUser.html");
         }
     }
