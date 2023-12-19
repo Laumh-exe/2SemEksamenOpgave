@@ -1,7 +1,6 @@
 BEGIN;
 
 ALTER SEQUENCE customer_id_seq RESTART WITH 1;
-ALTER SEQUENCE itemlist_id_seq RESTART WITH 1;
 ALTER SEQUENCE item_id_seq RESTART WITH 1;
 ALTER SEQUENCE order_id_seq RESTART WITH 1;
 ALTER SEQUENCE salesperson_id_seq RESTART WITH 1;
@@ -12,7 +11,7 @@ INSERT INTO customer(email,firstname,lastname,phonenumber,password) VALUES
 INSERT INTO salesperson(email,firstname,lastname,phonenumber,password) VALUES
     ('salesperson@email.dk', 'salesperson', 'salesperson', 00000000, 'salesperson');
 
-INSERT INTO item(prise_pr_unit,length,unit,description) VALUES
+INSERT INTO item(price_pr_unit,length,unit,description) VALUES
     (100, 10, 'cm', 'nail'),
     (100, 5, 'm', 'plank');
 

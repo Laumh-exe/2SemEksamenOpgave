@@ -17,6 +17,9 @@ public class ItemList {
     public void add(Item item) {
         itemList.add(item);
     }
+    public void addAll(List<Item> list) {
+        itemList.addAll(list);
+    }
 
 
 

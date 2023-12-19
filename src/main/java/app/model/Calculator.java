@@ -57,6 +57,10 @@ public class Calculator {
         return instance;
     }
 
+    public int getStolpeShedQuantity() {
+        return stolpeShedQuantity;
+    }
+
     /**
      * Collects itemList data from several methods
      *
@@ -64,28 +68,23 @@ public class Calculator {
      * @return ItemList with all collected data
      */
     public ItemList calculateItemList(Carport carport) {
-        ArrayList<Item> itemList = new ArrayList<>();
-        ArrayList<Item> spær = new ArrayList<>();
+        ItemList itemList = new ItemList();
+        List<Item> spær = new ArrayList<>();
         int carportLengthCM = (int) (carport.getLengthMeter() * 100);
-        int carportWidthCM = (int) (carport.getWidthMeter() * 100);
-        int shedWidthCM = 0;
-        if(carport.hasShed()){
-            shedWidthCM = (int) ((carport.getShed().getWidthMeter()-0.70) * 100);
-        }
+        int carportWidthCM = (int) carport.getWidthMeter() * 100;
+        int shedWidthCM = carport.hasShed() ? (int) (carport.getShed().getWidthMeter() * 100)-70 : 0;
+
         try {
             spær = calculateSpær(carport, carportLengthCM, carportWidthCM);
         } catch (Exception e) {
             e.getMessage();
         }
         Item stolper = calculateStolper(carport, shedWidthCM, carportLengthCM);
-        ArrayList<Item> rem = calculateRem(carportLengthCM);
+        List<Item> rem = calculateRem(carportLengthCM);
         itemList.addAll(rem);
         itemList.add(stolper);
         itemList.addAll(spær);
-
-        ItemList itemListToReturn = new ItemList(itemList);
-
-        return itemListToReturn;
+        return itemList;
     }
 
     public Item calculateStolper(Carport carport, int shedWidthCM, int carportLengthCM) {
@@ -96,8 +95,8 @@ public class Calculator {
         if(carport.hasShed()) {
             if (shedWidthCM/250 > 1) {
                 //Devide by 250(remove one for the cause we already have a corner further down)
-                stolpeQuantity += shedWidthCM/250*2-1;
-                stolpeShedQuantity += shedWidthCM/250*2-1;
+                stolpeQuantity += (shedWidthCM/250-1)*2;
+                stolpeShedQuantity += (shedWidthCM/250-1)*2;
             }
             // Stolpe in mid-corners of shed
             stolpeQuantity += 2;
@@ -109,8 +108,8 @@ public class Calculator {
         return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),stolpeQuantity,tmpStolpe.function());
     }
 
-    public ArrayList<Item> calculateRem(int carportLengthCM) {
-        ArrayList<Integer> remLengths = getRemLengths();
+    public List<Item> calculateRem(int carportLengthCM) {
+        List<Integer> remLengths = getRemLengths();
         ArrayList<Item> rem = new ArrayList<>();
         int lowestRemLength = remLengths.get(0);
         int highestRemLength = remLengths.get(remLengths.size()-1);
@@ -162,11 +161,11 @@ public class Calculator {
      * @param carport
      * @return
      */
-    public ArrayList<Item> calculateSpær(Carport carport, int carportLengthCM, int carportWidthCM) throws DimensionException {
+    public List<Item> calculateSpær(Carport carport, int carportLengthCM, int carportWidthCM) throws DimensionException {
         //Setup
         ArrayList<Item> spærToAdd = new ArrayList<>();
         List<Item> spærFromItems = items.stream().filter(a -> a.function().equals("spær")).collect(Collectors.toList());
-        ArrayList<Integer> spærLengths = getSpærLengths();
+        List<Integer> spærLengths = getSpærLengths();
         int lowestSpærLength = spærLengths.get(0);
         int highestSpærLength = spærLengths.get(spærLengths.size()-1);
         int spærLength = 0;
@@ -236,7 +235,7 @@ public class Calculator {
     }
 
 
-    private int findClosestHigherNumberInList(ArrayList<Integer> numbers, int n) {
+    private int findClosestHigherNumberInList(List<Integer> numbers, int n) {
         // Initialize variables to keep track of the minimum difference and the closest higher number
         int minDifference = Integer.MAX_VALUE;
         int closestHigherNumber = Integer.MAX_VALUE;
@@ -261,7 +260,7 @@ public class Calculator {
      *
      * @return
      */
-    private ArrayList<Integer> getSpærLengths() {
+    private List<Integer> getSpærLengths() {
         ArrayList<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
             if (item.function().equalsIgnoreCase("spær")) {
@@ -276,8 +275,8 @@ public class Calculator {
      *
      * @return
      */
-    private ArrayList<Integer> getRemLengths() {
-        ArrayList<Integer> lengths = new ArrayList<>();
+    private List<Integer> getRemLengths() {
+        List<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
             if (item.function().equalsIgnoreCase("rem")) {
                 lengths.add((int) item.length());
