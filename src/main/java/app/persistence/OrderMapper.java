@@ -9,14 +9,13 @@ import app.model.entities.*;
 
 import app.exceptions.OrderNotFoundException;
 
-import app.model.entities.*;
-import jdk.jshell.Snippet;
-
-
 public class OrderMapper {
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT * FROM public.order ORDER BY public.order.id DESC;";
+
+        String sql = "SELECT * FROM public.order\n" +
+                "ORDER BY public.order.id DESC;";
+
         List<Order> orders = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection()) {
@@ -73,8 +72,9 @@ public class OrderMapper {
         } else {
             System.out.println("Sql without shed");
             sql = "INSERT INTO public.order (status, date, customer_id, total_price, " +
-                    "carport_width, carport_length)" +
-                    " VALUES (?, ?, ?, ?, ?, ?)";
+                    "carport_width, carport_length) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
+
         }
 
         Date utilDate = order.getDate();
@@ -94,6 +94,7 @@ public class OrderMapper {
                     ps.setDouble(7, order.getCarport().getShed().getWidthMeter());
                     ps.setDouble(8, order.getCarport().getShed().getLengthMeter());
 
+
                 }
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected == 1) {
@@ -111,6 +112,7 @@ public class OrderMapper {
         } catch (SQLException e) {
             System.out.println("SOMETHING WENT WRONG");
             throw new SQLException("Something went wrong with placing order in DB");
+
         }
         return order;
     }
@@ -364,7 +366,6 @@ public class OrderMapper {
         return orders;
     }
 
-
     public static Boolean updateOrder(Order order, ConnectionPool connectionPool)
             throws SQLException, OrderNotFoundException {
 
@@ -376,7 +377,5 @@ public class OrderMapper {
 
         return true;
     }
-
-
 }
 

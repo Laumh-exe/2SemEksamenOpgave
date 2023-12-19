@@ -48,12 +48,12 @@ public class OrderController {
         try {
             OrderMapper.placeOrder(user.getId(), orderToPlace, connectionPool);
             ctx.render("/offerRequestConfirmed.html");
+
         } catch (SQLException e) {
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
     }
-
 
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
 
@@ -66,9 +66,7 @@ public class OrderController {
         //Create order
         Date date = new Date(System.currentTimeMillis());
 
-        Order order = new Order(date, ORDER_NOT_ACCEPTED, price, carport);
-
-        System.out.println("Salesperson Id: " + order.getSalespersonId());
+        Order order = new Order(date, ORDER_NOT_ACCEPTED, price ,carport);
 
         ctx.sessionAttribute("order", order);
 
@@ -258,6 +256,7 @@ public class OrderController {
 
                 DecimalFormat df = new DecimalFormat("0.00");
                 String priceWithTwoDecimals = df.format(order.getPrice());
+
                 ctx.sessionAttribute("price", priceWithTwoDecimals);
 
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
@@ -267,7 +266,8 @@ public class OrderController {
         ctx.render("/salespersonOrderDetails.html");
     }
 
-    public static void sendOffer(Context ctx, ConnectionPool connectionPool) {
+
+    public static void sendOffer(Context ctx, ConnectionPool connectionPool) throws SQLException{
 
         Order order = ctx.sessionAttribute("orderToShow");
         order.setStatus(OrderStatus.PRICE_PRESENTED);
@@ -275,7 +275,8 @@ public class OrderController {
         try {
             OrderMapper.setStatusOfOrderInDB(order, connectionPool);
             ctx.render("/salespersonOrderDetails.html");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e){
             System.out.println("Something went wrong with sending offer");
         }
 
@@ -324,6 +325,4 @@ public class OrderController {
 
     }
 }
-
-
 

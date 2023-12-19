@@ -70,6 +70,7 @@ public class Main {
         app.post("/salespersonSeeOrderDetails", ctx-> OrderController.salespersonSeeOrderDetails(ctx, connectionPool));
 
         app.post("/calculateNewOffer", ctx -> OrderController.calculateNewOffer(ctx, connectionPool));
+
         app.post("/sendOffer", ctx -> OrderController.sendOffer(ctx, connectionPool));
 
         app.post("/removeItem", ctx -> ItemController.removeItem(ctx, connectionPool));

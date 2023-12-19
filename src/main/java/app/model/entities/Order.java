@@ -45,6 +45,7 @@ public class Order {
         this.carport = carport;
     }
 
+
     public HashMap<Item, Double> getPricePerQuantityOfItem() {
         return pricePerQuantityOfItem;
     }
@@ -59,6 +60,7 @@ public class Order {
         this.status = status;
         this.carport = carport;
         this.price = price;
+
         this.pricePerQuantityOfItem = pricePerQuantityOfItem;
     }
 

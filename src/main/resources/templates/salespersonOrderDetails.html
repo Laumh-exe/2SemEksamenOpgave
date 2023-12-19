@@ -149,6 +149,7 @@
                         <span class="length-and-width-text">Længde i meter:</span>
 
                         <select class="selector" name="skur-Længde">
+
                             <option selected="selected"
                                     th:text="${#ctx.session.orderToShow.getCarport().getShed().getLengthMeter()}"></option>
                             <option>2.4</option>
@@ -162,6 +163,7 @@
                         <span class="length-and-width-text"> Bredde i meter: </span>
 
                         <select class="selector" name="skur-Bredde">
+
                             <option selected="selected"
                                     th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidthMeter()}"></option>
                             <option>2.4</option>

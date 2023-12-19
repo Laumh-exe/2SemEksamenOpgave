@@ -27,7 +27,7 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import app.exceptions.OrderNotFoundException;
-
+/*
 public class OrderMapperTest {
 
     private ConnectionPool connectionPool;

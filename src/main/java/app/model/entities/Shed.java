@@ -1,16 +1,14 @@
 package app.model.entities;
 
 public class Shed {
-
     private double lengthMeter;
     private double widthMeter;
 
 
     public Shed(double lengthMeter, double widthMeter) {
         this.lengthMeter = lengthMeter;
-        this.widthMeter = widthMeter-0.70;
+        this.widthMeter = widthMeter;
     }
-
     public double getLengthMeter() {
         return lengthMeter;
     }
@@ -26,5 +24,6 @@ public class Shed {
     public void setWidthMeter(double widthMeter) {
         this.widthMeter = widthMeter;
     }
+
 
 }
