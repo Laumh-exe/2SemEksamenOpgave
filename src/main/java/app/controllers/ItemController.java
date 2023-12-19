@@ -46,16 +46,14 @@ public class ItemController {
         }
     }
 
-    public static List<Item> getAllItems(ConnectionPool connectionPool) throws SQLException {
+    public static void getAllItems(Context ctx, ConnectionPool connectionPool){
         List<Item> allItems = null;
         try {
             allItems = ItemMapper.getAllItems(connectionPool);
-            //  ctx.sessionAttribute("allItem", allItem);
-            return allItems;
+            ctx.sessionAttribute("itemlist", allItems);
+            ctx.render("/item.html");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
         }
-
     }
 }
