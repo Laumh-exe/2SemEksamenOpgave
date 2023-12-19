@@ -31,9 +31,9 @@
             <p>Here is a blueprint of the carport you're about to request an offer for:</p>
             </div>
 
-          <div id="blueprint-box">
-            <p>[blueprint]</p>
-          </div>
+            <div id="blueprint-box">
+                <div th:utext="${#ctx.session.svg}"></div>
+            </div>
 
         </div>
 
@@ -42,12 +42,12 @@
 
             <div id="carport-length-box" class="measurements-boxes">
             <p class="measurements measurements-parameters">Length:</p>
-            <p th:text="${#ctx.session.order.getCarport().getLength()}" class="measurements chosen-measurements"> th-generated length</p>
+            <p th:text="${#ctx.session.order.getCarport().getLengthMeter()}" class="measurements chosen-measurements"> th-generated length</p>
             </div>
 
             <div id="carport-width-box" class="measurements-boxes">
             <p class="measurements measurements-parameters">Width:</p>
-            <p th:text="${#ctx.session.order.getCarport.getWidth()}" class="measurements chosen-measurements"> th-generated width</p>
+            <p th:text="${#ctx.session.order.getCarport.getWidthMeter()}" class="measurements chosen-measurements"> th-generated width</p>
             </div>
 
             <!--
@@ -61,15 +61,14 @@
             <div id="shed-length" class="measurements-boxes">
             <!--<p th:if="${#ctx.session.yesOrNo}" class="measurements measurements-parameters"> Shed length: </p>-->
             <p class="measurements measurements-parameters"> Shed length:
-            <p th:text="${#ctx.session.order.getCarport().getLength()}" class="measurements chosen-measurements"> h-generated shed length</p>
+            <p th:text="${#ctx.session.order.getCarport().getLengthMeter()}" class="measurements chosen-measurements"> h-generated shed length</p>
             </div>
 
             <div id="shed-width" class="measurements-boxes">
             <!-- <p th:if="${#ctx.session.yesOrNo}" class="measurements measurements-parameters"> Shed width: </p> -->
             <p class="measurements measurements-parameters"> Shed length:
-            <p th:text="${#ctx.session.order.getCarport().getWidth()}" class="measurements chosen-measurements"> h-generated shed width</p>
+            <p th:text="${#ctx.session.order.getCarport().getWidthMeter()}" class="measurements chosen-measurements"> h-generated shed width</p>
             </div>
-
         </div>
 
 

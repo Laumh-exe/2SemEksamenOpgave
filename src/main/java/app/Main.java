@@ -1,11 +1,13 @@
 package app;
 
 import app.config.ThymeleafConfig;
+import app.controllers.CarportController;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
+import io.javalin.http.Context;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 
@@ -42,7 +44,10 @@ public class Main {
 
         app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
-        app.get("/confirmOffer", ctx -> ctx.render("/confirmOfferRequest.html"));
+        app.get("/confirmOffer", ctx -> {
+            CarportController.show2dDrawing(ctx, connectionPool);
+            ctx.render("/confirmOfferRequest.html");
+        });
 
         app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
 
