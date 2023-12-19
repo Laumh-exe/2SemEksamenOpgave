@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
@@ -25,11 +26,12 @@
       <a href="/createUser">
         <button type="button" class="loginFormButton">Sign Up</button>
       </a>
+
     </form>
   </div>
 </div>
 
-<p th:text="${#ctx.session.message}"></p>
+<p th:text="${#ctx.message}"></p>
 
 </body>
 </html>

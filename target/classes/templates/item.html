@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../public/css/item.css" th:href="@{/css/item.css}" rel="stylesheet"/>
+    <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 </head>
 <body>
+
+<div th:replace="~{fragments :: formField (currentpage='/item')}"></div>
 
 <h2>Add Item</h2>
 <form action="/insert" method="post">
