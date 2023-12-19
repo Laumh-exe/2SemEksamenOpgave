@@ -71,7 +71,7 @@ public class Calculator {
         ItemList itemList = new ItemList();
         List<Item> spær = new ArrayList<>();
         int carportLengthCM = (int) (carport.getLengthMeter() * 100);
-        int carportWidthCM = (int) (carport.getWidthMeter() * 100);
+        int carportWidthCM = carport.hasShed() ? (int) (carport.getWidthMeter() * 100) : 0;
         int shedWidthCM = (int) (carport.getShed().getWidthMeter() * 100);
         try {
             spær = calculateSpær(carport, carportLengthCM, carportWidthCM);
