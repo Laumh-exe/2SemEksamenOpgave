@@ -69,7 +69,7 @@ public class Calculator {
      */
     public ItemList calculateItemList(Carport carport) {
         ItemList itemList = new ItemList();
-        ArrayList<Item> spær = new ArrayList<>();
+        List<Item> spær = new ArrayList<>();
         int carportLengthCM = (int) (carport.getLengthMeter() * 100);
         int carportWidthCM = (int) (carport.getWidthMeter() * 100);
         int shedWidthCM = (int) (carport.getShed().getWidthMeter() * 100);
@@ -79,7 +79,7 @@ public class Calculator {
             e.getMessage();
         }
         Item stolper = calculateStolper(carport, shedWidthCM, carportLengthCM);
-        ArrayList<Item> rem = calculateRem(carportLengthCM);
+        List<Item> rem = calculateRem(carportLengthCM);
         itemList.addAll(rem);
         itemList.add(stolper);
         itemList.addAll(spær);
@@ -107,8 +107,8 @@ public class Calculator {
         return new Item(tmpStolpe.id(),tmpStolpe.price_pr_unit(),tmpStolpe.length(),tmpStolpe.unit(),tmpStolpe.description(),stolpeQuantity,tmpStolpe.function());
     }
 
-    public ArrayList<Item> calculateRem(int carportLengthCM) {
-        ArrayList<Integer> remLengths = getRemLengths();
+    public List<Item> calculateRem(int carportLengthCM) {
+        List<Integer> remLengths = getRemLengths();
         ArrayList<Item> rem = new ArrayList<>();
         int lowestRemLength = remLengths.get(0);
         int highestRemLength = remLengths.get(remLengths.size()-1);
@@ -160,11 +160,11 @@ public class Calculator {
      * @param carport
      * @return
      */
-    public ArrayList<Item> calculateSpær(Carport carport, int carportLengthCM, int carportWidthCM) throws DimensionException {
+    public List<Item> calculateSpær(Carport carport, int carportLengthCM, int carportWidthCM) throws DimensionException {
         //Setup
         ArrayList<Item> spærToAdd = new ArrayList<>();
         List<Item> spærFromItems = items.stream().filter(a -> a.function().equals("spær")).collect(Collectors.toList());
-        ArrayList<Integer> spærLengths = getSpærLengths();
+        List<Integer> spærLengths = getSpærLengths();
         int lowestSpærLength = spærLengths.get(0);
         int highestSpærLength = spærLengths.get(spærLengths.size()-1);
         int spærLength = 0;
@@ -259,7 +259,7 @@ public class Calculator {
      *
      * @return
      */
-    private ArrayList<Integer> getSpærLengths() {
+    private List<Integer> getSpærLengths() {
         ArrayList<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
             if (item.function().equalsIgnoreCase("spær")) {
@@ -274,8 +274,8 @@ public class Calculator {
      *
      * @return
      */
-    private ArrayList<Integer> getRemLengths() {
-        ArrayList<Integer> lengths = new ArrayList<>();
+    private List<Integer> getRemLengths() {
+        List<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
             if (item.function().equalsIgnoreCase("rem")) {
                 lengths.add((int) item.length());
