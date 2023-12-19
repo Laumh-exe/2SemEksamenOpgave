@@ -149,9 +149,12 @@ public class OrderMapper {
     }
 
     public static void updateOrderInDB (Order order, ConnectionPool connectionPool) throws SQLException, OrderNotFoundException {
+
         String sql = "";
 
         if (order.getCarport().hasShed()) {
+
+            System.out.println("HAS SHED");
             sql = "UPDATE public.order SET total_price = ?, carport_width = ?, carport_length = ?, " +
                     "shed_width = ?, shed_length = ? WHERE id = ?";
 
@@ -166,13 +169,13 @@ public class OrderMapper {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 preparedStatement.setDouble(1, order.getPrice());
-                preparedStatement.setDouble(2, carport.getLengthMeter());
-                preparedStatement.setDouble(3, carport.getWidthMeter());
+                preparedStatement.setDouble(2, carport.getWidthMeter());
+                preparedStatement.setDouble(3, carport.getLengthMeter());
 
                 if(order.getCarport().hasShed()){
+                    preparedStatement.setDouble(4, carport.getShed().getWidthMeter());
                     preparedStatement.setDouble(5, carport.getShed().getLengthMeter());
-                    preparedStatement.setDouble(6, carport.getShed().getWidthMeter());
-                    preparedStatement.setInt(7, order.getId());
+                    preparedStatement.setInt(6, order.getId());
                 }
                 else{
                     preparedStatement.setInt(4, order.getId());
@@ -188,7 +191,6 @@ public class OrderMapper {
                 }
             }
         }
-
     }
 
 

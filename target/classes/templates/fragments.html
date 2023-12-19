@@ -47,6 +47,7 @@
                     <button>Din konto</button>
                 </form>
             </div>
+
             <div th:if="${#ctx.session.currentUser != null}" class="user-p-firstname-div">
                 <p th:text="${#ctx.session.currentUser.getFirstName()}"></p>
             </div>

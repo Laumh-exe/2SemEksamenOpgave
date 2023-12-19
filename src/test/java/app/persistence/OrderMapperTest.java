@@ -27,7 +27,7 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import app.exceptions.OrderNotFoundException;
-/*
+
 public class OrderMapperTest {
 
     private ConnectionPool connectionPool;
@@ -44,7 +44,8 @@ public class OrderMapperTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM public.order ORDER BY public.order.id DESC;";
+        String sql = "SELECT * FROM public.order\n" +
+                "ORDER BY public.order.id DESC;";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         ResultSet rs = mock(ResultSet.class);

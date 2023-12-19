@@ -58,7 +58,8 @@ public class OrderController {
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
 
         // hent carport og lav ordre!
-        Carport carport = CarportController.createCarport(ctx, connectionPool);
+        String skur = ctx.formParam("skur");
+        Carport carport = CarportController.createCarport(skur, ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
 
@@ -279,15 +280,16 @@ public class OrderController {
         catch (SQLException e){
             System.out.println("Something went wrong with sending offer");
         }
-
-
     }
 
     public static void calculateNewOffer(Context ctx, ConnectionPool connectionPool) {
 
-        Carport carport = CarportController.createCarport(ctx, connectionPool);
-
         Order orderEdited = ctx.sessionAttribute("orderToShow");
+
+        String skur = Boolean.toString(orderEdited.getCarport().hasShed());
+        Carport carport = CarportController.createCarport(skur, ctx, connectionPool);
+
+
 
         double price = CarportController.getPrice(carport);
 
@@ -295,9 +297,7 @@ public class OrderController {
         List<Item> itemList = orderEdited.getCarport().getItemList().getItemList();
 
         for (Item item : itemList) {
-            System.out.println("ITEM: " + item.id() + " " + item.quantity());
             double priceOfItemQuantity = item.price_pr_unit() * item.quantity();
-            System.out.println("Price of quantity: " + priceOfItemQuantity);
             pricePerQuantityOfItem.put(item, priceOfItemQuantity);
         }
 
