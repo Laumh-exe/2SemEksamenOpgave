@@ -6,7 +6,6 @@ public class Carport {
     private boolean hasShed;
     private Shed shed;
     private ItemList itemList;
-    
     public Carport(double lengthMeter, double widthMeter, Shed shed) {
         this.lengthMeter = lengthMeter;
         this.widthMeter = widthMeter;
@@ -27,6 +26,14 @@ public class Carport {
         hasShed = false;
     }
 
+    public Carport(double lengthMeter, double widthMeter, ItemList itemList) {
+
+        this.lengthMeter = lengthMeter;
+        this.widthMeter = widthMeter;
+        this.itemList = itemList;
+        hasShed = false;
+    }
+
     public boolean hasShed() {
         return hasShed;
     }
@@ -42,7 +49,6 @@ public class Carport {
     public Shed getShed() {
         return shed;
     }
-
     public ItemList getItemList() {
         return itemList;
     }
@@ -58,9 +64,7 @@ public class Carport {
     public void setShed(Shed shed) {
         this.shed = shed;
     }
-
     public void setItemList(ItemList itemList) {
         this.itemList = itemList;
     }
-
 }

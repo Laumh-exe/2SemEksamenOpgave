@@ -30,7 +30,6 @@ public class Calculator {
     /**
      * Setup of Singleton
      * @param connectionPool
-     *
      * @return this will always return either a new or an existing instance of Calculator
      */
     public static Calculator getInstance(ConnectionPool connectionPool) {
@@ -71,7 +70,7 @@ public class Calculator {
         int carportWidthCM = (int) (carport.getWidthMeter() * 100);
         int shedWidthCM = 0;
         if(carport.hasShed()){
-            shedWidthCM = (int) (carport.getShed().getWidthMeter() * 100);
+            shedWidthCM = (int) ((carport.getShed().getWidthMeter()-0.70) * 100);
         }
         try {
             spær = calculateSpær(carport, carportLengthCM, carportWidthCM);
@@ -83,7 +82,10 @@ public class Calculator {
         itemList.addAll(rem);
         itemList.add(stolper);
         itemList.addAll(spær);
-        return null;
+
+        ItemList itemListToReturn = new ItemList(itemList);
+
+        return itemListToReturn;
     }
 
     public Item calculateStolper(Carport carport, int shedWidthCM, int carportLengthCM) {

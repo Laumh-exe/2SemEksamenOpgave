@@ -1,0 +1,36 @@
+
+.background{
+    background-image: url("../images/Build-a-carport-3.png");
+    background-size: cover;
+    margin: 0 auto;
+    height: 100vh;
+    min-width: 100%;
+}
+
+#frontpage{
+    display: flex;
+    justify-content: center;
+}
+
+
+#go-to-create-carport-page {
+    border: 0.05vw solid black;
+    margin: 3vw;
+    padding: 0.5vw;
+    height: 8vw;
+    width: 15vw;
+    align-items: center;
+    justify-content: center;
+    gap: 12vw;
+}
+
+#go-to-existing-carport-page {
+    border: 0.05vw solid black;
+    margin: 3vw;
+    padding: 0.5vw;
+    height: 8vw;
+    width: 15vw;
+    align-items: center;
+    justify-content: center;
+    gap: 12vw
+}

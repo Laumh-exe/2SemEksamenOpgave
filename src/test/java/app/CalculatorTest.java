@@ -23,7 +23,7 @@ class CalculatorTest {
         standardCarport = null;
     }
 
-    /* DOESN'T WORK ANYMORE
+    /*
     @Test
     public void calculateItemListTest(){
         // Arrange - ItemList setup

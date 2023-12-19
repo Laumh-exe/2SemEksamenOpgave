@@ -1,6 +1,8 @@
 package app.model.entities;
 
+import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Order {
     private int id;
@@ -12,6 +14,8 @@ public class Order {
     private Receipt receipt;
     private double price;
 
+    private HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+
 // TODO: maybe change Date to java.sql.Date so it can be inserted in database
     public Order(int id, Date date, OrderStatus status, double price, Carport carport){
         this.id = id;
@@ -20,24 +24,12 @@ public class Order {
         this.carport = carport;
         this.price = price;
     }
-  
-    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
-        this.id = id;
-        this.customerId = customerId;
-        this.salespersonId = salespersonId;
-        this.date = date;
-        this.status = status;
 
-        this.carport = carport;
-        this.price = price;
-    }
 
     public Order(Date date, OrderStatus status, double price, Carport carport){
         id = -1;
         this.date = date;
         this.status = status;
-        this.carport = carport;
-
         this.price = price;
         this.carport = carport;
 
@@ -47,6 +39,35 @@ public class Order {
         this.date = date;
         this.status = status;
         this.carport = carport;
+    }
+
+
+    public HashMap<Item, Double> getPricePerQuantityOfItem() {
+        return pricePerQuantityOfItem;
+    }
+
+    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport, HashMap<Item, Double> pricePerQuantityOfItem){
+
+
+        this.id = id;
+        this.customerId = customerId;
+        this.salespersonId = salespersonId;
+        this.date = date;
+        this.status = status;
+        this.price = price;
+        this.carport = carport;
+        this.pricePerQuantityOfItem = pricePerQuantityOfItem;
+    }
+
+    public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
+        this.id = id;
+        this.customerId = customerId;
+        this.salespersonId = salespersonId;
+        this.date = date;
+        this.status = status;
+
+        this.carport = carport;
+        this.price = price;
     }
 
     public int getId() {

@@ -20,21 +20,23 @@ public class UserController {
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
 
+        String currentPage = ctx.sessionAttribute("currentpage");
+
+
         try {
             User user = UserMapper.login(email, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
 
             if (user.getRole().equals("salesperson")) {
-                ctx.redirect("/adminpage");
+                ctx.redirect(currentPage);
             } else {
                 Order order = ctx.sessionAttribute("order");
                 if(order != null){
                     ctx.redirect("/confirmOffer");
                 } else {
-                    ctx.redirect("/customerpage");
+                    ctx.redirect(currentPage);
                 }
             }
-
         } catch (SQLException e) {
             ctx.attribute("message", e.getMessage());
             ctx.render("login.html");

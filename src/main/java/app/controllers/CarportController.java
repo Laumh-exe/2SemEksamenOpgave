@@ -13,6 +13,11 @@ import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
 import app.services.CarportSVG;
 import io.javalin.http.Context;
+import app.model.entities.Item;
+
+import java.util.List;
+
+import java.util.List;
 
 public class CarportController {
     public static Carport createCarport(Context ctx, ConnectionPool connectionPool) {
@@ -21,25 +26,49 @@ public class CarportController {
         double width = Double.parseDouble(ctx.formParam("bredde"));
         Calculator calculator = Calculator.getInstance(connectionPool);
 
-        String isShed = ctx.formParam("skur");
+        Carport carportWithoutItemList = new Carport(length, width);
+        Carport carportWithItemlist = null;
 
-        if (isShed != null) {
+        Calculator calculator = Calculator.getInstance(connectionPool);
+
+        String hasShed = ctx.formParam("skur");
+
+        if (hasShed != null) {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
-
             Shed shed = new Shed(shedLength, shedWidth);
 
-            Carport carportWithoutItemList = new Carport(length, width, shed);
+
+            carportWithoutItemList = new Carport(length, width, shed);
 
             ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
-            Carport carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(),
+            carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(),
                     carportWithoutItemList.getShed(), itemlist);
+
 
             return carportWithItemlist;
         }
-        return new Carport(length,width);
+      
+        ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
+
+
+        carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(), itemlist);
+
+        return carportWithItemlist;
+    }
+
+
+    public static double getPrice(Carport carport) {
+        List<Item> itemList = carport.getItemList().getItemList();
+        double total = 0;
+
+        for (Item item : itemList) {
+            total += item.price_pr_unit() * item.quantity();
+        }
+
+        return total;
     }
 
     public static void show2dDrawing(Context ctx, ConnectionPool connectionPool){
@@ -54,3 +83,4 @@ public class CarportController {
         ctx.render("VisuliseCarport.html");
     }
 }
+

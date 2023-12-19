@@ -5,6 +5,9 @@ import app.controllers.CarportController;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
+import app.controllers.PageController;
+
+import app.model.entities.Order;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -23,7 +26,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         // Initializing Javalin and Jetty webserver
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
@@ -35,10 +37,14 @@ public class Main {
 
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx, connectionPool));
+        app.post("/goToLoginPage", ctx -> PageController.goToLoginPage(ctx));
+
         app.get("/logout", ctx -> UserController.logout(ctx));
+
         app.get("/createUser", ctx -> ctx.render("createUser.html"));
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
+        app.get("/carportSelection", ctx-> ctx.render("/carportSelection.html"));
         app.get("/adminpage", ctx -> ctx.render("/SellersPage.html"));
         app.get("/customerpage", ctx -> UserController.customerSetup(ctx, connectionPool));// ctx.render("/customerPage.html");});
 
@@ -49,11 +55,25 @@ public class Main {
             ctx.render("/confirmOfferRequest.html");
         });
 
-        app.post("/offerRequested", ctx -> OrderController.placeOrder(ctx, connectionPool));
+        app.post("/offerRequested", ctx -> OrderController.placeOfferRequest(ctx, connectionPool));
+
+        app.get("/customersAllOrdersPage", ctx -> ctx.render("/customersAllOrdersPage.html"));
+        app.post("/customersAllOrders", ctx -> OrderController.customerSeeAllOrders(ctx, connectionPool));
+        app.post("customerPaysForOrder", ctx -> OrderController.customerPaysForOrder(ctx, connectionPool));
+
+        app.post("/customerSeeOrderDetails", ctx -> OrderController.customerSeeOrderDetails(ctx));
+        app.post("/showPartsList", ctx -> OrderController.showPartsList(ctx));
 
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.get("/sellers/EditOrder", ctx -> {OrderController.setupUpdatePage(ctx, connectionPool); ctx.render("updateOrder.html");});
         app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
+
+        app.post("/salespersonTakeOrder", ctx-> OrderController.salespersonTakeOrder(ctx, connectionPool));
+        app.post("/salespersonUntakeOrder", ctx-> OrderController.salespersonUntakeOrder(ctx, connectionPool));
+        app.post("/salespersonSeeAssignedOrders", ctx -> OrderController.salespersonSeeAssignedOrders(ctx, connectionPool));
+        app.post("/salespersonSeeOrderDetails", ctx-> OrderController.salespersonSeeOrderDetails(ctx, connectionPool));
+        app.post("/sendOffer", ctx -> OrderController.sendOffer(ctx, connectionPool));
+
         app.post("/removeItem", ctx -> ItemController.removeItem(ctx, connectionPool));
         app.post("/addItem", ctx -> ItemController.addItem(ctx, connectionPool));
     }

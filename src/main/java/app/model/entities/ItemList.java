@@ -10,6 +10,10 @@ public class ItemList {
         itemList = new ArrayList<Item>();
     }
 
+    public ItemList(List<Item> itemlist) {
+        itemList = itemlist;
+    }
+
     public void add(Item item) {
         itemList.add(item);
     }
