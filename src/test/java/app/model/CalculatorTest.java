@@ -44,7 +44,7 @@ class CalculatorTest {
         Carport carportWithoutShed = new Carport(7.8, 6);
         carportWithShed = new Carport(7.8, 6, new Shed(2, 6));
         carportLengthCM = (int) (carportWithShed.getLengthMeter() * 100);
-        carportWidthCM = (int) (carportWithShed.getWidthMeter() * 100) - 70;
+        carportWidthCM = (int) (carportWithShed.getWidthMeter() * 100);
         shedWidthCM = (int) (carportWithShed.getShed().getWidthMeter() * 100);
     }
 
