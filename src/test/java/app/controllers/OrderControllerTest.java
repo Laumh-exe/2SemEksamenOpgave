@@ -46,7 +46,8 @@ public class OrderControllerTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM public.order";
+        String sql = "SELECT * FROM public.order\n" +
+                "ORDER BY public.order.id DESC;";
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
