@@ -16,13 +16,12 @@ import jdk.jshell.Snippet;
 public class OrderMapper {
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws SQLException {
-        String sql = "SELECT * FROM public.order\n" +
-                "ORDER BY public.order.id DESC;";
+        String sql = "SELECT * FROM public.order ORDER BY public.order.id DESC;";
         List<Order> orders = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String statusString = resultSet.getString("status");

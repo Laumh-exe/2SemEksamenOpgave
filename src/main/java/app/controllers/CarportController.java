@@ -32,7 +32,6 @@ public class CarportController {
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
             Shed shed = new Shed(shedLength, shedWidth);
 
-
             carportWithoutItemList = new Carport(length, width, shed);
 
             ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);

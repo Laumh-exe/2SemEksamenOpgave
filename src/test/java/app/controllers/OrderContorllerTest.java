@@ -25,7 +25,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import io.javalin.http.Context;
 
-/*
+
 public class OrderContorllerTest {
     
     private ConnectionPool connectionPool;
@@ -47,7 +47,7 @@ public class OrderContorllerTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM public.order";
+        String sql = "SELECT * FROM public.order ORDER BY public.order.id DESC;";
         Mockito.when(connectionPool.getConnection()).thenReturn(connection);
         Mockito.when(connection.prepareStatement(sql)).thenReturn(ps);
         Mockito.when(ps.executeQuery()).thenReturn(rs);
@@ -111,8 +111,8 @@ public class OrderContorllerTest {
         InOrder inOrderPs = Mockito.inOrder(ps);
         inOrderPs.verify(ps).setString(1, order.getStatus().toString());
         inOrderPs.verify(ps).setDouble(2, order.getPrice());
-        inOrderPs.verify(ps).setDouble(3, order.getCarport().getLength());
-        inOrderPs.verify(ps).setDouble(4, order.getCarport().getWidth());
+        inOrderPs.verify(ps).setDouble(3, order.getCarport().getLengthMeter());
+        inOrderPs.verify(ps).setDouble(4, order.getCarport().getWidthMeter());
         inOrderPs.verify(ps).setInt(5, order.getId());
     }
 
@@ -140,4 +140,4 @@ public class OrderContorllerTest {
     }
 }
 
- */
+
