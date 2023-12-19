@@ -35,7 +35,7 @@ public class CarportController {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
-            Shed shed = new Shed(shedLength, shedWidth);
+            Shed shed = new Shed(shedLength, shedWidth-0.70);
 
 
             carportWithoutItemList = new Carport(length, width, shed);
@@ -77,6 +77,19 @@ public class CarportController {
     
         CarportSVG svg = new CarportSVG(carport);
         
+        ctx.sessionAttribute("svg", svg.toString());
+        ctx.render("VisuliseCarport.html");
+    }
+
+    /**
+     * This draw method expects calculator to be instansed allready
+     * @param ctx
+     */
+    public static void show2dDrawing(Context ctx, Order order){
+        Locale.setDefault(new Locale("US"));
+        Carport carport = order.getCarport();
+    
+        CarportSVG svg = new CarportSVG(carport);
         ctx.sessionAttribute("svg", svg.toString());
         ctx.render("VisuliseCarport.html");
     }

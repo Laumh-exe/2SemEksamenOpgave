@@ -1,12 +1,14 @@
 package app;
 
+import com.fasterxml.jackson.databind.util.ClassUtil;
+
 import app.config.ThymeleafConfig;
 import app.controllers.CarportController;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
 import app.controllers.PageController;
-
+import app.model.Calculator;
 import app.model.entities.Order;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
@@ -32,6 +34,8 @@ public class Main {
             JavalinThymeleaf.init(ThymeleafConfig.templateEngine());
         }).start(7070);
 
+        Calculator.getInstance(connectionPool); // this is to initialise the singelton for the first time;
+
         // Routing
         app.get("/", ctx -> ctx.render("FrontPage.html"));
 
@@ -46,7 +50,7 @@ public class Main {
 
         app.get("/carportSelection", ctx-> ctx.render("/carportSelection.html"));
         app.get("/adminpage", ctx -> ctx.render("/SellersPage.html"));
-        app.get("/customerpage", ctx -> UserController.customerSetup(ctx, connectionPool));// ctx.render("/customerPage.html");});
+        app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
 
         app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));

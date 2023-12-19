@@ -8,19 +8,21 @@ import app.model.entities.Carport;
 import app.model.entities.Item;
 
 public class CarportSVG {
-    private float width;
-    private float height;
+    private int width;
+    private int height;
     private SVG carportSvg;
     private Carport carport;
     private Calculator calculator;
-    private final float spasingFromSides = 100;
-    private final float stolbeSpaseFromSides = 35;
+    private final int spasingFromSides = 100;
+    private final int stolbeSpaseFromSides = 35;
+    private final float stolbeSize = 20;
+
 
     
     public CarportSVG(Carport carport){
         
-        this.height = (float)carport.getLengthMeter() * 100;
-        this.width = (float)carport.getWidthMeter() * 100;
+        this.height = (int)(carport.getLengthMeter() * 100);
+        this.width = (int)(carport.getWidthMeter() * 100);
         calculator = Calculator.getInstance();
         calculator.calculateItemList(carport);
         this.carport = carport;
@@ -37,9 +39,23 @@ public class CarportSVG {
     }
 
     private void addSkur() {
-        double shedLength = carport.getShed().getLengthMeter() * 100d;
-        double shedWidth = carport.getShed().getWidthMeter() * 100d;
+        int shedLength = (int)(carport.getShed().getLengthMeter() * 100d);
+        int shedWidth = (int)(carport.getShed().getWidthMeter() * 100d);
         carportSvg.addRectangleWithDashedBorder(spasingFromSides/2 + width - (shedWidth + stolbeSpaseFromSides), spasingFromSides/2 + height - shedLength, shedWidth, shedLength);
+        if (calculator.getStolpeShedQuantity() == 0) {
+            return;
+        }
+        carportSvg.addRectangle(spasingFromSides/2 + width - (shedWidth + stolbeSpaseFromSides), spasingFromSides/2 + height - shedLength, stolbeSize, stolbeSize);
+        carportSvg.addRectangle(spasingFromSides/2 + width - stolbeSpaseFromSides,               spasingFromSides/2 + height - shedLength, stolbeSize, stolbeSize, -stolbeSize, 0d);
+        if(calculator.getStolpeShedQuantity() == 2){
+            return;
+        }
+        int numShedStolber = (calculator.getStolpeShedQuantity()-2)/2;
+        float stolbeSpasing = (height-stolbeSize)/(numShedStolber) > 250 ? 250 : (shedWidth-stolbeSize)/(numShedStolber);
+        for (int i = 0; i < numShedStolber; i++) {
+            carportSvg.addRectangle(i * stolbeSpasing + spasingFromSides/2 + stolbeSpasing, spasingFromSides/2 + height - shedLength, stolbeSize, stolbeSize);
+            carportSvg.addRectangle(i * stolbeSpasing + spasingFromSides/2 + stolbeSpasing, spasingFromSides/2 + height - 25, stolbeSize, stolbeSize, "stroke: #000000; fill:none;");
+        }
     }
 
     private void addRem() {
@@ -66,9 +82,8 @@ public class CarportSVG {
     }
     
     private void addStolber(){
-        float stolbeSize = 20;
 
-        int numCarportStolber = calculator.getStolpeQuantity()/2; //TODO:get shed quntaty and remove it from total stople quantatiy
+        int numCarportStolber = (calculator.getStolpeQuantity()-calculator.getStolpeShedQuantity())/2;
         float stolbeSpasing = (height-stolbeSize)/(numCarportStolber-1);
 
         //Hjørne stolber
