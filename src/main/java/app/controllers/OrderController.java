@@ -47,12 +47,12 @@ public class OrderController {
         try {
             OrderMapper.placeOrder(user, orderToPlace, connectionPool);
             ctx.render("/offerRequestConfirmed.html");
+
         } catch (SQLException e) {
             ctx.attribute("dbConnectionError", e);
             ctx.render("/confirmOfferRequest.html");
         }
     }
-
 
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
 

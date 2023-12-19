@@ -54,8 +54,8 @@ public class Order {
         this.salespersonId = salespersonId;
         this.date = date;
         this.status = status;
-        this.carport = carport;
         this.price = price;
+        this.carport = carport;
         this.pricePerQuantityOfItem = pricePerQuantityOfItem;
     }
 
