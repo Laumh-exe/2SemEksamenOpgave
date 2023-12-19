@@ -29,8 +29,6 @@ public class CarportController {
         Carport carportWithoutItemList = new Carport(length, width);
         Carport carportWithItemlist = null;
 
-        Calculator calculator = Calculator.getInstance(connectionPool);
-
         String hasShed = ctx.formParam("skur");
 
         if (hasShed != null) {
