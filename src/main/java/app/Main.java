@@ -1,14 +1,18 @@
 package app;
 
+import com.fasterxml.jackson.databind.util.ClassUtil;
+
 import app.config.ThymeleafConfig;
+import app.controllers.CarportController;
 import app.controllers.ItemController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
 import app.controllers.PageController;
-
 import app.model.entities.Order;
 import app.persistence.ConnectionPool;
+import app.services.Calculator;
 import io.javalin.Javalin;
+import io.javalin.http.Context;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 
@@ -30,6 +34,8 @@ public class Main {
             JavalinThymeleaf.init(ThymeleafConfig.templateEngine());
         }).start(7070);
 
+        Calculator.getInstance(connectionPool); // this is to initialise the singelton for the first time;
+
         // Routing
         app.get("/", ctx -> ctx.render("FrontPage.html"));
 
@@ -43,12 +49,15 @@ public class Main {
         app.post("/createUser", ctx -> UserController.createUser(ctx, connectionPool));
 
         app.get("/carportSelection", ctx-> ctx.render("/carportSelection.html"));
-        app.get("/adminpage", ctx -> ctx.render("/SellersPage.html")); //TODO: make the sellers home page
+        app.get("/adminpage", ctx -> ctx.render("/SellersPage.html"));
         app.get("/customerpage", ctx -> ctx.render("/customerPage.html"));
 
         app.get("/createOrder", ctx -> ctx.render("/carportSelection.html"));
         app.post("/createOrder", ctx -> OrderController.createOrder(ctx, connectionPool));
-        app.get("/confirmOffer", ctx -> ctx.render("/confirmOfferRequest.html"));
+        app.get("/confirmOffer", ctx -> {
+            CarportController.show2dDrawing(ctx, connectionPool);
+            ctx.render("/confirmOfferRequest.html");
+        });
 
         app.post("/offerRequested", ctx -> OrderController.placeOfferRequest(ctx, connectionPool));
 
@@ -61,7 +70,6 @@ public class Main {
 
         app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.get("/sellers/EditOrder", ctx -> {OrderController.setupUpdatePage(ctx, connectionPool); ctx.render("updateOrder.html");});
-        app.post("/sellersAllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
 
         app.post("/salespersonTakeOrder", ctx-> OrderController.salespersonTakeOrder(ctx, connectionPool));

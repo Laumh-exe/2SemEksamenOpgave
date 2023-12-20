@@ -1,12 +1,14 @@
 package app.controllers;
 
 import app.model.entities.Item;
+import app.model.entities.ItemList;
 import app.persistence.ConnectionPool;
 import app.persistence.ItemMapper;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemController {

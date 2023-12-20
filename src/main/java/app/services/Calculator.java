@@ -1,4 +1,4 @@
-package app.model;
+package app.services;
 
 import app.controllers.ItemController;
 import app.exceptions.DimensionException;
@@ -30,7 +30,7 @@ public class Calculator {
 
     /**
      * Setup of Singleton
-     *
+     * @param connectionPool
      * @return this will always return either a new or an existing instance of Calculator
      */
     public static Calculator getInstance(ConnectionPool connectionPool) {
@@ -73,7 +73,7 @@ public class Calculator {
         List<Item> spær = new ArrayList<>();
         int carportLengthCM = (int) (carport.getLengthMeter() * 100);
         int carportWidthCM = (int) carport.getWidthMeter() * 100;
-        int shedWidthCM = carport.hasShed() ? (int) (carport.getShed().getWidthMeter() * 100)-70 : 0;
+        int shedWidthCM = carport.hasShed() ? (int) (carport.getShed().getWidthMeter() * 100) : 0;
 
         try {
             spær = calculateSpær(carport, carportLengthCM, carportWidthCM);

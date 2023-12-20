@@ -65,8 +65,6 @@ public class Order {
     }
 
     public Order(int id, int customerId, int salespersonId, Date date, OrderStatus status, double price, Carport carport){
-
-
         this.id = id;
         this.customerId = customerId;
         this.salespersonId = salespersonId;

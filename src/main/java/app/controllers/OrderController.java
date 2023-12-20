@@ -4,9 +4,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import app.model.entities.*;
 import app.exceptions.OrderNotFoundException;
@@ -115,6 +119,18 @@ public class OrderController {
 
     }
 
+    public static List<Order> getCustomerOrders(Context ctx, ConnectionPool connectionPool){
+        User currentUser = ctx.sessionAttribute("currentUser");
+        int customerId = currentUser.getId();
+        List<Order> orders = new ArrayList<>();
+        try {
+            orders = OrderMapper.getAllCustomersOrders(customerId ,connectionPool);
+        } catch (SQLException e) {
+            ctx.attribute("message", e.getMessage());
+        }
+        return orders;
+    }
+
     public static void customerSeeAllOrders(Context ctx, ConnectionPool connectionPool) {
 
         User customer = ctx.sessionAttribute("currentUser");
@@ -134,29 +150,26 @@ public class OrderController {
     public static void customerSeeOrderDetails(Context ctx) {
 
         int orderID = Integer.parseInt(ctx.formParam("customerSeeOrderDetails"));
+        Order order = ((List<Order>)ctx.sessionAttribute("customersOrderlist")).stream().filter(o -> o.getId() == orderID).collect(Collectors.toList()).get(0);
 
-        List<Order> customersOrderlist = ctx.sessionAttribute("customersOrderlist");
+        List<Item> itemList = order.getCarport().getItemList().getItemList();
 
-        for (Order order : customersOrderlist) {
-            if (order.getId() == orderID) {
+        HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
 
-                List<Item> itemList = order.getCarport().getItemList().getItemList();
-
-                HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
-
-                for (Item item : itemList) {
-                    double price = item.price_pr_unit() * item.quantity();
-                    pricePerQuantityOfItem.put(item, price);
-                }
-
-                Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
-
-                double num = order.getPrice();
-                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
-                ctx.sessionAttribute("price", priceWithTwoDecimals);
-                ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
-            }
+        for (Item item : itemList) {
+            double price = item.price_pr_unit() * item.quantity();
+            pricePerQuantityOfItem.put(item, price);
         }
+
+        Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
+
+        double num = order.getPrice();
+        BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+        CarportController.show2dDrawing(ctx, order);
+        ctx.sessionAttribute("price", priceWithTwoDecimals);
+        ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
+        
+        
 
         ctx.attribute("showPartsList", "show");
 
@@ -239,31 +252,26 @@ public class OrderController {
 
         int orderID = Integer.parseInt(ctx.formParam("salespersonSeeOrderDetails"));
 
-        List<Order> salespersonOrderlist = ctx.sessionAttribute("salespersonOrderlist");
+        Order order = ((List<Order>)ctx.sessionAttribute("customersOrderlist")).stream().filter(o -> o.getId() == orderID).collect(Collectors.toList()).get(0);
 
-        for (Order order : salespersonOrderlist) {
-            if (order.getId() == orderID) {
 
-                List<Item> itemList = order.getCarport().getItemList().getItemList();
+        List<Item> itemList = order.getCarport().getItemList().getItemList();
 
-                HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+        HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
 
-                for (Item item : itemList) {
-                    double price = item.price_pr_unit() * item.quantity();
-                    pricePerQuantityOfItem.put(item, price);
-                }
-
-                Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
-
-                DecimalFormat df = new DecimalFormat("0.00");
-                String priceWithTwoDecimals = df.format(order.getPrice());
-
-                ctx.sessionAttribute("price", priceWithTwoDecimals);
-
-                ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
-            }
+        for (Item item : itemList) {
+            double price = item.price_pr_unit() * item.quantity();
+            pricePerQuantityOfItem.put(item, price);
         }
 
+        Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String priceWithTwoDecimals = df.format(order.getPrice());
+
+        ctx.sessionAttribute("price", priceWithTwoDecimals);        
+        ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
+        CarportController.show2dDrawing(ctx, order);
         ctx.render("/salespersonOrderDetails.html");
     }
 

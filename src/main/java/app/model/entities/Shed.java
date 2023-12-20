@@ -24,6 +24,4 @@ public class Shed {
     public void setWidthMeter(double widthMeter) {
         this.widthMeter = widthMeter;
     }
-
-
 }

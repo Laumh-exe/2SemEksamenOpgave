@@ -28,7 +28,7 @@
             </div>
 
             <div id="blueprint-box">
-                <p>[blueprint]</p>
+                <div th:utext="${#ctx.session.svg}"></div>
             </div>
 
         </div>
@@ -69,7 +69,6 @@
                 <p th:text="${#ctx.session.order.getCarport().getShed().getWidthMeter()}" class="measurements chosen-measurements">
                     h-generated shed width</p>
             </div>
-
         </div>
 
 

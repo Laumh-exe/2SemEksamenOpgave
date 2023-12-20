@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.model.entities.Item;
+import app.model.entities.ItemList;
 import app.model.entities.Order;
 import app.model.entities.User;
 import app.persistence.ConnectionPool;
@@ -7,6 +9,9 @@ import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 public class UserController {
 
@@ -60,6 +65,5 @@ public class UserController {
             ctx.render("createUser.html");
         }
     }
-
-
 }
+   
