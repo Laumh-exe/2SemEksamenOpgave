@@ -32,8 +32,8 @@ public class CarportController {
         if (hasShed != null) {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
-            double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
-            Shed shed = new Shed(shedLength, shedWidth-0.70);
+            double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde")) - 0.70d; //Det er fordi et shed er 70 cm smallere end de mål man forvænter
+            Shed shed = new Shed(shedLength, shedWidth);
 
             carportWithoutItemList = new Carport(length, width, shed);
 
