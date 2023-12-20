@@ -58,4 +58,10 @@ public class ItemController {
         }
 
     }
+
+    public static void salespersonEditItem(Context ctx, ConnectionPool connectionPool) throws SQLException {
+        List<Item> allItems = getAllItems(connectionPool);
+        ctx.sessionAttribute("itemlist",allItems);
+        ctx.render("item.html");
+    }
 }
