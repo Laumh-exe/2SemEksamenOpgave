@@ -3,7 +3,6 @@ package app.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import app.model.Calculator;
 import app.model.entities.Carport;
 import app.model.entities.Item;
 

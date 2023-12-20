@@ -1,4 +1,4 @@
-package app.model;
+package app.services;
 
 import app.controllers.ItemController;
 import app.exceptions.DimensionException;

@@ -1,7 +1,8 @@
 package app;
 
-import app.model.Calculator;
 import app.model.entities.*;
+import app.services.Calculator;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

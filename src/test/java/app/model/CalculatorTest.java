@@ -5,6 +5,7 @@ import app.model.entities.Carport;
 import app.model.entities.Item;
 import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
+import app.services.Calculator;
 import io.javalin.http.Context;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

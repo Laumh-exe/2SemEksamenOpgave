@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import app.model.Calculator;
 import app.model.entities.Carport;
 import app.model.entities.Item;
 import app.model.entities.ItemList;
 import app.model.entities.Order;
 import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
+import app.services.Calculator;
 import app.services.CarportSVG;
 import io.javalin.http.Context;
 import app.model.entities.Item;
