@@ -33,6 +33,7 @@
                  class="salesperson-buttons-div">
                 <form class="customer-and-salesperson-buttons-form" method="post">
                     <button type="submit" formaction="/sellersAllOrders">Se alle ordrer</button>
+                    <button type="submit" formaction="/salespersonSeeAssignedOrders">Dine ordrer</button>
                     <button>Beskeder</button>
                     <button>Din konto</button>
                     <button formaction="/goToEditItems">Edit item</button>
@@ -47,6 +48,7 @@
                     <button>Din konto</button>
                 </form>
             </div>
+
             <div th:if="${#ctx.session.currentUser != null}" class="user-p-firstname-div">
                 <p th:text="${#ctx.session.currentUser.getFirstName()}"></p>
             </div>

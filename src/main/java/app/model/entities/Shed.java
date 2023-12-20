@@ -1,30 +1,29 @@
 package app.model.entities;
 
 public class Shed {
+    private double lengthMeter;
+    private double widthMeter;
 
-    private double length;
-    private double width;
 
-
-    public Shed(double length, double width) {
-        this.length = length;
-        this.width = width;
+    public Shed(double lengthMeter, double widthMeter) {
+        this.lengthMeter = lengthMeter;
+        this.widthMeter = widthMeter;
+    }
+    public double getLengthMeter() {
+        return lengthMeter;
     }
 
-    public double getLength() {
-        return length;
+    public double getWidthMeter() {
+        return widthMeter;
     }
 
-    public double getWidth() {
-        return width;
+    public void setLengthMeter(double lengthMeter) {
+        this.lengthMeter = lengthMeter;
     }
 
-    public void setLength(double length) {
-        this.length = length;
+    public void setWidthMeter(double widthMeter) {
+        this.widthMeter = widthMeter;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
 
 }

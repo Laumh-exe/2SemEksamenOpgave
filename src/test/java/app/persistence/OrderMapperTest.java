@@ -15,10 +15,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
-import app.model.entities.Carport;
-import app.model.entities.Shed;
+import app.model.entities.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,8 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import app.model.entities.Order;
-import app.model.entities.OrderStatus;
 import app.exceptions.OrderNotFoundException;
 
 public class OrderMapperTest {
@@ -46,7 +44,8 @@ public class OrderMapperTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM public.order";
+        String sql = "SELECT * FROM public.order\n" +
+                "ORDER BY public.order.id DESC;";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         ResultSet rs = mock(ResultSet.class);
@@ -76,9 +75,8 @@ public class OrderMapperTest {
         getAllTestSetup();
         ArrayList<Order> expected = new ArrayList<>();
 
-        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
-        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
-
+        expected.add(new Order(1, 1,1,  sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
+        expected.add(new Order(2,1, 1,  sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
 
         // act
         var actual = OrderMapper.getAllOrders(connectionPool);
@@ -89,6 +87,7 @@ public class OrderMapperTest {
             assertTrue(expected.get(i).equals(actual.get(i)));
         }
     }
+
 
     @Test
     public void updateOrderWithoutShedTest() throws SQLException, OrderNotFoundException{
@@ -108,8 +107,8 @@ public class OrderMapperTest {
         InOrder inOrder = Mockito.inOrder(ps);
         inOrder.verify(ps).setString(1, order.getStatus().toString());
         inOrder.verify(ps).setDouble(2, order.getPrice());
-        inOrder.verify(ps).setDouble(3, order.getCarport().getLength());
-        inOrder.verify(ps).setDouble(4, order.getCarport().getWidth());
+        inOrder.verify(ps).setDouble(3, order.getCarport().getLengthMeter());
+        inOrder.verify(ps).setDouble(4, order.getCarport().getWidthMeter());
         inOrder.verify(ps).setInt(5, order.getId());
 
     }
@@ -127,6 +126,10 @@ public class OrderMapperTest {
         assertThrows(OrderNotFoundException.class, () -> {OrderMapper.updateOrderWidthOutShed(order, connectionPool);});
     }
 
+
+
     
-    
+
 }
+
+

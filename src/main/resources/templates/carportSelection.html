@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>CarportSelection</title>
     <meta charset="UTF-8">
@@ -8,40 +7,59 @@
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
 </head>
-
 <body>
-<div th:replace="~{fragments :: formField (currentpage='carportSelection')}"></div>
+
+<div th:replace="~{fragments :: formField (currentpage='/carportSelection')}"></div>
 
 <h1> Design din carport!</h1>
-
 <div id="CarportForm">
-
-
     <form method="post" class="selector-form">
-        <h3>Længde i meter</h3>
+        <h2>Længde i meter</h2>
         <select type="number" name="længde">
+            <option>2.4</option>
+            <option>3</option>
+            <option>3.6</option>
+            <option>4.2</option>
+            <option>4.8</option>
+            <option>5.4</option>
             <option>6</option>
-        </select>
-        <h3>Bredde i meter</h3>
-        <select type="number" name="bredde">
+            <option>6.6</option>
+            <option>7.2</option>
             <option>7.8</option>
-        </select><br><br>
-
-        <input type="checkbox" id="skur" name="skur" value="skur">
-
-        <label for="skur">Tilføj skur</label> <br><br>
-        <h3>Skur-længde i meter</h3>
-        <select type="number" name="skur-Længde">
+        </select>
+        <h2>Bredde i meter</h2>
+        <select type="number" name="bredde">
+            <option>2.4</option>
+            <option>3</option>
+            <option>3.6</option>
+            <option>4.2</option>
+            <option>4.8</option>
+            <option>5.4</option>
             <option>6</option>
         </select><br><br>
-
-        <h3>Skur-bredde i meter</h3>
+        <input type="checkbox" id="skur" name="skur" value="skur">
+        <label for="skur">Tilføj skur</label> <br><br>
+        <h2>Skur-længde i meter</h2>
+        <h3>OBS: Skur kan ikke være længere end carportens halve længde</h3>
+        <select type="number" name="skur-Længde">
+            <option>2.4</option>
+            <option>3</option>
+            <option>3.6</option>
+        </select><br><br>
+        <h2>Skur-bredde i meter</h2>
+        <h3>OBS: Skur kan ikke være bredere end carportens bredde-0.7me</h3>
+        <p style="color:red">*0.7 meter trækkes fra bredden da skurets væg slutter ved stolperne</p>
         <select type="number" name="skur-Bredde">
-            <option>2.2</option>
+            <option>2.4</option>
+            <option>3</option>
+            <option>3.6</option>
+            <option>4.2</option>
+            <option>4.8</option>
+            <option>5.4</option>
+            <option>6</option>
         </select><br><br>
         <button class="accept-btn" formaction="/createOrder">Godkend mål</button>
     </form>
 </div>
-
 </body>
 </html>

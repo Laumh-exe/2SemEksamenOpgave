@@ -11,12 +11,12 @@
 <body>
 <div th:replace="~{fragments :: formField (currentpage='/')}"></div>
 
-<p>Your Orders</p>
+<p>Dine ordrer</p>
 
-<table>
+<table class="all-orders-table">
   <tr>
-    <th>Date of order</th>
-    <th>Order status</th>
+    <th>Dato for forespørgsel på tilbud</th>
+    <th>Ordrestatus</th>
     <th></th>
   </tr>
 
@@ -27,7 +27,7 @@
     <form method="post">
       <td><button id="see-order-details-button" type="submit" formaction="/customerSeeOrderDetails"
                   name="customerSeeOrderDetails" th:value="${order.getId()}">
-        See order details</button></td>
+        Se ordredetaljer</button></td>
     </form>
   </tr>
 

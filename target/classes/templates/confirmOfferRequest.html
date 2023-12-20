@@ -38,36 +38,35 @@
 
             <div id="carport-length-box" class="measurements-boxes">
                 <p class="measurements measurements-parameters">Length:</p>
-                <p th:text="${#ctx.session.order.getCarport().getLength()}" class="measurements chosen-measurements">
+                <p th:text="${#ctx.session.order.getCarport().getLengthMeter()}" class="measurements chosen-measurements">
                     th-generated length</p>
             </div>
 
             <div id="carport-width-box" class="measurements-boxes">
                 <p class="measurements measurements-parameters">Width:</p>
-                <p th:text="${#ctx.session.order.getCarport.getWidth()}" class="measurements chosen-measurements">
+                <p th:text="${#ctx.session.order.getCarport.getWidthMeter()}" class="measurements chosen-measurements">
                     th-generated width</p>
             </div>
 
 
             <div id="shed-or-not-box" class="measurements-boxes">
                 <p class="measurements measurements-parameters">Shed:</p>
-                <p th:if="${#ctx.session.order.getCarport().isShed()}" class="measurements chosen-measurements">
+                <p th:if="${#ctx.session.order.getCarport().hasShed()}" class="measurements chosen-measurements">
                     Yes </p>
-                <p th:if="${!#ctx.session.order.getCarport().isShed()}" class="measurements chosen-measurements">
+                <p th:if="${!#ctx.session.order.getCarport().hasShed()}" class="measurements chosen-measurements">
                     No </p>
             </div>
 
-            <div th:if="${#ctx.session.order.getCarport().isShed()}" id="shed-length" class="measurements-boxes">
-                <p class="measurements measurements-parameters"> Shed length: </p>
-                <p th:text="${#ctx.session.order.getCarport().getShed().getLength()}" class="measurements chosen-measurements">
+            <div th:if="${#ctx.session.order.getCarport().hasShed()}" id="shed-length" class="measurements-boxes">
+                <p class="measurements measurements-parameters"> Skurlængde: </p>
+                <p th:text="${#ctx.session.order.getCarport().getShed().getLengthMeter()}" class="measurements chosen-measurements">
                     h-generated shed length</p>
             </div>
 
-            <div th:if="${#ctx.session.order.getCarport().isShed()}" id="shed-width" class="measurements-boxes">
-                <p class="measurements measurements-parameters">
-                    Shed width: </p>
-                <p class="measurements measurements-parameters"> Shed length:
-                <p th:text="${#ctx.session.order.getCarport().getShed().getWidth()}" class="measurements chosen-measurements">
+            <div th:if="${#ctx.session.order.getCarport().hasShed()}" id="shed-width" class="measurements-boxes">
+
+                <p class="measurements measurements-parameters"> Skurbredde:
+                <p th:text="${#ctx.session.order.getCarport().getShed().getWidthMeter()}" class="measurements chosen-measurements">
                     h-generated shed width</p>
             </div>
 
@@ -76,8 +75,8 @@
 
         <div id="back-button-and-confirm-button">
             <div id="go-back-and-edit-carport-button-box">
-                <a href="/caportSelection">
-                    <button id="go-back-and-edit-carport-button" class="bottom-buttons">Go back and edit carport
+                <a href="/carportSelection">
+                    <button id="go-back-and-edit-carport-button" class="bottom-buttons">Rediger i carportmål
                     </button>
                 </a>
             </div>

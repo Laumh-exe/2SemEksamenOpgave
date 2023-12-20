@@ -4,68 +4,171 @@
     <meta charset="UTF-8">
     <title>Offer Requested</title>
     <link href="../public/css/fragments.css" th:href="@{/css/fragments.css}" rel="stylesheet"/>
+    <link href="../public/css/customersOrderDetails.css" th:href="@{/css/customersOrderDetails.css}" rel="stylesheet"/>
 </head>
 
 <body>
 <div th:replace="~{fragments :: formField (currentpage='/')}"></div>
 
-<div class="Background">
-
-    <div class="subheader-when-logged-in">
+<div class="background">
+    <div class="close-button-div">
         <form method="post">
-            <button type="submit" formaction="/customersAllOrders">Your orders</button>
-            <button>Messages</button>
-            <button>Your account</button>
+            <button type="submit" formaction="/customersAllOrders" id="close-button"><</button>
         </form>
-        <a href="/logout">
-            <button>Logout</button>
-        </a>
     </div>
 
-    <div id="headline">
-        <p>Carport (with customized measurements)</p>
-    </div>
+    <div class="headline-and-order-status">
 
-    <div id="order_status">
-        <span></span>
-        <span th:text="${#ctx.session.orderToShow.getStatus()}"> </span>
-    </div>
-
-    <div>
-        <a href="/customersAllOrdersPage">
-            <button id="leave-specific-order">X</button>
-        </a>
-
-    </div>
-
-    <div>
-        <div id="carpot-blueprint">
-
-            <p>Here is a blueprint of the carport you have requested an offer for:</p>
-
-            <p>[drawing with measurements and other choices]</p>
+        <div class="headline-div">
+            <span id="headline">Carport</span>
+            <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}" id="headline-with-shed">(med skur)</span>
+        </div>
+        <div id="order_status">
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('CUSTOMER_ACCEPTED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_ASSIGNED')}"> FORESPØRGSEL PÅ TILBUD SENDT </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"> TILBUD </span>
+            <span th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}"> BETALT </span>
 
         </div>
 
-        <div>
-            <p>Length:</p>
-            <p th:text="${#ctx.session.orderToShow.getCarport().getLength()}"> th-generated length</p>
+    </div>
 
-            <p>Width:</p>
-            <p th:text="${#ctx.session.orderToShow.getCarport().getWidth()}"> th-generated width</p>
 
-            <p>Shed:</p>
-            <p th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Yes </p>
+    <div class="sub-body-div">
 
-            <p th:if="${!#ctx.session.orderToShow.getCarport().isShed()}"> No </p>
+        <div class="carport-measurements-div">
+            <div class="shed-no-shed-div">
+                <span>Carport:</span>
+            </div>
+            <div class="carport-length-and-width-div">
 
-            <p th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Shed length: </p>
-            <p th:text="${#ctx.session.orderToShow.getCarport().getShed().getLength()}"> h-generated shed length</p>
 
-            <p th:if="${#ctx.session.orderToShow.getCarport().isShed()}"> Shed width: </p>
-            <p th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidth()}"> h-generated shed width</p>
+                <div class="length-and-width-centralizing-div">
+                    <div class="length-and-width-text-div">
+                        <span id="length-text">Længde:</span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span id="length" th:text="${#ctx.session.orderToShow.getCarport().getLengthMeter()}">tester</span>
+                        <span>m</span>
+                    </div>
+
+                    <div class="length-and-width-text-div">
+                        <span id="width-text">Bredde:</span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span id="width" th:text="${#ctx.session.orderToShow.getCarport().getWidthMeter()}">tester</span>
+                        <span>m</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="shed-no-shed-div">
+                <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}">Skur:</span>
+            </div>
+
+            <div th:if="${#ctx.session.orderToShow.getCarport().hasShed()}" class="carport-length-and-width-div">
+
+                <div class="length-and-width-centralizing-div">
+                    <div class="length-and-width-text-div">
+                        <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}"> Længde: </span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getLengthMeter()}"></span>
+                        <span>m</span>
+                    </div>
+
+                    <div class="length-and-width-text-div">
+                        <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}"> Bredde: </span>
+                    </div>
+                    <div class="length-and-width-div">
+                        <span th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidthMeter()}"></span>
+                        <span>m</span>
+                    </div>
+                </div>
+            </div>
 
         </div>
+
+        <div id="carport-blueprint-div">
+
+            <span class="blueprint-of-carport-text">Blueprint af din carport:</span>
+
+            <div class="blueprint-div">
+                <p>[svg tegning]</p>
+            </div>
+
+        </div>
+
+
+        <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('PRICE_PRESENTED')}"
+             class="price-and-pay-button-div">
+
+            <div class="price-div">
+                <span class="price-text">Pris: </span>
+                <span class="price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
+                <span>,-</span>
+            </div>
+
+            <form class="pay-button-form" method="post">
+                <button class="pay-button" type="submit" name="pay" th:value="${#ctx.session.orderToShow}"
+                        formaction="/customerPaysForOrder"> Betal
+                </button>
+            </form>
+
+        </div>
+
+        <span class="sql-exception" th:text="${#ctx.sqlException}"></span>
+
+        <div th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}" class="order-paid-div">
+
+            <form class="show-parts-list-button-form" method="post">
+                <button th:if="${#ctx.showPartsList.equals('dontShow')}" class="show-parts-list-button" type="submit"
+                        name="showPartsList" th:value="${#ctx.showPartsList}"
+                        formaction="/showPartsList"> Vis stykliste
+                </button>
+                <button th:if="${#ctx.showPartsList.equals('show')}" class="show-parts-list-button" type="submit"
+                        name="showPartsList" th:value="${#ctx.showPartsList}"
+                        formaction="/showPartsList"> Skjul stykliste
+                </button>
+
+                <span class="partslist-text">Stykliste:</span>
+
+            </form>
+
+            <table th:if="${#ctx.showPartsList.equals('show')}" class="table-showing-partslist">
+
+                <tr>
+                    <th style="width: 7%">Antal:</th>
+                    <th style="width: 5%"> -</th>
+                    <th style="width: 11%">Carportdel:</th>
+                    <th style="width: 44%">Materiale:</th>
+                    <th style="width: 10%">Længde:</th>
+                    <th style="width: 12%">Pris pr. styk:</th>
+                    <th style="width: 16%">Samlet pris:</th>
+
+                </tr>
+                <tr th:each="item: ${#ctx.session.orderToShow.getCarport().getItemList().getItemList()}">
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.unit}"></td>
+                    <td th:text="${item.function}"></td>
+                    <td th:text="${item.description}"></td>
+                    <td th:text="${item.length + ' cm'}"></td>
+                    <td th:text="${item.price_pr_unit + ' ,-'}"></td>
+                    <td th:text="${#ctx.session.orderToShow.getPricePerQuantityOfItem().get(item) + ' ,-'}"></td>
+
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="order-paid-price-div"
+             th:if="${#ctx.session.orderToShow.getStatus().toString().equals('ORDER_PAID')}">
+            <span class="order-paid-price-text">Pris: </span>
+            <span class="order-paid-price" th:text="${#ctx.session.orderToShow.getPrice()}"> 35.475,-</span>
+            <span>,-</span>
+        </div>
+
 
     </div>
 

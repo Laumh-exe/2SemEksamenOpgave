@@ -7,43 +7,47 @@ import app.model.entities.ItemList;
 import app.model.entities.Shed;
 import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
+import app.model.entities.Item;
+
+import java.util.List;
 
 import java.util.List;
 
 public class CarportController {
-    public static Carport createCarport(Context ctx, ConnectionPool connectionPool) {
+    public static Carport createCarport(String hasShed, Context ctx, ConnectionPool connectionPool) {
 
         double length = Double.parseDouble(ctx.formParam("længde"));
         double width = Double.parseDouble(ctx.formParam("bredde"));
 
         Carport carportWithoutItemList = new Carport(length, width);
+        Carport carportWithItemlist = null;
 
-        String isShed = ctx.formParam("skur");
+        Calculator calculator = Calculator.getInstance(connectionPool);
 
-        if (isShed != null) {
+        if (hasShed != null) {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
             Shed shed = new Shed(shedLength, shedWidth);
 
-
             carportWithoutItemList = new Carport(length, width, shed);
 
-            ItemList itemlistWithShed = Calculator.calculateItemList(carportWithoutItemList);
+            ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
 
-            Carport carportWithShedAndItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(),
-                    carportWithoutItemList.getShed(), itemlistWithShed);
+            carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(),
+                    carportWithoutItemList.getShed(), itemlist);
 
-            return carportWithShedAndItemlist;
+
+            return carportWithItemlist;
         }
-      
-        ItemList itemlist = Calculator.calculateItemList(carportWithoutItemList);
 
-        Carport carportWithItemlist = new Carport(carportWithoutItemList.getLength(), carportWithoutItemList.getWidth(), itemlist);
+        ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
+
+        carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(), itemlist);
 
         return carportWithItemlist;
     }
-  
+
 
     public static double getPrice(Carport carport) {
         List<Item> itemList = carport.getItemList().getItemList();
@@ -55,6 +59,5 @@ public class CarportController {
 
         return total;
     }
-
 }
 
