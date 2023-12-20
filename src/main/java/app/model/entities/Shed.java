@@ -4,6 +4,7 @@ public class Shed {
     private double lengthMeter;
     private double widthMeter;
 
+
     public Shed(double lengthMeter, double widthMeter) {
         this.lengthMeter = lengthMeter;
         this.widthMeter = widthMeter;
@@ -23,5 +24,4 @@ public class Shed {
     public void setWidthMeter(double widthMeter) {
         this.widthMeter = widthMeter;
     }
-
 }

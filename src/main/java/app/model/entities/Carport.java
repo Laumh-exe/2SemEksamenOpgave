@@ -6,7 +6,7 @@ public class Carport {
     private boolean hasShed;
     private Shed shed;
     private ItemList itemList;
-    
+
     public Carport(double lengthMeter, double widthMeter, Shed shed) {
         this.lengthMeter = lengthMeter;
         this.widthMeter = widthMeter;

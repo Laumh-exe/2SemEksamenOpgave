@@ -27,6 +27,7 @@ public class Calculator {
 
     private static Calculator instance = null;
 
+
     /**
      * Setup of Singleton
      * @param connectionPool
@@ -78,6 +79,7 @@ public class Calculator {
             spær = calculateSpær(carport, carportLengthCM, carportWidthCM);
         } catch (Exception e) {
             e.getMessage();
+
         }
         Item stolper = calculateStolper(carport, shedWidthCM, carportLengthCM);
         List<Item> rem = calculateRem(carportLengthCM);
@@ -154,6 +156,7 @@ public class Calculator {
         return rem;
     }
 
+
     /**
      * Vi kan gå ud fra at bredde*2 altid vil være lig en spær
      * Der skal ikke kunne eksistere spær der ikke kan deles med 60
@@ -161,11 +164,13 @@ public class Calculator {
      * @param carport
      * @return
      */
+
     public List<Item> calculateSpær(Carport carport, int carportLengthCM, int carportWidthCM) throws DimensionException {
         //Setup
         ArrayList<Item> spærToAdd = new ArrayList<>();
         List<Item> spærFromItems = items.stream().filter(a -> a.function().equals("spær")).collect(Collectors.toList());
         List<Integer> spærLengths = getSpærLengths();
+
         int lowestSpærLength = spærLengths.get(0);
         int highestSpærLength = spærLengths.get(spærLengths.size()-1);
         int spærLength = 0;
@@ -235,7 +240,9 @@ public class Calculator {
     }
 
 
+
     private int findClosestHigherNumberInList(List<Integer> numbers, int n) {
+
         // Initialize variables to keep track of the minimum difference and the closest higher number
         int minDifference = Integer.MAX_VALUE;
         int closestHigherNumber = Integer.MAX_VALUE;
@@ -260,7 +267,9 @@ public class Calculator {
      *
      * @return
      */
+
     private List<Integer> getSpærLengths() {
+
         ArrayList<Integer> lengths = new ArrayList<>();
         for (Item item : items) {
             if (item.function().equalsIgnoreCase("spær")) {
@@ -275,8 +284,10 @@ public class Calculator {
      *
      * @return
      */
+
     private List<Integer> getRemLengths() {
         List<Integer> lengths = new ArrayList<>();
+
         for (Item item : items) {
             if (item.function().equalsIgnoreCase("rem")) {
                 lengths.add((int) item.length());
@@ -310,4 +321,6 @@ public class Calculator {
         }
         return null;
     }
+
 }
+
