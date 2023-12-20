@@ -68,6 +68,9 @@ public class Main {
         app.post("/salespersonUntakeOrder", ctx-> OrderController.salespersonUntakeOrder(ctx, connectionPool));
         app.post("/salespersonSeeAssignedOrders", ctx -> OrderController.salespersonSeeAssignedOrders(ctx, connectionPool));
         app.post("/salespersonSeeOrderDetails", ctx-> OrderController.salespersonSeeOrderDetails(ctx, connectionPool));
+
+        app.post("/calculateNewOffer", ctx -> OrderController.calculateNewOffer(ctx, connectionPool));
+
         app.post("/sendOffer", ctx -> OrderController.sendOffer(ctx, connectionPool));
 
         app.post("/removeItem", ctx -> ItemController.removeItem(ctx, connectionPool));

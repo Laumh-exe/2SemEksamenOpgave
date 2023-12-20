@@ -27,7 +27,7 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import app.exceptions.OrderNotFoundException;
-/*
+
 public class OrderMapperTest {
 
     private ConnectionPool connectionPool;
@@ -44,7 +44,8 @@ public class OrderMapperTest {
     }
     
     private void getAllTestSetup() throws SQLException {
-        String sql = "SELECT * FROM public.order";
+        String sql = "SELECT * FROM public.order\n" +
+                "ORDER BY public.order.id DESC;";
         Connection connection = mock(Connection.class);
         PreparedStatement ps = mock(PreparedStatement.class);
         ResultSet rs = mock(ResultSet.class);
@@ -74,9 +75,8 @@ public class OrderMapperTest {
         getAllTestSetup();
         ArrayList<Order> expected = new ArrayList<>();
 
-        expected.add(new Order(1, sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
-        expected.add(new Order(2, sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
-
+        expected.add(new Order(1, 1,1,  sdf.parse("2023-12-20"), OrderStatus.READY_FOR_REVIEW, 11500d, new Carport(10d, 10d, new Shed(-1d, -1d))));
+        expected.add(new Order(2,1, 1,  sdf.parse("2023-12-21"), OrderStatus.PRICE_PRESENTED, 100.1, new Carport(100d, 20d, new Shed(10d, 10d))));
 
         // act
         var actual = OrderMapper.getAllOrders(connectionPool);
@@ -87,6 +87,7 @@ public class OrderMapperTest {
             assertTrue(expected.get(i).equals(actual.get(i)));
         }
     }
+
 
     @Test
     public void updateOrderWithoutShedTest() throws SQLException, OrderNotFoundException{
@@ -125,8 +126,10 @@ public class OrderMapperTest {
         assertThrows(OrderNotFoundException.class, () -> {OrderMapper.updateOrderWidthOutShed(order, connectionPool);});
     }
 
+
+
     
 
 }
 
- */
+

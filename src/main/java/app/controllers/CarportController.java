@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.List;
 
 public class CarportController {
-    public static Carport createCarport(Context ctx, ConnectionPool connectionPool) {
+    public static Carport createCarport(String hasShed, Context ctx, ConnectionPool connectionPool) {
 
         double length = Double.parseDouble(ctx.formParam("længde"));
         double width = Double.parseDouble(ctx.formParam("bredde"));
@@ -24,14 +24,11 @@ public class CarportController {
 
         Calculator calculator = Calculator.getInstance(connectionPool);
 
-        String hasShed = ctx.formParam("skur");
-
         if (hasShed != null) {
 
             double shedLength = Double.parseDouble(ctx.formParam("skur-Længde"));
             double shedWidth = Double.parseDouble(ctx.formParam("skur-Bredde"));
             Shed shed = new Shed(shedLength, shedWidth);
-
 
             carportWithoutItemList = new Carport(length, width, shed);
 
@@ -45,7 +42,6 @@ public class CarportController {
         }
 
         ItemList itemlist = calculator.calculateItemList(carportWithoutItemList);
-
 
         carportWithItemlist = new Carport(carportWithoutItemList.getLengthMeter(), carportWithoutItemList.getWidthMeter(), itemlist);
 

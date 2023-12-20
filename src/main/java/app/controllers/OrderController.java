@@ -3,6 +3,7 @@ package app.controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class OrderController {
         }
 
         try {
-            OrderMapper.placeOrder(user, orderToPlace, connectionPool);
+            OrderMapper.placeOrder(user.getId(), orderToPlace, connectionPool);
             ctx.render("/offerRequestConfirmed.html");
 
         } catch (SQLException e) {
@@ -57,9 +58,11 @@ public class OrderController {
     public static void createOrder(Context ctx, ConnectionPool connectionPool) {
 
         // hent carport og lav ordre!
-        Carport carport = CarportController.createCarport(ctx, connectionPool);
+        String skur = ctx.formParam("skur");
+        Carport carport = CarportController.createCarport(skur, ctx, connectionPool);
 
         Customer currentUser = ctx.sessionAttribute("currentUser");
+
         double price = CarportController.getPrice(carport);
         //Create order
         Date date = new Date(System.currentTimeMillis());
@@ -252,8 +255,9 @@ public class OrderController {
 
                 Order orderToShowWithDetails = new Order(order.getId(), order.getCustomerId(), order.getSalespersonId(), order.getDate(), order.getStatus(), order.getPrice(), order.getCarport(), pricePerQuantityOfItem);
 
-                double num = order.getPrice();
-                BigDecimal priceWithTwoDecimals = new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+                DecimalFormat df = new DecimalFormat("0.00");
+                String priceWithTwoDecimals = df.format(order.getPrice());
+
                 ctx.sessionAttribute("price", priceWithTwoDecimals);
 
                 ctx.sessionAttribute("orderToShow", orderToShowWithDetails);
@@ -262,6 +266,7 @@ public class OrderController {
 
         ctx.render("/salespersonOrderDetails.html");
     }
+
 
     public static void sendOffer(Context ctx, ConnectionPool connectionPool) throws SQLException{
 
@@ -275,9 +280,49 @@ public class OrderController {
         catch (SQLException e){
             System.out.println("Something went wrong with sending offer");
         }
+    }
 
+    public static void calculateNewOffer(Context ctx, ConnectionPool connectionPool) {
+
+        Order orderEdited = ctx.sessionAttribute("orderToShow");
+
+        String skur = Boolean.toString(orderEdited.getCarport().hasShed());
+        Carport carport = CarportController.createCarport(skur, ctx, connectionPool);
+
+
+
+        double price = CarportController.getPrice(carport);
+
+        HashMap<Item, Double> pricePerQuantityOfItem = new HashMap<>();
+        List<Item> itemList = orderEdited.getCarport().getItemList().getItemList();
+
+        for (Item item : itemList) {
+            double priceOfItemQuantity = item.price_pr_unit() * item.quantity();
+            pricePerQuantityOfItem.put(item, priceOfItemQuantity);
+        }
+
+        orderEdited.setCarport(carport);
+        orderEdited.setPrice(price);
+        orderEdited.setPricePerQuantityOfItem(pricePerQuantityOfItem);
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String priceWithTwoDecimals = df.format(orderEdited.getPrice());
+        ctx.sessionAttribute("price", priceWithTwoDecimals);
+
+        try{
+            OrderMapper.updateOrder(orderEdited, connectionPool);
+
+            ctx.sessionAttribute("orderToShow", orderEdited);
+            ctx.render("/salespersonOrderDetails.html");
+        }
+        catch (SQLException e){
+            System.out.println("SQL EXCEPTION when calculating offer: " + e);
+        }
+        catch (OrderNotFoundException e){
+            ctx.attribute("orderNotFound", e);
+            System.out.println("ORDER NOT FOUND");
+        }
 
     }
 }
-
 

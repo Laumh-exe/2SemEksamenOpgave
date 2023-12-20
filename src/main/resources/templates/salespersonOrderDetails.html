@@ -13,7 +13,7 @@
 <div class="background">
     <div class="close-button-div">
         <form method="post">
-            <button type="submit" formaction="/customersAllOrders" id="close-button"><</button>
+            <button type="submit" formaction="/salespersonSeeAssignedOrders" id="close-button"><</button>
         </form>
     </div>
 
@@ -138,8 +138,8 @@
                 </div>
 
 
-                <div class="shed-no-shed-div">
-                    <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}">Skur:</span>
+                <div  name="skur-salesperson" value="skur" class="shed-no-shed-div">
+                    <span th:if="${#ctx.session.orderToShow.getCarport().hasShed()}" >Skur:</span>
                 </div>
 
                 <div th:if="${#ctx.session.orderToShow.getCarport().hasShed()}" class="carport-length-and-width-div">
@@ -148,7 +148,8 @@
 
                         <span class="length-and-width-text">Længde i meter:</span>
 
-                        <select class="selector" name="skurLængde">
+                        <select class="selector" name="skur-Længde">
+
                             <option selected="selected"
                                     th:text="${#ctx.session.orderToShow.getCarport().getShed().getLengthMeter()}"></option>
                             <option>2.4</option>
@@ -161,7 +162,8 @@
                     <div class="length-and-width-text-div">
                         <span class="length-and-width-text"> Bredde i meter: </span>
 
-                        <select class="selector" name="skurBredde">
+                        <select class="selector" name="skur-Bredde">
+
                             <option selected="selected"
                                     th:text="${#ctx.session.orderToShow.getCarport().getShed().getWidthMeter()}"></option>
                             <option>2.4</option>
