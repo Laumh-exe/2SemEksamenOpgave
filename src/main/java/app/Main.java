@@ -68,7 +68,7 @@ public class Main {
         app.post("/customerSeeOrderDetails", ctx -> OrderController.customerSeeOrderDetails(ctx));
         app.post("/showPartsList", ctx -> OrderController.showPartsList(ctx));
 
-        app.get("/sellers/AllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
+        app.post("/sellersAllOrders", ctx -> OrderController.sellerSeeAllOrders(ctx, connectionPool));
         app.get("/sellers/EditOrder", ctx -> {OrderController.setupUpdatePage(ctx, connectionPool); ctx.render("updateOrder.html");});
         app.post("/sellers/EditOrder", ctx -> OrderController.updateOrderWidthOutShed(ctx, connectionPool));
 

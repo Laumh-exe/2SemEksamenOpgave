@@ -252,7 +252,7 @@ public class OrderController {
 
         int orderID = Integer.parseInt(ctx.formParam("salespersonSeeOrderDetails"));
 
-        Order order = ((List<Order>)ctx.sessionAttribute("customersOrderlist")).stream().filter(o -> o.getId() == orderID).collect(Collectors.toList()).get(0);
+        Order order = ((List<Order>)ctx.sessionAttribute("salespersonOrderlist")).stream().filter(o -> o.getId() == orderID).collect(Collectors.toList()).get(0);
 
 
         List<Item> itemList = order.getCarport().getItemList().getItemList();
@@ -296,8 +296,6 @@ public class OrderController {
 
         String skur = Boolean.toString(orderEdited.getCarport().hasShed());
         Carport carport = CarportController.createCarport(skur, ctx, connectionPool);
-
-
 
         double price = CarportController.getPrice(carport);
 
