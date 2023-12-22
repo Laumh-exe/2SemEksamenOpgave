@@ -1,0 +1,34 @@
+@startuml
+Title navigasionsdiagram
+[*] --> frontpage
+frontpage -> login : ikke logget ind
+login --> cupcakeSelection : log på user
+login --> signUp
+login -> login : fejl login
+login --> Salesperson
+frontpage --> cupcakeSelection : er logget ind
+frontpage -> DesignCarport
+
+signUp --> login
+
+
+state Salesperson{
+state frontpageSaleperson
+state editItem
+state orderDetails
+state allOrders
+state upDateOrdre
+
+
+}
+
+state cupcakeSelection{
+state buyCupcake
+state orders
+state receipt
+buyCupcake --> receipt
+buyCupcake --> orders
+receipt -> orders
+}
+
+@enduml
