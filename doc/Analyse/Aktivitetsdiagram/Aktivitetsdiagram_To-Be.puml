@@ -10,6 +10,10 @@ legend {
     FontSize 20
 }
 
+Title {
+    FontSize 40
+}
+
 Swimlane {
     FontSize 20
     FontStyle Bold
@@ -20,12 +24,14 @@ Note {
 }
 </style>
 
+Title: TO-BE Aktivitetsdiagram
+
 |#LightGray|Kunde|
 start
 :Tilgå hjemmeside;
+repeat;
 :Indtast egne mål for carport;
 |Shop|
-:Mål]
 |Kunde|
 if (skur?) is (ja) then
 :indtast mål/placering for skur;
@@ -37,8 +43,10 @@ else (nej)
 :Intet skur]
 endif
 |Kunde|
-:indtast kundeoplysninger;
+repeat while (godkend mål);
+-> ja;
 |#lightgray|Shop|
+:Mål]
 :Lav visualisering;
 |Kunde|
 :visualisering]
@@ -48,10 +56,9 @@ Status 1
 end note
 |Shop|
 :forespørgsel]
-:opret bruger;
+:opret bruger/Login;
 :Lav stykliste;
-:Udregn forslået pris;
-:samle stykpris og stykliste i tilbud;
+:Opret ordre med stykliste;
 note
 status 2
 end note
@@ -60,7 +67,7 @@ end note
 :Notifikation]
 :Tilgå carport;
 note
-odren låses så sælger ikke kan redigere i ordren
+låser ordre så andre sælgere ikke kan tilgå ordren
 end note
 if (problem?) is (ja) then
 :Ring til kunde;

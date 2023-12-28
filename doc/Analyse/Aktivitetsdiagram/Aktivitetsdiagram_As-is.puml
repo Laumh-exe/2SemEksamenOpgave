@@ -1,5 +1,25 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
+skinparam BackgroundColor #f5f5f5
+<style>
+legend {
+    BackgroundColor #f5f5f5
+    FontColor black
+    FontSize 20
+}
+
+Title {
+    FontSize 40
+}
+
+Swimlane {
+    FontSize 20
+    FontStyle Bold
+}
+</style>
+
+Title: AS-IS Aktivitetsdiagram
+
 
 |Kunde|
 start
