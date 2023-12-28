@@ -32,6 +32,9 @@ Title Fog Domain Model
 
 class Salesperson {
     name
+    mail
+    password
+    phonenumber
 }
 
 
@@ -40,15 +43,16 @@ legend *See order status in activity diagram
 
 class Customer{
     name
-    address
     mail
+    password
     phonenumber
 }
 
 class Order {
     orderId
     carportId
-    userId
+    customerId
+    salespersonId
     date
     *orderStatus
 }
@@ -83,7 +87,7 @@ Order "1"--"1" Carport : Order has one carport
 Carport "1"--"0..1" Shed : Carport can have one shed
 Itemlist "1"--"*" CarportItems
 Salesperson "1"--"*"  Order: Salesperson can manage many orders
-Order "1"--"0..1" Itemlist : Order has one itemlist
+Order "1"--"1" Itemlist : Order has one itemlist \n calculated from carport \n measurements
 Carport "1"--"*" CarportItems : Items are calculated
 Shed "1"--"*" CarportItems
 
