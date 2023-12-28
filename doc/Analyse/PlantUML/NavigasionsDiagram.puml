@@ -3,7 +3,7 @@ Title navigasionsdiagram
 [*] --> frontpage
 frontpage -> login
 login ---> Customer
-login --> signUp
+login -> signUp
 login -> login : fejl login
 login ---> Salesperson
 frontpage -> designCarport
@@ -14,7 +14,7 @@ signUp --> login
 state Salesperson{
 
 
-frontpageSaleperson --> editItem
+frontpageSaleperson -> editItem
 frontpageSaleperson --> allOrders
 frontpageSaleperson ---> YourOrders
 YourOrders -> orderDetails
