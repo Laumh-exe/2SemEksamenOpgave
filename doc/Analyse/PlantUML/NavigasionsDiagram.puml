@@ -1,34 +1,37 @@
 @startuml
 Title navigasionsdiagram
 [*] --> frontpage
-frontpage -> login : ikke logget ind
-login --> cupcakeSelection : log på user
+frontpage -> login
+login ---> Customer
 login --> signUp
 login -> login : fejl login
-login --> Salesperson
-frontpage --> cupcakeSelection : er logget ind
-frontpage -> DesignCarport
-
+login ---> Salesperson
+frontpage -> designCarport
+designCarport --> login
 signUp --> login
 
 
 state Salesperson{
-state frontpageSaleperson
-state editItem
-state orderDetails
-state allOrders
-state upDateOrdre
 
 
+frontpageSaleperson --> editItem
+frontpageSaleperson --> allOrders
+frontpageSaleperson ---> YourOrders
+YourOrders -> orderDetails
+orderDetails -> updateOrders
 }
 
-state cupcakeSelection{
-state buyCupcake
-state orders
-state receipt
-buyCupcake --> receipt
-buyCupcake --> orders
+state Customer{
+
+frontpageCustomer --> DesignCarport
+frontpageCustomer -> orders
+DesignCarport -> blueprint
+blueprint --> receipt
+blueprint --> orders
 receipt -> orders
+orders -> OrderDetails
+
 }
+
 
 @enduml
