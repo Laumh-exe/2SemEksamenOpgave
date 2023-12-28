@@ -27,25 +27,25 @@ legend {
 </style>
 
 
-Title Fog Domænemodel
+Title Fog Domain model
 
 
-class Salesperson #tomato{
+class Salesperson {
     name
 }
 
 
-legend *se ordrestatus i aktivitets diagram
+legend *See order status in activity diagram
 
 
-Class Customer{
+class Customer{
     name
     address
     mail
     phonenumber
 }
 
-Class Order {
+class Order {
     orderId
     carportId
     userId
@@ -53,25 +53,24 @@ Class Order {
     *orderStatus
 }
 
-Class Carport {
+class Carport {
     length
     width
 }
 
-Class Materials {
+class CarportItems {
     pillar
     strap
     rafter
-    screw
 }
 
-Class Shed {
+class Shed {
     length
     width
 }
 
 
-Class Itemlist {
+class Itemlist {
 
 }
 
@@ -79,14 +78,14 @@ Class Itemlist {
 note left: Hidden until sale
 
 
-Customer "1"--"*" Order : can place order
-Order "1"--"1" Carport
-Carport "1"--"0..1" Shed : can choose shed
-Itemlist "1"--"*" Materials
-Salesperson "1"--"*"  Order #tomato: can manage order
-Order "1"--"0..1" Itemlist
-Carport "1"--"*" Materials : Materials are calculated
-Shed "1"--"*" Materials
+Customer "1"--"*" Order : Customer can place many orders
+Order "1"--"1" Carport : Order has one carport
+Carport "1"--"0..1" Shed : Carport can have one shed
+Itemlist "1"--"*" CarportItems
+Salesperson "1"--"*"  Order: Salesperson can manage many orders
+Order "1"--"0..1" Itemlist : Order has one itemlist
+Carport "1"--"*" CarportItems : Items are calculated
+Shed "1"--"*" CarportItems
 
 
 @enduml
