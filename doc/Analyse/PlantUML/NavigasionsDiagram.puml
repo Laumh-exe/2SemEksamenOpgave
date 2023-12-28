@@ -1,5 +1,5 @@
 @startuml
-Title navigasionsdiagram
+Title Navigasionsdiagram
 [*] --> frontpage
 frontpage -> login
 login ---> Customer
